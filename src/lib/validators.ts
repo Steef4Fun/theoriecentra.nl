@@ -14,3 +14,9 @@ export const registrationSchema = z.object({
   }),
   courseId: z.string().uuid(),
 });
+
+export const contactSchema = z.object({
+  name: z.string().min(2, { message: "Naam is verplicht." }),
+  email: z.string().email({ message: "Voer een geldig e-mailadres in." }),
+  message: z.string().min(10, { message: "Bericht moet minimaal 10 karakters bevatten." }),
+});
