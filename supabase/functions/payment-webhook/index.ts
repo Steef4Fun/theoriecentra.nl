@@ -21,7 +21,7 @@ serve(async (req) => {
       throw new Error("MOLLIE_API_KEY is not set.");
     }
 
-    // 1. Verify the payment with Mollie
+    // 1. Verify the payment with Mollie to get the latest status
     const paymentResponse = await fetch(`${MOLLIE_API_URL}/${paymentId}`, {
       method: "GET",
       headers: {
@@ -35,47 +35,25 @@ serve(async (req) => {
 
     const payment = await paymentResponse.json();
     const registrationId = payment.metadata?.registration_id;
+    const newStatus = payment.status; // e.g., 'paid', 'failed', 'expired'
 
     if (!registrationId) {
       throw new Error("Registration ID not found in payment metadata.");
     }
 
-    // 2. Update database based on payment status
+    // 2. Call the secure database function to handle the entire update process
     const supabaseAdmin = createClient(
       Deno.env.get("SUPABASE_URL") ?? "",
       Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") ?? ""
     );
 
-    const newStatus = payment.status; // e.g., 'paid', 'failed', 'expired'
+    const { error: rpcError } = await supabaseAdmin.rpc('handle_payment_update', {
+        registration_id_param: registrationId,
+        new_status: newStatus
+    });
 
-    const { error: updateError } = await supabaseAdmin
-      .from("registrations")
-      .update({ payment_status: newStatus })
-      .eq("id", registrationId);
-
-    if (updateError) {
-      throw new Error(`Failed to update registration status: ${updateError.message}`);
-    }
-
-    // 3. If paid, decrement course spots
-    if (newStatus === "paid") {
-      const { data: registrationData, error: fetchError } = await supabaseAdmin
-        .from("registrations")
-        .select("course_id")
-        .eq("id", registrationId)
-        .single();
-
-      if (fetchError || !registrationData || !registrationData.course_id) {
-        throw new Error("Could not find registration to get course ID.");
-      }
-
-      const { error: rpcError } = await supabaseAdmin.rpc('decrement_course_spots', {
-        course_id_param: registrationData.course_id
-      });
-
-      if (rpcError) {
-        throw new Error(`Failed to decrement course spots: ${rpcError.message}`);
-      }
+    if (rpcError) {
+      throw new Error(`Failed to process payment update via RPC: ${rpcError.message}`);
     }
 
     return new Response("OK", { status: 200 });
