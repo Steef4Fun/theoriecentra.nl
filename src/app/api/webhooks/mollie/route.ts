@@ -1,30 +1,23 @@
-import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
-import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+import { createClient } from "@supabase/supabase-js";
+import { NextResponse } from "next/server";
 
 const MOLLIE_API_URL = "https://api.mollie.com/v2/payments";
 
-serve(async (req) => {
-  if (req.method !== "POST") {
-    return new Response("Method Not Allowed", { status: 405 });
-  }
-
+export async function POST(req: Request) {
   try {
     const formData = await req.formData();
     const paymentId = formData.get("id") as string;
 
-    // If no paymentId is provided, it's likely a test request from Mollie.
-    // Acknowledge it with a 200 OK to confirm the webhook is reachable.
     if (!paymentId) {
-      console.log("Webhook test request received and acknowledged.");
+      console.log("Mollie webhook test received and acknowledged.");
       return new Response("OK", { status: 200 });
     }
 
-    const mollieApiKey = Deno.env.get("MOLLIE_API_KEY");
+    const mollieApiKey = process.env.MOLLIE_API_KEY;
     if (!mollieApiKey) {
-      throw new Error("MOLLIE_API_KEY is not set.");
+      throw new Error("MOLLIE_API_KEY is not set in environment variables.");
     }
 
-    // 1. Verify the payment with Mollie to get the latest status
     const paymentResponse = await fetch(`${MOLLIE_API_URL}/${paymentId}`, {
       method: "GET",
       headers: {
@@ -33,21 +26,22 @@ serve(async (req) => {
     });
 
     if (!paymentResponse.ok) {
+      const errorBody = await paymentResponse.text();
+      console.error("Mollie API Error:", errorBody);
       throw new Error("Failed to fetch payment status from Mollie.");
     }
 
     const payment = await paymentResponse.json();
     const registrationId = payment.metadata?.registration_id;
-    const newStatus = payment.status; // e.g., 'paid', 'failed', 'expired'
+    const newStatus = payment.status;
 
     if (!registrationId) {
       throw new Error("Registration ID not found in payment metadata.");
     }
 
-    // 2. Call the secure database function to handle the entire update process
     const supabaseAdmin = createClient(
-      Deno.env.get("SUPABASE_URL") ?? "",
-      Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") ?? ""
+      process.env.NEXT_PUBLIC_SUPABASE_URL ?? "",
+      process.env.SUPABASE_SERVICE_ROLE_KEY ?? ""
     );
 
     const { error: rpcError } = await supabaseAdmin.rpc('handle_payment_update', {
@@ -62,7 +56,7 @@ serve(async (req) => {
     return new Response("OK", { status: 200 });
 
   } catch (error) {
-    console.error("Webhook error:", error.message);
+    console.error("Webhook error:", error instanceof Error ? error.message : String(error));
     return new Response("Internal Server Error", { status: 500 });
   }
-});
+}
