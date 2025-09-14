@@ -54,16 +54,16 @@ export function RegistrationForm({ course }: RegistrationFormProps) {
   async function onSubmit(values: z.infer<typeof registrationSchema>) {
     setIsLoading(true);
     try {
-      // Dynamically create the redirect and webhook URLs based on the current location
       const redirectUrl = `${window.location.origin}/inschrijving-status`;
-      const webhookUrl = `${window.location.origin}/api/webhooks/mollie`;
+      // IMPORTANT: Point back to the Supabase function URL
+      const webhookUrl = `https://mmuhtwhyldvvgcclobuz.supabase.co/functions/v1/payment-webhook`;
 
       const { data, error } = await supabase.functions.invoke("create-payment", {
         body: {
           course: course,
           registrationDetails: values,
           redirectUrl: redirectUrl,
-          webhookUrl: webhookUrl, // Pass the new webhook URL
+          webhookUrl: webhookUrl,
         },
       });
 

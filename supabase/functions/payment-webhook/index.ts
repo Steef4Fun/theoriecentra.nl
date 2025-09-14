@@ -1,23 +1,31 @@
-import { createClient } from "@supabase/supabase-js";
-import { NextResponse } from "next/server";
+import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
+import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
 const MOLLIE_API_URL = "https://api.mollie.com/v2/payments";
 
-export async function POST(req: Request) {
+serve(async (req) => {
+  // The request from Mollie is a POST request.
+  if (req.method !== "POST") {
+    return new Response("Method Not Allowed", { status: 405 });
+  }
+
   try {
     const formData = await req.formData();
     const paymentId = formData.get("id") as string;
 
+    // If no paymentId is provided, it's a test request from Mollie.
+    // Acknowledge it with a 200 OK.
     if (!paymentId) {
-      console.log("Mollie webhook test received and acknowledged.");
+      console.log("Webhook test request received and acknowledged.");
       return new Response("OK", { status: 200 });
     }
 
-    const mollieApiKey = process.env.MOLLIE_API_KEY;
+    const mollieApiKey = Deno.env.get("MOLLIE_API_KEY");
     if (!mollieApiKey) {
-      throw new Error("MOLLIE_API_KEY is not set in environment variables.");
+      throw new Error("MOLLIE_API_KEY is not set.");
     }
 
+    // Verify the payment with Mollie to get the latest status
     const paymentResponse = await fetch(`${MOLLIE_API_URL}/${paymentId}`, {
       method: "GET",
       headers: {
@@ -26,8 +34,6 @@ export async function POST(req: Request) {
     });
 
     if (!paymentResponse.ok) {
-      const errorBody = await paymentResponse.text();
-      console.error("Mollie API Error:", errorBody);
       throw new Error("Failed to fetch payment status from Mollie.");
     }
 
@@ -40,8 +46,8 @@ export async function POST(req: Request) {
     }
 
     const supabaseAdmin = createClient(
-      process.env.NEXT_PUBLIC_SUPABASE_URL ?? "",
-      process.env.SUPABASE_SERVICE_ROLE_KEY ?? ""
+      Deno.env.get("SUPABASE_URL") ?? "",
+      Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") ?? ""
     );
 
     const { error: rpcError } = await supabaseAdmin.rpc('handle_payment_update', {
@@ -56,7 +62,7 @@ export async function POST(req: Request) {
     return new Response("OK", { status: 200 });
 
   } catch (error) {
-    console.error("Webhook error:", error instanceof Error ? error.message : String(error));
+    console.error("Webhook error:", error.message);
     return new Response("Internal Server Error", { status: 500 });
   }
-}
+});
