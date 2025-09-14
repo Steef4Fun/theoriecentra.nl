@@ -1,42 +1,40 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
-import { createMollieClient } from "https://esm.sh/@mollie/api-client@3";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
 };
 
+const MOLLIE_API_URL = "https://api.mollie.com/v2/payments";
+
 serve(async (req) => {
-  // Handle CORS preflight request
   if (req.method === "OPTIONS") {
     return new Response("ok", { headers: corsHeaders });
   }
 
   try {
     const { course, registrationDetails } = await req.json();
-
     if (!course || !registrationDetails) {
       throw new Error("Course and registration details are required.");
     }
 
-    // Initialize Supabase admin client
     const supabaseAdmin = createClient(
       Deno.env.get("SUPABASE_URL") ?? "",
       Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") ?? ""
     );
 
-    // Initialize Mollie client
-    const mollieClient = createMollieClient({
-      apiKey: Deno.env.get("MOLLIE_API_KEY") ?? "",
-    });
+    const mollieApiKey = Deno.env.get("MOLLIE_API_KEY");
+    if (!mollieApiKey) {
+      throw new Error("MOLLIE_API_KEY is not set in environment variables.");
+    }
 
-    // 1. Calculate the amount to be paid
+    // 1. Calculate amount
     const totalPrice = course.base_price + course.exam_fee;
     const depositPrice = course.exam_fee + 20;
     const amountToPay = registrationDetails.paymentOption === "full" ? totalPrice : depositPrice;
 
-    // 2. Create a preliminary registration record in Supabase
+    // 2. Create preliminary registration
     const { data: registration, error: insertError } = await supabaseAdmin
       .from("registrations")
       .insert({
@@ -54,21 +52,36 @@ serve(async (req) => {
 
     if (insertError) throw insertError;
 
-    // 3. Create a payment with Mollie
-    const payment = await mollieClient.payments.create({
-      amount: {
-        currency: "EUR",
-        value: amountToPay.toFixed(2),
+    // 3. Create payment with Mollie using fetch
+    const paymentResponse = await fetch(MOLLIE_API_URL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${mollieApiKey}`,
       },
-      description: `Inschrijving ${course.category.name} Cursus op ${course.course_date}`,
-      redirectUrl: `http://localhost:3000/inschrijving-status?registration_id=${registration.id}`,
-      webhookUrl: `https://mmuhtwhyldvvgcclobuz.supabase.co/functions/v1/payment-webhook`,
-      metadata: {
-        registration_id: registration.id,
-      },
+      body: JSON.stringify({
+        amount: {
+          currency: "EUR",
+          value: amountToPay.toFixed(2),
+        },
+        description: `Inschrijving ${course.category.name} Cursus op ${course.course_date}`,
+        redirectUrl: `http://localhost:3000/inschrijving-status?registration_id=${registration.id}`,
+        webhookUrl: `https://mmuhtwhyldvvgcclobuz.supabase.co/functions/v1/payment-webhook`,
+        metadata: {
+          registration_id: registration.id,
+        },
+      }),
     });
 
-    // 4. Update the registration with the Mollie Payment ID
+    if (!paymentResponse.ok) {
+      const errorBody = await paymentResponse.json();
+      console.error("Mollie API Error:", errorBody);
+      throw new Error(`Mollie API request failed: ${errorBody.title}`);
+    }
+
+    const payment = await paymentResponse.json();
+
+    // 4. Update registration with Mollie Payment ID
     const { error: updateError } = await supabaseAdmin
       .from("registrations")
       .update({ mollie_payment_id: payment.id })
@@ -76,8 +89,13 @@ serve(async (req) => {
 
     if (updateError) throw updateError;
 
-    // 5. Return the checkout URL to the client
-    return new Response(JSON.stringify({ checkoutUrl: payment.getCheckoutUrl() }), {
+    // 5. Return checkout URL
+    const checkoutUrl = payment._links?.checkout?.href;
+    if (!checkoutUrl) {
+      throw new Error("Checkout URL not found in Mollie response.");
+    }
+
+    return new Response(JSON.stringify({ checkoutUrl }), {
       headers: { ...corsHeaders, "Content-Type": "application/json" },
       status: 200,
     });
