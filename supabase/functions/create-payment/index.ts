@@ -14,9 +14,9 @@ serve(async (req) => {
   }
 
   try {
-    const { course, registrationDetails } = await req.json();
-    if (!course || !registrationDetails) {
-      throw new Error("Course and registration details are required.");
+    const { course, registrationDetails, redirectUrl } = await req.json();
+    if (!course || !registrationDetails || !redirectUrl) {
+      throw new Error("Course, registration details, and redirectUrl are required.");
     }
 
     const supabaseAdmin = createClient(
@@ -65,7 +65,7 @@ serve(async (req) => {
           value: amountToPay.toFixed(2),
         },
         description: `Inschrijving ${course.category.name} Cursus op ${course.course_date}`,
-        redirectUrl: `http://localhost:3000/inschrijving-status?registration_id=${registration.id}`,
+        redirectUrl: `${redirectUrl}?registration_id=${registration.id}`,
         webhookUrl: `https://mmuhtwhyldvvgcclobuz.supabase.co/functions/v1/payment-webhook`,
         metadata: {
           registration_id: registration.id,
