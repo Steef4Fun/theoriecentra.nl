@@ -22,7 +22,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { CalendarIcon } from "lucide-react";
+import { CalendarIcon, Loader2 } from "lucide-react";
 import { Calendar } from "@/components/ui/calendar";
 import { cn } from "@/lib/utils";
 import { format } from "date-fns";
@@ -30,12 +30,16 @@ import { nl } from "date-fns/locale";
 import { registrationSchema } from "@/lib/validators";
 import type { Course } from "@/lib/types";
 import { toast } from "sonner";
+import { useState } from "react";
+import { supabase } from "@/integrations/supabase/client";
 
 interface RegistrationFormProps {
   course: Course;
 }
 
 export function RegistrationForm({ course }: RegistrationFormProps) {
+  const [isLoading, setIsLoading] = useState(false);
+
   const form = useForm<z.infer<typeof registrationSchema>>({
     resolver: zodResolver(registrationSchema),
     defaultValues: {
@@ -47,12 +51,33 @@ export function RegistrationForm({ course }: RegistrationFormProps) {
     },
   });
 
-  function onSubmit(values: z.infer<typeof registrationSchema>) {
-    // TODO: Implement server action for payment and registration
-    console.log(values);
-    toast.info("Formulier wordt verwerkt...", {
-      description: "Dit is een placeholder. De betalingsintegratie volgt nog.",
-    });
+  async function onSubmit(values: z.infer<typeof registrationSchema>) {
+    setIsLoading(true);
+    try {
+      const { data, error } = await supabase.functions.invoke("create-payment", {
+        body: {
+          course: course,
+          registrationDetails: values,
+        },
+      });
+
+      if (error) {
+        throw new Error(error.message);
+      }
+
+      if (data.checkoutUrl) {
+        window.location.href = data.checkoutUrl;
+      } else {
+        throw new Error("Geen betaallink ontvangen.");
+      }
+
+    } catch (error) {
+      console.error("Payment initiation failed:", error);
+      toast.error("Betaling kon niet worden gestart", {
+        description: "Controleer je gegevens en probeer het opnieuw. Als het probleem aanhoudt, neem dan contact op.",
+      });
+      setIsLoading(false);
+    }
   }
 
   const totalPrice = course.base_price + course.exam_fee;
@@ -202,8 +227,15 @@ export function RegistrationForm({ course }: RegistrationFormProps) {
           )}
         />
 
-        <Button type="submit" size="lg" className="w-full">
-          Inschrijving Afronden & Betalen
+        <Button type="submit" size="lg" className="w-full" disabled={isLoading}>
+          {isLoading ? (
+            <>
+              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+              <span>Bezig met verwerken...</span>
+            </>
+          ) : (
+            "Inschrijving Afronden & Betalen"
+          )}
         </Button>
       </form>
     </Form>
