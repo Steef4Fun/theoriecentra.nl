@@ -27,18 +27,16 @@ function StatusDisplay() {
     let intervalId: number | undefined;
 
     const fetchStatus = async () => {
-      const { data, error } = await supabase
-        .from("registrations")
-        .select("payment_status")
-        .eq("id", registrationId)
-        .single();
+      const { data, error } = await supabase.functions.invoke("get-payment-status", {
+        body: { registrationId },
+      });
 
       if (!isMounted) return;
 
-      if (error || !data) {
+      if (error || !data || !data.payment_status) {
         setStatus("error");
         setErrorMessage("Kon de status van de inschrijving niet ophalen.");
-        clearInterval(intervalId);
+        if (intervalId) clearInterval(intervalId);
         return;
       }
 
@@ -62,7 +60,7 @@ function StatusDisplay() {
       setStatus(currentStatus);
 
       if (currentStatus !== 'pending' && currentStatus !== 'loading') {
-        clearInterval(intervalId);
+        if (intervalId) clearInterval(intervalId);
       }
     };
 
@@ -70,17 +68,19 @@ function StatusDisplay() {
     intervalId = window.setInterval(fetchStatus, 3000);
 
     const timeoutId = setTimeout(() => {
-      if (isMounted) {
-        clearInterval(intervalId);
+      if (isMounted && (status === 'pending' || status === 'loading')) {
+        if (intervalId) clearInterval(intervalId);
+        setStatus("error");
+        setErrorMessage("Het controleren van de status duurt te lang. Controleer je e-mail voor een definitieve bevestiging of neem contact op.");
       }
-    }, 30000);
+    }, 30000); // 30 seconds timeout
 
     return () => {
       isMounted = false;
-      clearInterval(intervalId);
+      if (intervalId) clearInterval(intervalId);
       clearTimeout(timeoutId);
     };
-  }, [registrationId]);
+  }, [registrationId, status]);
 
   const renderContent = () => {
     switch (status) {
