@@ -68,9 +68,21 @@ To ensure consistency and leverage the chosen stack effectively, please follow t
 
 13. **TypeScript**:
     *   Write all new code in TypeScript.
-    *   Strive for strong typing and leverage TypeScript's features to improve code quality and maintainability. Avoid using `any` where possible.
+    *   Strive for strong typing and leverage TypeScript's features to improve code quality and maintainability. Avoid using `any` where possible.    
 
 ## Website
+
+We maken een website voor theoriecentra.nl. Zij bieden dagtheoriecursussen aan op locatie.
+
+Het idee is simpel. Website moet aantrekkelijk, eenvoudig, duidelijk, doorslaggevend, snel, modern en reactief zijn. De leerlingen moeten overtuigd zijn dat wij de beste dagcursus aanbieden. Leerlingen moeten zich kunnen aanmelden via een inschrijfformulier. De leerlingen moeten een overzicht krijgen met de cursus data per categorie en locatie.
+
+Voor de leerling moet het heel snel duidelijk zijn dat zij zich aanmelden voor een cursus datum, welke tijden zij cursus krijgen, welke categorie en wat de prijs bedraagt. Heel veel concurrenten adverteren met vanaf prijzen zonder examenkosten. De kosten zullen 99 euro zijn exclusief examen kosten van 48,75 euro. Daarnaast zijn de concurrenten niet duidelijk met welke cursus data een leerling daadwerkelijk cursus heeft. Bij ons moet dit vooraf duidelijk zijn dat zij kunnen kiezen. Dus er moet een overzicht komen met alle cursus data, locatie en categorie. Deze moeten in de backend toegevoegd worden.
+
+Kijk op https://www.123geslaagd.nl/, https://www.123-theorie.nl/, https://www.turbotheorie.nl/ en https://www.nutheorie.nl/ voor inspiratie.
+
+Op deze website kun je zien hoe de inschrijfformulieren uitzien. De koppeling van Mollie moet ook gemaakt worden omdat de cursisten via de website meteen moeten afrekenen. Zij moeten 2 opties krijgen voor volledige betaling van 99euro cursus kosten + 48,75 euro examen kosten of Aanbetaling van 67,75 euro en resterende betaling van 80 euro bij de lesdag contant.
+
+Na de aanmelding krijgt de leerling diverse mails qua instructies. Eerste mail met de ontvangstbevestiging (samenvatting van de inschrijving met korte instructies). 2e mail krijgen zij met informatie dat de leerlingen ons dienen te machtigen voor het theorie-examen met instructies. De machtigingsmail is geen standaard mail die zij krijgen omdat de opleidernummer per categorie en locatie kan veranderen. Dus een aanmelding in Venlo, Eindhoven of Maastricht/Roermond krijgen ieder een aparte mail met een ander opleidernummer. Dit moet dan geautomatiseerd worden. Deze mails moeten zo ingesteld zijn dat dit zeker aankomt in de Postvak IN en niet in de spam of iets dergelijks.
 
 
 By following these guidelines, we can build a more robust, maintainable, and consistent application.
