@@ -12,8 +12,11 @@ serve(async (req) => {
     const formData = await req.formData();
     const paymentId = formData.get("id") as string;
 
+    // If no paymentId is provided, it's likely a test request from Mollie.
+    // Acknowledge it with a 200 OK to confirm the webhook is reachable.
     if (!paymentId) {
-      throw new Error("Payment ID is missing from webhook data.");
+      console.log("Webhook test request received and acknowledged.");
+      return new Response("OK", { status: 200 });
     }
 
     const mollieApiKey = Deno.env.get("MOLLIE_API_KEY");
