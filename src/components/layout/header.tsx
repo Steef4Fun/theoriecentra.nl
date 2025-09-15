@@ -13,7 +13,7 @@ export function Header() {
         </div>
         <nav className="hidden items-center gap-6 text-sm md:flex">
           <Link
-            href="/cursussen"
+            href="/#booking-wizard"
             className="text-foreground/60 transition-colors hover:text-foreground/80"
           >
             Cursussen
@@ -27,7 +27,7 @@ export function Header() {
         </nav>
         <div className="flex flex-1 items-center justify-end space-x-2">
           <Button asChild>
-            <Link href="/cursussen">Direct Inschrijven</Link>
+            <Link href="/#booking-wizard">Direct Inschrijven</Link>
           </Button>
         </div>
       </div>
