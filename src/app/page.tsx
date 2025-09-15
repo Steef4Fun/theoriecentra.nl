@@ -18,13 +18,13 @@ export default function Home() {
       <section className="relative w-full h-[80vh] min-h-[500px] flex items-center justify-center text-center overflow-hidden">
         <div className="absolute inset-0 z-[-1]">
           <video
+            src="/hero-video.mp4"
             autoPlay
             loop
             muted
             playsInline
             className="w-full h-full object-cover"
           >
-            <source src="/hero-video.mp4" type="video/mp4" />
             Your browser does not support the video tag.
           </video>
           <div className="absolute inset-0 bg-black/40"></div>
