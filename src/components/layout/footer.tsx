@@ -5,21 +5,9 @@ import Image from "next/image";
 export function Footer() {
   return (
     <footer className="bg-dark-background text-dark-foreground">
-      <div className="container">
-        <div className="py-12 grid grid-cols-1 md:grid-cols-3 gap-12">
-          {/* Column 1: Logo & Nav */}
-          <div className="space-y-4">
-            <Image src="/logo-dark.png" alt="Theoriecentra.nl Logo" width={180} height={40} />
-            <p className="text-sm text-muted-foreground">
-              De snelste weg naar je theoriecertificaat.
-            </p>
-            <div className="text-xs text-gray-500 space-y-1 pt-4">
-                <p><Link href="/privacybeleid" className="hover:text-primary transition-colors">Privacybeleid</Link></p>
-                <p>Copyright © {new Date().getFullYear()} Theoriecentra.nl</p>
-            </div>
-          </div>
-
-          {/* Column 2: Links */}
+      <div className="container py-16">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-12 items-start">
+          {/* Column 1: Navigation & Info */}
           <div className="space-y-4">
             <h3 className="font-semibold text-lg text-white">Navigatie</h3>
             <ul className="space-y-3">
@@ -27,6 +15,19 @@ export function Footer() {
               <li><Link href="/contact" className="text-muted-foreground hover:text-primary transition-colors">Contact</Link></li>
               <li><Link href="/#faq" className="text-muted-foreground hover:text-primary transition-colors">Veelgestelde Vragen</Link></li>
             </ul>
+            <div className="pt-4 text-xs text-gray-500 space-y-1">
+                <p><Link href="/privacybeleid" className="hover:text-primary transition-colors">Privacybeleid</Link></p>
+                <p>Copyright © {new Date().getFullYear()} Theoriecentra.nl</p>
+            </div>
+          </div>
+
+          {/* Column 2: Prominent CTA */}
+          <div className="bg-white/5 p-8 rounded-lg flex flex-col items-center justify-center text-center border border-white/10">
+            <h3 className="font-semibold text-xl text-white mb-4">Klaar om te slagen?</h3>
+            <p className="text-muted-foreground mb-6">Vind een cursus die bij jou past en reserveer direct je plek.</p>
+            <Button asChild>
+                <Link href="/#booking-wizard">Vind je Cursus</Link>
+            </Button>
           </div>
 
           {/* Column 3: Contact */}

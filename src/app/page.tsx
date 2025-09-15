@@ -112,7 +112,6 @@ export default function Home() {
                 <span className="mx-8 text-sm uppercase tracking-widest font-semibold">Makkelijk</span>
                 <span className="text-primary">•</span>
                 <span className="mx-8 text-sm uppercase tracking-widest font-semibold">Geslaagd</span>
-                <span className="text-primary">•</span>
               </div>
               <div className="inline-block animate-ticker">
                 <span className="mx-8 text-sm uppercase tracking-widest font-semibold">Snel</span>
@@ -120,7 +119,6 @@ export default function Home() {
                 <span className="mx-8 text-sm uppercase tracking-widest font-semibold">Makkelijk</span>
                 <span className="text-primary">•</span>
                 <span className="mx-8 text-sm uppercase tracking-widest font-semibold">Geslaagd</span>
-                <span className="text-primary">•</span>
               </div>
             </motion.div>
           </div>
