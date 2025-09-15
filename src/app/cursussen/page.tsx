@@ -18,6 +18,7 @@ export default async function CursussenPage() {
       base_price,
       exam_fee,
       spots_available,
+      location_id,
       location:locations (name),
       category:categories (name)
     `

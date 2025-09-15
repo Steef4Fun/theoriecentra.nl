@@ -6,6 +6,12 @@ export type Course = {
   base_price: number;
   exam_fee: number;
   spots_available: number;
+  location_id: string;
   location: { name: string } | null;
   category: { name: string } | null;
+};
+
+export type Location = {
+  id: string;
+  name: string;
 };
