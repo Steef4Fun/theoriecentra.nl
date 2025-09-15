@@ -30,7 +30,7 @@ export default function Home() {
       </section>
 
       {/* Features Section */}
-      <section className="w-full py-12 md:py-24 lg:py-32 bg-muted">
+      <section className="w-full py-12 md:py-24 bg-muted">
         <div className="container">
           <div className="flex flex-col items-center justify-center space-y-4 text-center">
             <div className="space-y-2">
@@ -84,8 +84,28 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Social Proof: Reviews Section (Placeholder) */}
+      <section id="reviews" className="w-full py-12 md:py-24">
+        <div className="container">
+          <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl text-center mb-12">
+            Wat onze leerlingen zeggen
+          </h2>
+          {/* Review component will be added here */}
+        </div>
+      </section>
+
+      {/* Social Proof: Wall of Fame Section (Placeholder) */}
+      <section id="wall-of-fame" className="w-full py-12 md:py-24 bg-muted">
+        <div className="container">
+          <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl text-center mb-12">
+            Onze Toppers
+          </h2>
+          {/* Wall of Fame component will be added here */}
+        </div>
+      </section>
+
       {/* FAQ Section */}
-      <section className="w-full py-12 md:py-24 lg:py-32">
+      <section id="faq" className="w-full py-12 md:py-24">
         <div className="container">
           <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl text-center mb-12">
             Veelgestelde Vragen
@@ -103,7 +123,7 @@ export default function Home() {
                 Op de cursusdag behandelen we 's ochtends de volledige
                 theoriestof met handige ezelsbruggetjes. 's Middags ga je,
                 perfect voorbereid, naar het CBR om examen te doen.
-              </AccordionContent>
+              </              AccordionContent>
             </AccordionItem>
             <AccordionItem value="item-2">
               <AccordionTrigger>
