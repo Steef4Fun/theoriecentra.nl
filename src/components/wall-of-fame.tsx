@@ -19,14 +19,14 @@ export function WallOfFame() {
       {students.map((student) => (
         <div
           key={student.name}
-          className="group relative overflow-hidden rounded-xl shadow-soft transition-all duration-300 hover:shadow-md hover:!scale-105 break-inside-avoid"
+          className="group relative overflow-hidden rounded-xl shadow-soft transition-all duration-300 hover:shadow-lg hover:scale-105 break-inside-avoid"
         >
           <Image
             src={student.src}
             alt={`Geslaagde leerling ${student.name}`}
             width={student.width}
             height={student.height}
-            className="h-full w-full object-cover transition-transform group-hover:scale-110"
+            className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-110"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
           <p className="absolute bottom-2 left-3 font-bold text-white text-sm md:text-base text-shadow-sm bg-black/20 px-2 py-1 rounded-md">
