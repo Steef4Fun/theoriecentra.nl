@@ -50,7 +50,7 @@ export default function Home() {
       </section>
 
       {/* Booking Wizard Section */}
-      <section id="booking-wizard" className="w-full py-16 md:py-24 scroll-mt-20">
+      <section id="booking-wizard" className="w-full py-20 md:py-32 scroll-mt-20">
         <div className="container">
           <AnimatedSection>
             <div className="flex flex-col items-center justify-center space-y-4 text-center mb-12">
@@ -67,18 +67,18 @@ export default function Home() {
       </section>
 
       {/* Features Section */}
-      <section className="w-full py-16 md:py-24 bg-muted">
+      <section className="w-full py-20 md:py-32 bg-muted">
         <div className="container">
-          <div className="grid gap-16">
+          <div className="grid gap-20">
             {/* Feature 1 */}
             <AnimatedSection>
               <div className="grid md:grid-cols-2 gap-12 items-center">
-                <div className="flex justify-center">
-                  <Award className="h-48 w-48 text-primary/20" strokeWidth={1} />
+                <div className="bg-background/50 rounded-xl p-8 flex items-center justify-center aspect-square">
+                  <Award className="h-48 w-48 text-primary" strokeWidth={1.5} />
                 </div>
                 <div>
                   <h3 className="text-3xl font-bold mb-4">Hoogste Slagingskans</h3>
-                  <p className="text-muted-foreground mb-4">
+                  <p className="text-muted-foreground mb-4 text-lg">
                     Onze unieke, op het CBR-examen gerichte lesmethode zit vol met handige ezelsbruggetjes en herhaling. We zorgen ervoor dat je de stof niet alleen kent, maar écht begrijpt. Zo ga je vol zelfvertrouwen het examen in.
                   </p>
                 </div>
@@ -87,26 +87,26 @@ export default function Home() {
             {/* Feature 2 */}
             <AnimatedSection>
               <div className="grid md:grid-cols-2 gap-12 items-center">
-                <div className="order-last md:order-first flex justify-center">
-                   <BadgePercent className="h-48 w-48 text-primary/20" strokeWidth={1} />
-                </div>
-                <div className="order-first md:order-last">
+                <div className="order-last md:order-first">
                   <h3 className="text-3xl font-bold mb-4">Duidelijke & Eerlijke Prijzen</h3>
-                  <p className="text-muted-foreground mb-4">
+                  <p className="text-muted-foreground mb-4 text-lg">
                     Bij ons geen verrassingen. Je betaalt één vaste prijs voor de volledige cursusdag én de reservering van je CBR theorie-examen. Geen verborgen kosten, geen 'vanaf' prijzen. Wel zo eerlijk.
                   </p>
+                </div>
+                <div className="order-first md:order-last bg-background/50 rounded-xl p-8 flex items-center justify-center aspect-square">
+                   <BadgePercent className="h-48 w-48 text-primary" strokeWidth={1.5} />
                 </div>
               </div>
             </AnimatedSection>
              {/* Feature 3 */}
              <AnimatedSection>
               <div className="grid md:grid-cols-2 gap-12 items-center">
-                <div className="flex justify-center">
-                  <CalendarCheck className="h-48 w-48 text-primary/20" strokeWidth={1} />
+                <div className="bg-background/50 rounded-xl p-8 flex items-center justify-center aspect-square">
+                  <CalendarCheck className="h-48 w-48 text-primary" strokeWidth={1.5} />
                 </div>
                 <div>
                   <h3 className="text-3xl font-bold mb-4">Direct een Examenplek</h3>
-                  <p className="text-muted-foreground mb-4">
+                  <p className="text-muted-foreground mb-4 text-lg">
                     Wij nemen het regelwerk uit handen. Zodra je je inschrijft, reserveren wij direct een examenplek voor je bij het CBR, perfect aansluitend op de cursusdag. Jij focust op de theorie, wij regelen de rest.
                   </p>
                 </div>
@@ -117,7 +117,7 @@ export default function Home() {
       </section>
 
       {/* Social Proof: Reviews Section */}
-      <section id="reviews" className="w-full py-16 md:py-24">
+      <section id="reviews" className="w-full py-20 md:py-32">
         <div className="container">
           <AnimatedSection>
             <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl text-center mb-12">
@@ -129,7 +129,7 @@ export default function Home() {
       </section>
 
       {/* Social Proof: Wall of Fame Section */}
-      <section id="wall-of-fame" className="w-full py-16 md:py-24 bg-muted">
+      <section id="wall-of-fame" className="w-full py-20 md:py-32 bg-muted">
         <div className="container">
           <AnimatedSection>
             <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl text-center mb-12">
@@ -141,7 +141,7 @@ export default function Home() {
       </section>
 
       {/* FAQ Section */}
-      <section id="faq" className="w-full py-16 md:py-24">
+      <section id="faq" className="w-full py-20 md:py-32">
         <div className="container">
           <AnimatedSection>
             <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl text-center mb-12">

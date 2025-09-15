@@ -29,7 +29,7 @@ export function WallOfFame() {
             className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-110"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
-          <p className="absolute bottom-2 left-3 font-bold text-white text-sm md:text-base text-shadow-sm bg-black/20 px-2 py-1 rounded-md">
+          <p className="absolute bottom-4 left-4 font-bold text-white text-sm md:text-base text-shadow-sm bg-black/40 px-3 py-1.5 rounded-lg">
             {student.name}
           </p>
         </div>
