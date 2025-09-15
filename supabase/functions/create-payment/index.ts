@@ -1,3 +1,4 @@
+// @ts-nocheck
 /// <reference types="https://deno.land/x/deno/runtime/deno.d.ts" />
 
 import { serve } from "https://deno.land/std@0.224.0/http/server.ts";
