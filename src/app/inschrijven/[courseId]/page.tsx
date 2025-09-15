@@ -29,7 +29,15 @@ async function getCourseById(courseId: string) {
   if (error || !data) {
     return null;
   }
-  return data as Course;
+
+  // Supabase may return joined data as an array. Flatten it to match our type.
+  const formattedData = {
+    ...data,
+    location: Array.isArray(data.location) ? data.location[0] || null : data.location,
+    category: Array.isArray(data.category) ? data.category[0] || null : data.category,
+  };
+
+  return formattedData as Course;
 }
 
 export default async function RegistrationPage({
