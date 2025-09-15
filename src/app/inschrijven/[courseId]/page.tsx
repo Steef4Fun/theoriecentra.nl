@@ -4,6 +4,7 @@ import { Terminal } from "lucide-react";
 import { RegistrationWizard } from "@/components/registration-wizard";
 import type { Course } from "@/lib/types";
 import { notFound } from "next/navigation";
+import { AnimatedSection } from "@/components/animated-section";
 
 async function getCourseById(courseId: string) {
   const { data, error } = await supabase
@@ -67,13 +68,17 @@ export default async function RegistrationPage({
 
   return (
     <div className="container max-w-4xl py-12 flex flex-col items-center justify-center space-y-8">
-       <div className="text-center">
-        <h1 className="text-3xl font-bold tracking-tight">
-            Inschrijven voor {course.category?.name} Theoriecursus
-        </h1>
-        <p className="text-muted-foreground mt-2">Voltooi de stappen om je plek te reserveren.</p>
-       </div>
-      <RegistrationWizard course={course} />
+      <AnimatedSection>
+        <div className="text-center">
+          <h1 className="text-3xl font-bold tracking-tight">
+              Inschrijven voor {course.category?.name} Theoriecursus
+          </h1>
+          <p className="text-muted-foreground mt-2">Voltooi de stappen om je plek te reserveren.</p>
+        </div>
+      </AnimatedSection>
+      <AnimatedSection delay={0.2}>
+        <RegistrationWizard course={course} />
+      </AnimatedSection>
     </div>
   );
 }

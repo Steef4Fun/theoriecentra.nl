@@ -105,30 +105,24 @@ export function RegistrationWizard({ course }: RegistrationWizardProps) {
   return (
     <Card className="w-full max-w-2xl">
       <CardHeader>
-        <nav className="flex items-center justify-center" aria-label="Progress">
-          <ol role="list" className="space-y-4 md:flex md:space-x-8 md:space-y-0">
+        <div className="w-full px-4">
+          <div className="flex justify-between mb-2">
             {steps.map((step, index) => (
-              <li key={step.name} className="md:flex-1">
-                {currentStep > index ? (
-                  <div className="group flex w-full flex-col border-l-4 border-primary py-2 pl-4 transition-colors md:border-l-0 md:border-t-4 md:pb-0 md:pl-0 md:pt-4">
-                    <span className="text-sm font-medium text-primary transition-colors">{step.id}</span>
-                    <span className="text-sm font-medium">{step.name}</span>
-                  </div>
-                ) : currentStep === index ? (
-                  <div className="flex w-full flex-col border-l-4 border-primary py-2 pl-4 md:border-l-0 md:border-t-4 md:pb-0 md:pl-0 md:pt-4" aria-current="step">
-                    <span className="text-sm font-medium text-primary">{step.id}</span>
-                    <span className="text-sm font-medium">{step.name}</span>
-                  </div>
-                ) : (
-                  <div className="group flex w-full flex-col border-l-4 border-border py-2 pl-4 transition-colors md:border-l-0 md:border-t-4 md:pb-0 md:pl-0 md:pt-4">
-                    <span className="text-sm font-medium text-muted-foreground transition-colors">{step.id}</span>
-                    <span className="text-sm font-medium text-muted-foreground">{step.name}</span>
-                  </div>
-                )}
-              </li>
+              <div key={step.id} className="text-center">
+                <span className={`text-xs font-semibold ${currentStep >= index ? 'text-primary' : 'text-muted-foreground'}`}>
+                  {step.id}
+                </span>
+              </div>
             ))}
-          </ol>
-        </nav>
+          </div>
+          <div className="relative h-2 w-full rounded-full bg-secondary">
+            <motion.div
+              className="absolute top-0 left-0 h-2 rounded-full bg-primary"
+              animate={{ width: `${(currentStep / (steps.length - 1)) * 100}%` }}
+              transition={{ ease: "easeInOut", duration: 0.5 }}
+            />
+          </div>
+        </div>
       </CardHeader>
       <CardContent>
         <Form {...form}>
@@ -187,8 +181,8 @@ export function RegistrationWizard({ course }: RegistrationWizardProps) {
             <ArrowLeft className="mr-2 h-4 w-4" /> Terug
           </Button>
           {currentStep === steps.length - 1 ? (
-            <Button onClick={form.handleSubmit(onSubmit)} disabled={isLoading}>
-              {isLoading ? (<><Loader2 className="mr-2 h-4 w-4 animate-spin" /> Bezig...</>) : (<>Afronden & Betalen <Check className="ml-2 h-4 w-4" /></>)}
+            <Button onClick={form.handleSubmit(onSubmit)} disabled={isLoading} className="w-48">
+              {isLoading ? <Loader2 className="h-5 w-5 animate-spin" /> : (<>Afronden & Betalen <Check className="ml-2 h-4 w-4" /></>)}
             </Button>
           ) : (
             <Button onClick={next} type="button">

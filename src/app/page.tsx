@@ -9,15 +9,17 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { CheckCircle } from "lucide-react";
 import { Reviews } from "@/components/reviews";
 import { WallOfFame } from "@/components/wall-of-fame";
-import { FadeIn } from "@/components/fade-in";
+import { AnimatedSection } from "@/components/animated-section";
 
 export default function Home() {
   return (
     <>
       {/* Hero Section */}
-      <section className="w-full py-20 md:py-32 lg:py-40">
+      <section className="relative w-full py-20 md:py-32 lg:py-40 overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-br from-background via-blue-50 to-purple-50 -z-10"></div>
+        <div className="absolute inset-0 opacity-20 bg-[url('/grid.svg')] bg-repeat -z-10"></div>
         <div className="container text-center">
-          <FadeIn>
+          <AnimatedSection>
             <div className="max-w-3xl mx-auto">
               <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl">
                 Slaag voor je theorie in één dag
@@ -27,17 +29,17 @@ export default function Home() {
                 stappen, vind je datum en reserveer direct je plek.
               </p>
             </div>
-          </FadeIn>
-          <FadeIn className="mt-12">
+          </AnimatedSection>
+          <AnimatedSection className="mt-12" delay={0.2}>
             <BookingWizard />
-          </FadeIn>
+          </AnimatedSection>
         </div>
       </section>
 
       {/* Features Section */}
       <section className="w-full py-12 md:py-24 bg-muted">
         <div className="container">
-          <FadeIn>
+          <AnimatedSection>
             <div className="flex flex-col items-center justify-center space-y-4 text-center">
               <div className="space-y-2">
                 <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl">
@@ -49,76 +51,82 @@ export default function Home() {
                 </p>
               </div>
             </div>
-          </FadeIn>
-          <FadeIn className="mx-auto grid max-w-5xl items-start gap-8 py-12 sm:grid-cols-2 md:grid-cols-3">
-            <Card className="text-center">
-              <CardHeader>
-                <CheckCircle className="h-8 w-8 mx-auto text-primary" />
-                <CardTitle className="mt-2">Hoogste Slagingskans</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-sm text-muted-foreground">
-                  Onze bewezen lesmethode zorgt ervoor dat je de stof écht
-                  begrijpt en met vertrouwen het examen ingaat.
-                </p>
-              </CardContent>
-            </Card>
-            <Card className="text-center">
-              <CardHeader>
-                <CheckCircle className="h-8 w-8 mx-auto text-primary" />
-                <CardTitle className="mt-2">Duidelijke Prijzen</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-sm text-muted-foreground">
-                  Eén vaste prijs voor de cursus en het examen. Geen verborgen
-                  kosten of 'vanaf' prijzen.
-                </p>
-              </CardContent>
-            </Card>
-            <Card className="text-center">
-              <CardHeader>
-                <CheckCircle className="h-8 w-8 mx-auto text-primary" />
-                <CardTitle className="mt-2">Direct Examenplek</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-sm text-muted-foreground">
-                  Wij reserveren direct een examenplek voor je bij het CBR,
-                  aansluitend op de cursus.
-                </p>
-              </CardContent>
-            </Card>
-          </FadeIn>
+          </AnimatedSection>
+          <div className="mx-auto grid max-w-5xl items-start gap-8 py-12 sm:grid-cols-2 md:grid-cols-3">
+            <AnimatedSection delay={0.1}>
+              <Card className="text-center h-full">
+                <CardHeader>
+                  <CheckCircle className="h-8 w-8 mx-auto text-primary" />
+                  <CardTitle className="mt-2">Hoogste Slagingskans</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-sm text-muted-foreground">
+                    Onze bewezen lesmethode zorgt ervoor dat je de stof écht
+                    begrijpt en met vertrouwen het examen ingaat.
+                  </p>
+                </CardContent>
+              </Card>
+            </AnimatedSection>
+            <AnimatedSection delay={0.2}>
+              <Card className="text-center h-full">
+                <CardHeader>
+                  <CheckCircle className="h-8 w-8 mx-auto text-primary" />
+                  <CardTitle className="mt-2">Duidelijke Prijzen</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-sm text-muted-foreground">
+                    Eén vaste prijs voor de cursus en het examen. Geen verborgen
+                    kosten of 'vanaf' prijzen.
+                  </p>
+                </CardContent>
+              </Card>
+            </AnimatedSection>
+            <AnimatedSection delay={0.3}>
+              <Card className="text-center h-full">
+                <CardHeader>
+                  <CheckCircle className="h-8 w-8 mx-auto text-primary" />
+                  <CardTitle className="mt-2">Direct Examenplek</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-sm text-muted-foreground">
+                    Wij reserveren direct een examenplek voor je bij het CBR,
+                    aansluitend op de cursus.
+                  </p>
+                </CardContent>
+              </Card>
+            </AnimatedSection>
+          </div>
         </div>
       </section>
 
       {/* Social Proof: Reviews Section */}
       <section id="reviews" className="w-full py-12 md:py-24">
         <div className="container">
-          <FadeIn>
+          <AnimatedSection>
             <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl text-center mb-12">
               Wat onze leerlingen zeggen
             </h2>
             <Reviews />
-          </FadeIn>
+          </AnimatedSection>
         </div>
       </section>
 
       {/* Social Proof: Wall of Fame Section */}
       <section id="wall-of-fame" className="w-full py-12 md:py-24 bg-muted">
         <div className="container">
-          <FadeIn>
+          <AnimatedSection>
             <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl text-center mb-12">
               Onze Toppers
             </h2>
             <WallOfFame />
-          </FadeIn>
+          </AnimatedSection>
         </div>
       </section>
 
       {/* FAQ Section */}
       <section id="faq" className="w-full py-12 md:py-24">
         <div className="container">
-          <FadeIn>
+          <AnimatedSection>
             <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl text-center mb-12">
               Veelgestelde Vragen
             </h2>
@@ -166,7 +174,7 @@ export default function Home() {
                 </AccordionContent>
               </AccordionItem>
             </Accordion>
-          </FadeIn>
+          </AnimatedSection>
         </div>
       </section>
     </>

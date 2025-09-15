@@ -1,8 +1,8 @@
 "use client";
 
-import { Star } from "lucide-react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Star, Quote } from "lucide-react";
+import { Card, CardContent } from "@/components/ui/card";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 
 const reviews = [
   {
@@ -29,24 +29,21 @@ export function Reviews() {
   return (
     <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
       {reviews.map((review) => (
-        <Card key={review.name} className="flex flex-col">
-          <CardHeader>
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-4">
-                <Avatar>
-                  <AvatarFallback>{review.avatar}</AvatarFallback>
-                </Avatar>
-                <CardTitle className="text-lg">{review.name}</CardTitle>
-              </div>
-              <div className="flex items-center gap-1 text-primary">
-                {[...Array(review.rating)].map((_, i) => (
-                  <Star key={i} className="h-5 w-5 fill-current" />
-                ))}
-              </div>
+        <Card key={review.name} className="flex flex-col relative overflow-hidden h-full">
+          <CardContent className="pt-8 flex-grow flex flex-col">
+            <Quote className="absolute top-4 left-4 h-10 w-10 text-primary/10" />
+            <div className="flex items-center gap-1 text-primary mb-4">
+              {[...Array(review.rating)].map((_, i) => (
+                <Star key={i} className="h-5 w-5 fill-current" />
+              ))}
             </div>
-          </CardHeader>
-          <CardContent className="flex-grow">
-            <p className="text-muted-foreground">{review.text}</p>
+            <p className="text-muted-foreground mb-6 flex-grow">"{review.text}"</p>
+            <div className="flex items-center gap-4 mt-auto pt-4 border-t">
+              <Avatar>
+                <AvatarFallback>{review.avatar}</AvatarFallback>
+              </Avatar>
+              <p className="font-semibold">{review.name}</p>
+            </div>
           </CardContent>
         </Card>
       ))}
