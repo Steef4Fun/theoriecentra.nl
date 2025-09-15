@@ -23,10 +23,8 @@ export default function Home() {
             muted
             playsInline
             className="w-full h-full object-cover"
-            poster="https://images.pexels.com/photos/8474895/pexels-photo-8474895.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
           >
-            {/* Placeholder video, replace with actual video file */}
-            <source src="https://videos.pexels.com/video-files/8255531/8255531-hd_1920_1080_25fps.mp4" type="video/mp4" />
+            <source src="/hero-video.mp4" type="video/mp4" />
             Your browser does not support the video tag.
           </video>
           <div className="absolute inset-0 bg-black/40"></div>
