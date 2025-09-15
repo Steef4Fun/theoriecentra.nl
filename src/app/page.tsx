@@ -13,7 +13,7 @@ export default function Home() {
     <>
       {/* Hero Section */}
       <section className="w-full py-20 md:py-32 lg:py-40">
-        <div className="container px-4 md:px-6 text-center">
+        <div className="container text-center">
           <div className="max-w-3xl mx-auto">
             <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl">
               Slaag voor je theorie in één dag
@@ -31,7 +31,7 @@ export default function Home() {
 
       {/* Features Section */}
       <section className="w-full py-12 md:py-24 lg:py-32 bg-muted">
-        <div className="container px-4 md:px-6">
+        <div className="container">
           <div className="flex flex-col items-center justify-center space-y-4 text-center">
             <div className="space-y-2">
               <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl">
@@ -86,7 +86,7 @@ export default function Home() {
 
       {/* FAQ Section */}
       <section className="w-full py-12 md:py-24 lg:py-32">
-        <div className="container px-4 md:px-6">
+        <div className="container">
           <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl text-center mb-12">
             Veelgestelde Vragen
           </h2>
