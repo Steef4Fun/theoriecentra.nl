@@ -51,7 +51,7 @@ export default function Home() {
           >
             Your browser does not support the video tag.
           </video>
-          <div className="absolute inset-0 bg-black/50"></div>
+          <div className="absolute inset-0 bg-black/60"></div>
         </div>
         <div className="container text-white">
           <div className="max-w-3xl mx-auto">
@@ -98,8 +98,8 @@ export default function Home() {
             </motion.div>
           </div>
         </div>
-        <div className="absolute bottom-0 left-0 w-full h-20 bg-gradient-to-t from-black/30 to-transparent">
-          <div className="absolute bottom-8 w-full container text-white overflow-hidden">
+        <div className="absolute bottom-0 left-0 w-full h-20 bg-gradient-to-t from-black/40 to-transparent">
+          <div className="absolute bottom-8 w-full text-white overflow-hidden">
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -107,19 +107,19 @@ export default function Home() {
               className="whitespace-nowrap"
             >
               <div className="inline-block animate-ticker">
-                <span className="mx-4 text-xs uppercase tracking-widest font-semibold">Snel</span>
+                <span className="mx-8 text-sm uppercase tracking-widest font-semibold">Snel</span>
                 <span className="text-primary">•</span>
-                <span className="mx-4 text-xs uppercase tracking-widest font-semibold">Makkelijk</span>
+                <span className="mx-8 text-sm uppercase tracking-widest font-semibold">Makkelijk</span>
                 <span className="text-primary">•</span>
-                <span className="mx-4 text-xs uppercase tracking-widest font-semibold">Geslaagd</span>
+                <span className="mx-8 text-sm uppercase tracking-widest font-semibold">Geslaagd</span>
                 <span className="text-primary">•</span>
               </div>
               <div className="inline-block animate-ticker">
-                <span className="mx-4 text-xs uppercase tracking-widest font-semibold">Snel</span>
+                <span className="mx-8 text-sm uppercase tracking-widest font-semibold">Snel</span>
                 <span className="text-primary">•</span>
-                <span className="mx-4 text-xs uppercase tracking-widest font-semibold">Makkelijk</span>
+                <span className="mx-8 text-sm uppercase tracking-widest font-semibold">Makkelijk</span>
                 <span className="text-primary">•</span>
-                <span className="mx-4 text-xs uppercase tracking-widest font-semibold">Geslaagd</span>
+                <span className="mx-8 text-sm uppercase tracking-widest font-semibold">Geslaagd</span>
                 <span className="text-primary">•</span>
               </div>
             </motion.div>
@@ -148,7 +148,6 @@ export default function Home() {
       <section className="w-full py-20 md:py-32 bg-muted">
         <div className="container">
           <div className="grid gap-20">
-            {/* Feature 1 */}
             <AnimatedSection>
               <div className="grid md:grid-cols-2 gap-12 items-center">
                 <div className="bg-background/50 rounded-xl p-8 flex items-center justify-center aspect-square">
@@ -162,7 +161,6 @@ export default function Home() {
                 </div>
               </div>
             </AnimatedSection>
-            {/* Feature 2 */}
             <AnimatedSection>
               <div className="grid md:grid-cols-2 gap-12 items-center">
                 <div className="order-last md:order-first">
@@ -176,7 +174,6 @@ export default function Home() {
                 </div>
               </div>
             </AnimatedSection>
-             {/* Feature 3 */}
              <AnimatedSection>
               <div className="grid md:grid-cols-2 gap-12 items-center">
                 <div className="bg-background/50 rounded-xl p-8 flex items-center justify-center aspect-square">

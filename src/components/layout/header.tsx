@@ -29,22 +29,28 @@ export function Header() {
           : "bg-transparent"
       )}
     >
-      <div className="container flex h-16 items-center">
+      <div className="container flex h-20 items-center">
         <div className="mr-4 flex">
           <Link href="/" className="mr-6 flex items-center space-x-2">
-            <Image src="/logo.png" alt="Theoriecentra.nl Logo" width={180} height={40} className={cn(!scrolled && "brightness-0 invert")}/>
+            <Image 
+              src={scrolled ? "/logo-light.png" : "/logo-dark.png"} 
+              alt="Theoriecentra.nl Logo" 
+              width={180} 
+              height={40}
+              priority
+            />
           </Link>
         </div>
         <nav className="hidden items-center gap-6 text-sm md:flex">
           <Link
             href="/#booking-wizard"
-            className={cn("transition-colors hover:text-primary", scrolled ? "text-foreground/60 hover:text-foreground/80" : "text-white/80 hover:text-white")}
+            className={cn("transition-colors hover:text-primary", scrolled ? "text-muted-foreground hover:text-foreground" : "text-white/80 hover:text-white")}
           >
             Cursussen
           </Link>
           <Link
             href="/contact"
-            className={cn("transition-colors hover:text-primary", scrolled ? "text-foreground/60 hover:text-foreground/80" : "text-white/80 hover:text-white")}
+            className={cn("transition-colors hover:text-primary", scrolled ? "text-muted-foreground hover:text-foreground" : "text-white/80 hover:text-white")}
           >
             Contact
           </Link>
