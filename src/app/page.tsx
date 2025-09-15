@@ -1,7 +1,4 @@
-"use client";
-
-import { supabase } from "@/integrations/supabase/client";
-import { CourseBrowser } from "@/components/course-browser";
+import { BookingWizard } from "@/components/booking-wizard";
 import {
   Accordion,
   AccordionContent,
@@ -9,81 +6,31 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import type { Course, Location } from "@/lib/types";
 import { CheckCircle } from "lucide-react";
-import { motion } from "framer-motion";
-import { useEffect, useState } from "react";
 
 export default function Home() {
-  const [courses, setCourses] = useState<Course[]>([]);
-  const [locations, setLocations] = useState<Location[]>([]);
-
-  useEffect(() => {
-    async function getCoursesAndLocations() {
-      const today = new Date().toISOString();
-
-      const coursesPromise = supabase
-        .from("courses")
-        .select(
-          `
-          id, course_date, start_time, end_time, base_price, exam_fee, spots_available,
-          location_id, location:locations (name), category:categories (name)
-        `
-        )
-        .gte("course_date", today)
-        .order("course_date", { ascending: true });
-
-      const locationsPromise = supabase.from("locations").select("id, name");
-
-      const [
-        { data: coursesData, error: coursesError },
-        { data: locationsData, error: locationsError },
-      ] = await Promise.all([coursesPromise, locationsPromise]);
-
-      if (coursesError || locationsError) {
-        console.error("Error fetching data:", coursesError || locationsError);
-        return;
-      }
-
-      setCourses(coursesData as Course[]);
-      setLocations(locationsData as Location[]);
-    }
-
-    getCoursesAndLocations();
-  }, []);
-
   return (
     <>
       {/* Hero Section */}
-      <section className="w-full py-20 md:py-32 lg:py-40 relative overflow-hidden">
-        <div className="absolute inset-0 bg-grid-white/[0.05] [mask-image:linear-gradient(to_bottom,white_5%,transparent_100%)]"></div>
+      <section className="w-full py-20 md:py-32 lg:py-40">
         <div className="container px-4 md:px-6 text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-          >
-            <h1 className="text-4xl font-bold tracking-tighter sm:text-6xl xl:text-7xl/none bg-clip-text text-transparent bg-gradient-to-b from-neutral-50 to-neutral-400 py-2">
+          <div className="max-w-3xl mx-auto">
+            <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl">
               Slaag voor je theorie in één dag
             </h1>
-            <p className="max-w-[700px] mx-auto text-muted-foreground md:text-xl mt-4">
-              Onze dagcursus bereidt je perfect voor op het CBR-examen. Kies je
-              locatie, vind je datum en reserveer direct je plek.
+            <p className="mt-4 text-muted-foreground md:text-xl">
+              Onze dagcursus bereidt je perfect voor op het CBR-examen. Volg de
+              stappen, vind je datum en reserveer direct je plek.
             </p>
-          </motion.div>
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="mt-8 flex justify-center"
-          >
-            <CourseBrowser courses={courses} locations={locations} />
-          </motion.div>
+          </div>
+          <div className="mt-12">
+            <BookingWizard />
+          </div>
         </div>
       </section>
 
       {/* Features Section */}
-      <section className="w-full py-12 md:py-24 lg:py-32 bg-background">
+      <section className="w-full py-12 md:py-24 lg:py-32 bg-muted">
         <div className="container px-4 md:px-6">
           <div className="flex flex-col items-center justify-center space-y-4 text-center">
             <div className="space-y-2">
@@ -97,7 +44,7 @@ export default function Home() {
             </div>
           </div>
           <div className="mx-auto grid max-w-5xl items-start gap-8 py-12 sm:grid-cols-2 md:grid-cols-3">
-            <Card className="text-center border-white/10">
+            <Card className="text-center">
               <CardHeader>
                 <CheckCircle className="h-8 w-8 mx-auto text-primary" />
                 <CardTitle className="mt-2">Hoogste Slagingskans</CardTitle>
@@ -109,7 +56,7 @@ export default function Home() {
                 </p>
               </CardContent>
             </Card>
-            <Card className="text-center border-white/10">
+            <Card className="text-center">
               <CardHeader>
                 <CheckCircle className="h-8 w-8 mx-auto text-primary" />
                 <CardTitle className="mt-2">Duidelijke Prijzen</CardTitle>
@@ -121,7 +68,7 @@ export default function Home() {
                 </p>
               </CardContent>
             </Card>
-            <Card className="text-center border-white/10">
+            <Card className="text-center">
               <CardHeader>
                 <CheckCircle className="h-8 w-8 mx-auto text-primary" />
                 <CardTitle className="mt-2">Direct Examenplek</CardTitle>
@@ -181,9 +128,9 @@ export default function Home() {
                 Hoe kan ik me inschrijven?
               </AccordionTrigger>
               <AccordionContent>
-                Kies hierboven je locatie, selecteer een geschikte datum en
-                klik op 'Inschrijven'. Vul je gegevens in, betaal veilig online
-                en je plek is gereserveerd!
+                Volg de stappen op onze website: kies je locatie, categorie en
+                datum. Vul daarna je gegevens in, betaal veilig online en je
+                plek is gereserveerd!
               </AccordionContent>
             </AccordionItem>
           </Accordion>

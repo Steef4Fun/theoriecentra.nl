@@ -8,10 +8,16 @@ export type Course = {
   spots_available: number;
   location_id: string;
   location: { name: string } | null;
+  category_id: string;
   category: { name: string } | null;
 };
 
 export type Location = {
+  id: string;
+  name: string;
+};
+
+export type Category = {
   id: string;
   name: string;
 };
