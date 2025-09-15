@@ -59,7 +59,7 @@ function StatusDisplay() {
       
       setStatus(currentStatus);
 
-      if (currentStatus !== 'pending' && currentStatus !== 'loading') {
+      if (currentStatus !== 'pending') {
         if (intervalId) clearInterval(intervalId);
       }
     };

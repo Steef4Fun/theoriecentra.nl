@@ -17,6 +17,8 @@ async function getCourseById(courseId: string) {
       base_price,
       exam_fee,
       spots_available,
+      location_id,
+      category_id,
       location:locations (name),
       category:categories (name)
     `

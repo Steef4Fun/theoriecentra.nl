@@ -1,9 +1,9 @@
-import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
-import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+import { serve } from "https://deno.land/std@0.224.0/http/server.ts";
+import { createClient } from "https://esm.sh/@supabase/supabase-js@2.57.4";
 
 const MOLLIE_API_URL = "https://api.mollie.com/v2/payments";
 
-serve(async (req) => {
+serve(async (req: Request) => {
   // The request from Mollie is a POST request.
   if (req.method !== "POST") {
     return new Response("Method Not Allowed", { status: 405 });
@@ -62,7 +62,7 @@ serve(async (req) => {
     return new Response("OK", { status: 200 });
 
   } catch (error) {
-    console.error("Webhook error:", error.message);
+    console.error("Webhook error:", error instanceof Error ? error.message : "An unknown error occurred.");
     return new Response("Internal Server Error", { status: 500 });
   }
 });
