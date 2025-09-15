@@ -21,6 +21,21 @@ export default function Home() {
     visible: { opacity: 1, y: 0 },
   };
 
+  const title = "Haal je theorie. In één dag.";
+  const words = title.split(" ");
+
+  const wordVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: (i: number) => ({
+      opacity: 1,
+      y: 0,
+      transition: {
+        delay: 0.2 + i * 0.1,
+        duration: 0.5,
+      },
+    }),
+  };
+
   return (
     <>
       {/* Hero Section */}
@@ -43,17 +58,25 @@ export default function Home() {
             <motion.h1
               initial="hidden"
               animate="visible"
-              variants={heroVariants}
-              transition={{ duration: 0.6, delay: 0.2 }}
-              className="text-4xl font-bold tracking-tighter sm:text-5xl md:text-7xl text-shadow"
+              variants={{ visible: { transition: { staggerChildren: 0.1 } } }}
+              className="text-4xl font-extrabold tracking-tighter sm:text-5xl md:text-7xl text-shadow"
             >
-              Haal je theorie. In één dag.
+              {words.map((word, i) => (
+                <motion.span
+                  key={i}
+                  custom={i}
+                  variants={wordVariants}
+                  className="inline-block mr-[0.25em]"
+                >
+                  {word}
+                </motion.span>
+              ))}
             </motion.h1>
             <motion.p
               initial="hidden"
               animate="visible"
               variants={heroVariants}
-              transition={{ duration: 0.6, delay: 0.4 }}
+              transition={{ duration: 0.6, delay: 0.8 }}
               className="mt-6 text-lg text-white/80 md:text-xl text-shadow-sm max-w-2xl mx-auto"
             >
               Met onze unieke dagcursus stomen we je klaar voor het CBR-examen. Duidelijk, snel en met de hoogste slagingskans.
@@ -62,27 +85,45 @@ export default function Home() {
               initial="hidden"
               animate="visible"
               variants={heroVariants}
-              transition={{ duration: 0.6, delay: 0.6 }}
+              transition={{ duration: 0.6, delay: 1.0 }}
               className="mt-8"
             >
-              <Button size="lg" asChild>
+              <Button
+                size="lg"
+                asChild
+                className="rounded-full border-2 border-white bg-transparent px-8 text-base font-semibold text-white transition-all duration-300 hover:bg-white hover:text-primary"
+              >
                 <Link href="#booking-wizard">Vind je Cursus</Link>
               </Button>
             </motion.div>
           </div>
         </div>
-        <div className="absolute bottom-8 w-full container text-white">
-            <motion.div 
-              initial="hidden"
-              animate="visible"
-              variants={heroVariants}
-              transition={{ duration: 0.6, delay: 0.8 }}
-              className="flex justify-between items-center max-w-4xl mx-auto text-xs uppercase tracking-widest font-semibold"
+        <div className="absolute bottom-0 left-0 w-full h-20 bg-gradient-to-t from-black/30 to-transparent">
+          <div className="absolute bottom-8 w-full container text-white overflow-hidden">
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.6, delay: 1.2 }}
+              className="whitespace-nowrap"
             >
-                <span>Snel</span>
-                <span>Makkelijk</span>
-                <span>Geslaagd</span>
+              <div className="inline-block animate-ticker">
+                <span className="mx-4 text-xs uppercase tracking-widest font-semibold">Snel</span>
+                <span className="text-primary">•</span>
+                <span className="mx-4 text-xs uppercase tracking-widest font-semibold">Makkelijk</span>
+                <span className="text-primary">•</span>
+                <span className="mx-4 text-xs uppercase tracking-widest font-semibold">Geslaagd</span>
+                <span className="text-primary">•</span>
+              </div>
+              <div className="inline-block animate-ticker">
+                <span className="mx-4 text-xs uppercase tracking-widest font-semibold">Snel</span>
+                <span className="text-primary">•</span>
+                <span className="mx-4 text-xs uppercase tracking-widest font-semibold">Makkelijk</span>
+                <span className="text-primary">•</span>
+                <span className="mx-4 text-xs uppercase tracking-widest font-semibold">Geslaagd</span>
+                <span className="text-primary">•</span>
+              </div>
             </motion.div>
+          </div>
         </div>
       </section>
 

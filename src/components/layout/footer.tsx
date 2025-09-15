@@ -26,10 +26,13 @@ export function Footer() {
           </div>
 
           {/* Column 2: CTA */}
-          <div className="bg-gray-800/50 p-8 rounded-lg flex flex-col items-center justify-center text-center">
+          <div className="bg-gray-800 p-8 rounded-lg flex flex-col items-center justify-center text-center">
             <h3 className="font-semibold text-lg text-white mb-4">Klaar om te slagen?</h3>
             <p className="text-muted-foreground mb-6">Vind een cursus die bij jou past en reserveer direct je plek.</p>
-            <Button asChild>
+            <Button
+              asChild
+              className="rounded-full border-2 border-primary bg-primary px-8 text-base font-semibold text-primary-foreground transition-all duration-300 hover:bg-primary/90"
+            >
                 <Link href="/#booking-wizard">Vind je Cursus</Link>
             </Button>
           </div>

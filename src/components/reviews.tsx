@@ -74,8 +74,8 @@ export function Reviews() {
           </CarouselItem>
         ))}
       </CarouselContent>
-      <CarouselPrevious className="hidden md:flex" />
-      <CarouselNext className="hidden md:flex" />
+      <CarouselPrevious className="border-primary text-primary hover:bg-primary hover:text-primary-foreground" />
+      <CarouselNext className="border-primary text-primary hover:bg-primary hover:text-primary-foreground" />
     </Carousel>
   );
 }
