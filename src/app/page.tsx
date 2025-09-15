@@ -71,6 +71,19 @@ export default function Home() {
             </motion.div>
           </div>
         </div>
+        <div className="absolute bottom-8 w-full container text-white">
+            <motion.div 
+              initial="hidden"
+              animate="visible"
+              variants={heroVariants}
+              transition={{ duration: 0.6, delay: 0.8 }}
+              className="flex justify-between items-center max-w-4xl mx-auto text-xs uppercase tracking-widest font-semibold"
+            >
+                <span>Snel</span>
+                <span>Makkelijk</span>
+                <span>Geslaagd</span>
+            </motion.div>
+        </div>
       </section>
 
       {/* Booking Wizard Section */}
