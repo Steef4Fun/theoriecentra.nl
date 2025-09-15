@@ -15,7 +15,7 @@ export default function Home() {
   return (
     <>
       {/* Hero Section */}
-      <section className="relative w-full h-[80vh] min-h-[500px] flex items-center justify-center text-center overflow-hidden">
+      <section className="relative isolate w-full h-[80vh] min-h-[500px] flex items-center justify-center text-center overflow-hidden">
         <div className="absolute inset-0 z-[-1]">
           <video
             src="/hero-video.mp4"
