@@ -1,3 +1,5 @@
+"use client";
+
 import { BookingWizard } from "@/components/booking-wizard";
 import {
   Accordion,
@@ -11,12 +13,18 @@ import { WallOfFame } from "@/components/wall-of-fame";
 import { AnimatedSection } from "@/components/animated-section";
 import { Award, BadgePercent, CalendarCheck } from "lucide-react";
 import Link from "next/link";
+import { motion } from "framer-motion";
 
 export default function Home() {
+  const heroVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { opacity: 1, y: 0 },
+  };
+
   return (
     <>
       {/* Hero Section */}
-      <section className="relative isolate w-full h-[85vh] min-h-[600px] flex items-center justify-center text-center overflow-hidden">
+      <section className="relative isolate w-full h-screen min-h-[700px] flex items-center justify-center text-center overflow-hidden">
         <div className="absolute inset-0 z-[-1]">
           <video
             src="/hero-video.mp4"
@@ -31,21 +39,37 @@ export default function Home() {
           <div className="absolute inset-0 bg-black/50"></div>
         </div>
         <div className="container text-white">
-          <AnimatedSection>
-            <div className="max-w-3xl mx-auto">
-              <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl md:text-7xl text-shadow">
-                Haal je theorie. In één dag.
-              </h1>
-              <p className="mt-6 text-lg text-white/80 md:text-xl text-shadow-sm max-w-2xl mx-auto">
-                Met onze unieke dagcursus stomen we je klaar voor het CBR-examen. Duidelijk, snel en met de hoogste slagingskans.
-              </p>
-              <div className="mt-8">
-                <Button size="lg" asChild>
-                  <Link href="#booking-wizard">Vind je Cursus</Link>
-                </Button>
-              </div>
-            </div>
-          </AnimatedSection>
+          <div className="max-w-3xl mx-auto">
+            <motion.h1
+              initial="hidden"
+              animate="visible"
+              variants={heroVariants}
+              transition={{ duration: 0.6, delay: 0.2 }}
+              className="text-4xl font-bold tracking-tighter sm:text-5xl md:text-7xl text-shadow"
+            >
+              Haal je theorie. In één dag.
+            </motion.h1>
+            <motion.p
+              initial="hidden"
+              animate="visible"
+              variants={heroVariants}
+              transition={{ duration: 0.6, delay: 0.4 }}
+              className="mt-6 text-lg text-white/80 md:text-xl text-shadow-sm max-w-2xl mx-auto"
+            >
+              Met onze unieke dagcursus stomen we je klaar voor het CBR-examen. Duidelijk, snel en met de hoogste slagingskans.
+            </motion.p>
+            <motion.div
+              initial="hidden"
+              animate="visible"
+              variants={heroVariants}
+              transition={{ duration: 0.6, delay: 0.6 }}
+              className="mt-8"
+            >
+              <Button size="lg" asChild>
+                <Link href="#booking-wizard">Vind je Cursus</Link>
+              </Button>
+            </motion.div>
+          </div>
         </div>
       </section>
 
