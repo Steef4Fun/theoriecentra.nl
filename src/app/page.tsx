@@ -1,3 +1,5 @@
+"use client";
+
 import { supabase } from "@/integrations/supabase/client";
 import { CourseBrowser } from "@/components/course-browser";
 import {
@@ -9,88 +11,93 @@ import {
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import type { Course, Location } from "@/lib/types";
 import { CheckCircle } from "lucide-react";
+import { motion } from "framer-motion";
+import { useEffect, useState } from "react";
 
-async function getCoursesAndLocations() {
-  const today = new Date().toISOString();
+export default function Home() {
+  const [courses, setCourses] = useState<Course[]>([]);
+  const [locations, setLocations] = useState<Location[]>([]);
 
-  const coursesPromise = supabase
-    .from("courses")
-    .select(
-      `
-      id,
-      course_date,
-      start_time,
-      end_time,
-      base_price,
-      exam_fee,
-      spots_available,
-      location_id,
-      location:locations (name),
-      category:categories (name)
-    `
-    )
-    .gte("course_date", today)
-    .order("course_date", { ascending: true });
+  useEffect(() => {
+    async function getCoursesAndLocations() {
+      const today = new Date().toISOString();
 
-  const locationsPromise = supabase.from("locations").select("id, name");
+      const coursesPromise = supabase
+        .from("courses")
+        .select(
+          `
+          id, course_date, start_time, end_time, base_price, exam_fee, spots_available,
+          location_id, location:locations (name), category:categories (name)
+        `
+        )
+        .gte("course_date", today)
+        .order("course_date", { ascending: true });
 
-  const [
-    { data: courses, error: coursesError },
-    { data: locations, error: locationsError },
-  ] = await Promise.all([coursesPromise, locationsPromise]);
+      const locationsPromise = supabase.from("locations").select("id, name");
 
-  if (coursesError || locationsError) {
-    console.error("Error fetching data:", coursesError || locationsError);
-    return { courses: [], locations: [] };
-  }
+      const [
+        { data: coursesData, error: coursesError },
+        { data: locationsData, error: locationsError },
+      ] = await Promise.all([coursesPromise, locationsPromise]);
 
-  return { courses: courses as Course[], locations: locations as Location[] };
-}
+      if (coursesError || locationsError) {
+        console.error("Error fetching data:", coursesError || locationsError);
+        return;
+      }
 
-export default async function Home() {
-  const { courses, locations } = await getCoursesAndLocations();
+      setCourses(coursesData as Course[]);
+      setLocations(locationsData as Location[]);
+    }
+
+    getCoursesAndLocations();
+  }, []);
 
   return (
     <>
       {/* Hero Section */}
-      <section className="w-full py-12 md:py-24 lg:py-32">
-        <div className="container px-4 md:px-6">
-          <div className="grid gap-6 lg:grid-cols-2 lg:gap-12">
-            <div className="flex flex-col justify-center space-y-4">
-              <div className="space-y-2">
-                <h1 className="text-3xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none">
-                  Haal je autotheorie in slechts één dag!
-                </h1>
-                <p className="max-w-[600px] text-muted-foreground md:text-xl">
-                  Met onze unieke dagcursus stomen we je klaar voor het CBR
-                  theorie-examen. Hoge slagingskans, duidelijke prijzen en
-                  direct een examendatum.
-                </p>
-              </div>
-            </div>
-            <div className="flex items-center justify-center">
-              <CourseBrowser courses={courses} locations={locations} />
-            </div>
-          </div>
+      <section className="w-full py-20 md:py-32 lg:py-40 relative overflow-hidden">
+        <div className="absolute inset-0 bg-grid-white/[0.05] [mask-image:linear-gradient(to_bottom,white_5%,transparent_100%)]"></div>
+        <div className="container px-4 md:px-6 text-center">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+          >
+            <h1 className="text-4xl font-bold tracking-tighter sm:text-6xl xl:text-7xl/none bg-clip-text text-transparent bg-gradient-to-b from-neutral-50 to-neutral-400 py-2">
+              Slaag voor je theorie in één dag
+            </h1>
+            <p className="max-w-[700px] mx-auto text-muted-foreground md:text-xl mt-4">
+              Onze dagcursus bereidt je perfect voor op het CBR-examen. Kies je
+              locatie, vind je datum en reserveer direct je plek.
+            </p>
+          </motion.div>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            className="mt-8 flex justify-center"
+          >
+            <CourseBrowser courses={courses} locations={locations} />
+          </motion.div>
         </div>
       </section>
 
       {/* Features Section */}
-      <section className="w-full py-12 md:py-24 lg:py-32 bg-muted">
+      <section className="w-full py-12 md:py-24 lg:py-32 bg-background">
         <div className="container px-4 md:px-6">
           <div className="flex flex-col items-center justify-center space-y-4 text-center">
             <div className="space-y-2">
               <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl">
                 Waarom kiezen voor Theoriecentra.nl?
               </h2>
-              <p className="max-w-[900px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
+              <p className="max-w-[900px] text-muted-foreground md:text-xl/relaxed">
                 Wij maken het halen van je theorie-examen eenvoudig, snel en
                 betaalbaar. Geen verrassingen, alleen resultaat.
               </p>
             </div>
           </div>
           <div className="mx-auto grid max-w-5xl items-start gap-8 py-12 sm:grid-cols-2 md:grid-cols-3">
-            <Card className="text-center">
+            <Card className="text-center border-white/10">
               <CardHeader>
                 <CheckCircle className="h-8 w-8 mx-auto text-primary" />
                 <CardTitle className="mt-2">Hoogste Slagingskans</CardTitle>
@@ -102,7 +109,7 @@ export default async function Home() {
                 </p>
               </CardContent>
             </Card>
-            <Card className="text-center">
+            <Card className="text-center border-white/10">
               <CardHeader>
                 <CheckCircle className="h-8 w-8 mx-auto text-primary" />
                 <CardTitle className="mt-2">Duidelijke Prijzen</CardTitle>
@@ -114,7 +121,7 @@ export default async function Home() {
                 </p>
               </CardContent>
             </Card>
-            <Card className="text-center">
+            <Card className="text-center border-white/10">
               <CardHeader>
                 <CheckCircle className="h-8 w-8 mx-auto text-primary" />
                 <CardTitle className="mt-2">Direct Examenplek</CardTitle>
