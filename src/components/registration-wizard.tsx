@@ -26,7 +26,7 @@ import { registrationSchema } from "@/lib/validators";
 import type { Course } from "@/lib/types";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "./ui/card";
+import { Card, CardContent, CardFooter, CardHeader } from "./ui/card";
 
 interface RegistrationWizardProps {
   course: Course;
@@ -117,7 +117,7 @@ export function RegistrationWizard({ course }: RegistrationWizardProps) {
           </div>
           <div className="relative h-2 w-full rounded-full bg-secondary">
             <motion.div
-              className="absolute top-0 left-0 h-2 rounded-full bg-primary"
+              className="absolute top-0 left-0 h-2 rounded-full bg-primary bg-gradient-to-r from-primary to-[hsl(244,85%,75%)]"
               animate={{ width: `${(currentStep / (steps.length - 1)) * 100}%` }}
               transition={{ ease: "easeInOut", duration: 0.5 }}
             />

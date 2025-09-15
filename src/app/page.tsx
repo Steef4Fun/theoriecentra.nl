@@ -15,16 +15,29 @@ export default function Home() {
   return (
     <>
       {/* Hero Section */}
-      <section className="relative w-full py-20 md:py-32 lg:py-40 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-background via-blue-50 to-purple-50 -z-10"></div>
-        <div className="absolute inset-0 opacity-20 bg-[url('/grid.svg')] bg-repeat -z-10"></div>
-        <div className="container text-center">
+      <section className="relative w-full h-[80vh] min-h-[500px] flex items-center justify-center text-center overflow-hidden">
+        <div className="absolute inset-0 z-[-1]">
+          <video
+            autoPlay
+            loop
+            muted
+            playsInline
+            className="w-full h-full object-cover"
+            poster="https://images.pexels.com/photos/8474895/pexels-photo-8474895.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
+          >
+            {/* Placeholder video, replace with actual video file */}
+            <source src="https://videos.pexels.com/video-files/8255531/8255531-hd_1920_1080_25fps.mp4" type="video/mp4" />
+            Your browser does not support the video tag.
+          </video>
+          <div className="absolute inset-0 bg-black/40"></div>
+        </div>
+        <div className="container text-white">
           <AnimatedSection>
             <div className="max-w-3xl mx-auto">
-              <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl">
+              <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl text-shadow">
                 Slaag voor je theorie in één dag
               </h1>
-              <p className="mt-4 text-muted-foreground md:text-xl">
+              <p className="mt-4 text-white/80 md:text-xl text-shadow-sm">
                 Onze dagcursus bereidt je perfect voor op het CBR-examen. Volg de
                 stappen, vind je datum en reserveer direct je plek.
               </p>
@@ -54,7 +67,7 @@ export default function Home() {
           </AnimatedSection>
           <div className="mx-auto grid max-w-5xl items-start gap-8 py-12 sm:grid-cols-2 md:grid-cols-3">
             <AnimatedSection delay={0.1}>
-              <Card className="text-center h-full">
+              <Card className="text-center h-full p-4">
                 <CardHeader>
                   <CheckCircle className="h-8 w-8 mx-auto text-primary" />
                   <CardTitle className="mt-2">Hoogste Slagingskans</CardTitle>
@@ -68,7 +81,7 @@ export default function Home() {
               </Card>
             </AnimatedSection>
             <AnimatedSection delay={0.2}>
-              <Card className="text-center h-full">
+              <Card className="text-center h-full p-4">
                 <CardHeader>
                   <CheckCircle className="h-8 w-8 mx-auto text-primary" />
                   <CardTitle className="mt-2">Duidelijke Prijzen</CardTitle>
@@ -82,7 +95,7 @@ export default function Home() {
               </Card>
             </AnimatedSection>
             <AnimatedSection delay={0.3}>
-              <Card className="text-center h-full">
+              <Card className="text-center h-full p-4">
                 <CardHeader>
                   <CheckCircle className="h-8 w-8 mx-auto text-primary" />
                   <CardTitle className="mt-2">Direct Examenplek</CardTitle>

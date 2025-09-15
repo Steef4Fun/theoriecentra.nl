@@ -59,9 +59,18 @@
     @apply border-border;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground leading-relaxed;
   }
   h1, h2, h3, h4, h5, h6 {
-    @apply tracking-tight; /* Tighter tracking for headings */
+    @apply font-bold tracking-tight;
+  }
+}
+
+@layer utilities {
+  .text-shadow {
+    text-shadow: 0 2px 4px rgba(0,0,0,0.4);
+  }
+  .text-shadow-sm {
+    text-shadow: 0 1px 2px rgba(0,0,0,0.3);
   }
 }

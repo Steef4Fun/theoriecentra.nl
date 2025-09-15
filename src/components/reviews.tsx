@@ -30,15 +30,15 @@ export function Reviews() {
     <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
       {reviews.map((review) => (
         <Card key={review.name} className="flex flex-col relative overflow-hidden h-full">
-          <CardContent className="pt-8 flex-grow flex flex-col">
-            <Quote className="absolute top-4 left-4 h-10 w-10 text-primary/10" />
+          <CardContent className="p-8 flex-grow flex flex-col">
+            <Quote className="absolute top-4 left-4 h-12 w-12 text-primary/10" />
             <div className="flex items-center gap-1 text-primary mb-4">
               {[...Array(review.rating)].map((_, i) => (
                 <Star key={i} className="h-5 w-5 fill-current" />
               ))}
             </div>
             <p className="text-muted-foreground mb-6 flex-grow">"{review.text}"</p>
-            <div className="flex items-center gap-4 mt-auto pt-4 border-t">
+            <div className="flex items-center gap-4 mt-auto pt-6 border-t">
               <Avatar>
                 <AvatarFallback>{review.avatar}</AvatarFallback>
               </Avatar>
