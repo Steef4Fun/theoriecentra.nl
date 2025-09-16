@@ -20,3 +20,15 @@ export const contactSchema = z.object({
   email: z.string().email({ message: "Voer een geldig e-mailadres in." }),
   message: z.string().min(10, { message: "Bericht moet minimaal 10 karakters bevatten." }),
 });
+
+export const courseSchema = z.object({
+  course_date: z.date({ required_error: "Datum is verplicht." }),
+  start_time: z.string().regex(/^([01]\d|2[0-3]):([0-5]\d)$/, { message: "Ongeldig formaat (HH:MM)." }),
+  end_time: z.string().regex(/^([01]\d|2[0-3]):([0-5]\d)$/, { message: "Ongeldig formaat (HH:MM)." }),
+  location_id: z.string().uuid({ message: "Selecteer een locatie." }),
+  category_id: z.string().uuid({ message: "Selecteer een categorie." }),
+  base_price: z.coerce.number().min(0, { message: "Prijs moet positief zijn." }),
+  exam_fee: z.coerce.number().min(0, { message: "Examengeld moet positief zijn." }),
+  instructor_number: z.string().min(1, { message: "Opleidernummer is verplicht." }),
+  spots_available: z.coerce.number().int().min(0, { message: "Aantal plekken moet positief zijn." }),
+});

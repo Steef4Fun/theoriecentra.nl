@@ -6,10 +6,11 @@ export type Course = {
   base_price: number;
   exam_fee: number;
   spots_available: number;
+  instructor_number: string;
   location_id: string;
-  location: { name: string } | null;
+  location: { id: string; name: string } | null;
   category_id: string;
-  category: { name: string } | null;
+  category: { id: string; name: string } | null;
 };
 
 export type Location = {
@@ -20,4 +21,19 @@ export type Location = {
 export type Category = {
   id: string;
   name: string;
+};
+
+export type Registration = {
+    id: string;
+    created_at: string;
+    first_name: string;
+    last_name: string;
+    email: string;
+    payment_status: string;
+    course: {
+        course_date: string;
+        category: {
+            name: string;
+        } | null;
+    } | null;
 };

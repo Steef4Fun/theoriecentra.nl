@@ -1,8 +1,28 @@
-export default function AanmeldingenPage() {
+import { createSupabaseServerClient } from "@/integrations/supabase/server";
+import { RegistrationsTable } from "@/components/admin/registrations-table";
+
+export default async function AanmeldingenPage() {
+  const supabase = createSupabaseServerClient();
+  
+  const { data: registrations } = await supabase
+    .from("registrations")
+    .select(`
+      id,
+      created_at,
+      first_name,
+      last_name,
+      email,
+      payment_status,
+      course:courses (
+        course_date,
+        category:categories (name)
+      )
+    `)
+    .order("created_at", { ascending: false });
+
   return (
     <div>
-      <h1 className="text-3xl font-bold tracking-tight mb-6">Aanmeldingen</h1>
-      <p className="text-muted-foreground">Hier komt het overzicht van alle aanmeldingen.</p>
+      <RegistrationsTable registrations={registrations || []} />
     </div>
   );
 }

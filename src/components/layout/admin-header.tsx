@@ -1,3 +1,5 @@
+"use client";
+
 import Link from "next/link";
 import {
   Home,
@@ -7,6 +9,7 @@ import {
   FileClock,
   History,
   Menu,
+  LogOut,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -20,8 +23,18 @@ import {
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import Image from "next/image";
 import { Avatar, AvatarFallback } from "../ui/avatar";
+import { supabase } from "@/integrations/supabase/client";
+import { useRouter } from "next/navigation";
 
 export function AdminHeader() {
+  const router = useRouter();
+
+  const handleLogout = async () => {
+    await supabase.auth.signOut();
+    router.push('/admin/login');
+    router.refresh();
+  };
+
   return (
     <header className="flex h-14 items-center gap-4 border-b bg-background px-4 lg:h-[60px] lg:px-6">
       <Sheet>
@@ -101,9 +114,12 @@ export function AdminHeader() {
         <DropdownMenuContent align="end">
           <DropdownMenuLabel>Mijn Account</DropdownMenuLabel>
           <DropdownMenuSeparator />
-          <DropdownMenuItem>Instellingen</DropdownMenuItem>
+          <DropdownMenuItem disabled>Instellingen</DropdownMenuItem>
           <DropdownMenuSeparator />
-          <DropdownMenuItem>Uitloggen</DropdownMenuItem>
+          <DropdownMenuItem onClick={handleLogout} className="text-red-500 focus:text-red-500 focus:bg-red-50">
+            <LogOut className="mr-2 h-4 w-4" />
+            Uitloggen
+          </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
     </header>
