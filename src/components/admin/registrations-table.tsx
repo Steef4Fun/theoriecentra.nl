@@ -23,15 +23,25 @@ import { Registration } from "@/lib/types";
 import { format } from "date-fns";
 import { nl } from "date-fns/locale";
 import { Badge } from "@/components/ui/badge";
+import { MoreHorizontal, Eye } from "lucide-react";
+import { useRouter } from "next/navigation";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 export function RegistrationsTable({ registrations }: { registrations: Registration[] }) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
+  const router = useRouter();
 
   const columns: ColumnDef<Registration>[] = [
     {
-      accessorKey: "created_at",
+      accessorKey: "createdAt",
       header: "Aanmelddatum",
-      cell: ({ row }) => format(new Date(row.getValue("created_at")), "d MMM yyyy HH:mm", { locale: nl }),
+      cell: ({ row }) => format(new Date(row.getValue("createdAt")), "d MMM yyyy HH:mm", { locale: nl }),
     },
     {
       accessorKey: "name",
@@ -52,14 +62,36 @@ export function RegistrationsTable({ registrations }: { registrations: Registrat
       },
     },
     {
-      accessorKey: "payment_status",
+      accessorKey: "paymentStatus",
       header: "Status",
       cell: ({ row }) => {
-        const status = row.getValue("payment_status") as string;
+        const status = row.getValue("paymentStatus") as string;
         let variant: "default" | "secondary" | "destructive" | "outline" = "secondary";
         if (status === 'paid') variant = 'default';
         if (status === 'failed' || status === 'expired' || status === 'canceled') variant = 'destructive';
         return <Badge variant={variant} className="capitalize">{status}</Badge>;
+      },
+    },
+    {
+      id: "actions",
+      cell: ({ row }) => {
+        const registration = row.original;
+        return (
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost" className="h-8 w-8 p-0">
+                <span className="sr-only">Open menu</span>
+                <MoreHorizontal className="h-4 w-4" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuLabel>Acties</DropdownMenuLabel>
+              <DropdownMenuItem onClick={() => router.push(`/admin/aanmeldingen/${registration.id}`)}>
+                <Eye className="mr-2 h-4 w-4" /> Bekijk Details
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        );
       },
     },
   ];
