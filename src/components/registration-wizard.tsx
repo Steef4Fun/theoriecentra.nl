@@ -41,6 +41,9 @@ const steps = [
 export function RegistrationWizard({ course }: RegistrationWizardProps) {
   const [currentStep, setCurrentStep] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
+  const currentYear = new Date().getFullYear();
+  const maxBirthDate = new Date();
+  maxBirthDate.setFullYear(maxBirthDate.getFullYear() - 16);
 
   const form = useForm<z.infer<typeof registrationSchema>>({
     resolver: zodResolver(registrationSchema),
@@ -153,7 +156,7 @@ export function RegistrationWizard({ course }: RegistrationWizardProps) {
                     <FormField control={form.control} name="lastName" render={({ field }) => (<FormItem><FormLabel>Achternaam</FormLabel><FormControl><Input placeholder="Jansen" {...field} /></FormControl><FormMessage /></FormItem>)} />
                     <FormField control={form.control} name="email" render={({ field }) => (<FormItem><FormLabel>E-mailadres</FormLabel><FormControl><Input type="email" placeholder="voorbeeld@email.com" {...field} /></FormControl><FormMessage /></FormItem>)} />
                     <FormField control={form.control} name="phoneNumber" render={({ field }) => (<FormItem><FormLabel>Telefoonnummer</FormLabel><FormControl><Input type="tel" placeholder="0612345678" {...field} /></FormControl><FormMessage /></FormItem>)} />
-                    <FormField control={form.control} name="dateOfBirth" render={({ field }) => (<FormItem className="flex flex-col"><FormLabel>Geboortedatum</FormLabel><Popover><PopoverTrigger asChild><FormControl><Button variant={"outline"} className={cn("w-full pl-3 text-left font-normal",!field.value && "text-muted-foreground")}>{field.value ? (format(field.value, "PPP", { locale: nl })) : (<span>Kies een datum</span>)}<CalendarIcon className="ml-auto h-4 w-4 opacity-50" /></Button></FormControl></PopoverTrigger><PopoverContent className="w-auto p-0" align="start"><Calendar mode="single" selected={field.value} onSelect={field.onChange} disabled={(date) => date > new Date() || date < new Date("1900-01-01")} initialFocus locale={nl} /></PopoverContent></Popover><FormMessage /></FormItem>)} />
+                    <FormField control={form.control} name="dateOfBirth" render={({ field }) => (<FormItem className="flex flex-col"><FormLabel>Geboortedatum</FormLabel><Popover><PopoverTrigger asChild><FormControl><Button variant={"outline"} className={cn("w-full pl-3 text-left font-normal",!field.value && "text-muted-foreground")}>{field.value ? (format(field.value, "PPP", { locale: nl })) : (<span>Kies een datum</span>)}<CalendarIcon className="ml-auto h-4 w-4 opacity-50" /></Button></FormControl></PopoverTrigger><PopoverContent className="w-auto p-0" align="start"><Calendar mode="single" selected={field.value} onSelect={field.onChange} disabled={(date) => date > maxBirthDate || date < new Date("1900-01-01")} initialFocus locale={nl} captionLayout="dropdown-nav" fromYear={currentYear - 100} toYear={currentYear - 16} /></PopoverContent></Popover><FormMessage /></FormItem>)} />
                  </div>
               </motion.div>
             )}

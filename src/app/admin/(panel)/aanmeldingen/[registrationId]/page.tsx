@@ -8,6 +8,7 @@ import { RegistrationActions } from "@/components/admin/registration-actions";
 import Link from "next/link";
 import { ArrowLeft, User, BookOpen, CreditCard } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Course } from "@/lib/types";
 
 export default async function RegistrationDetailPage({ params }: { params: { registrationId: string } }) {
   const registration = await prisma.registration.findUnique({
@@ -26,6 +27,17 @@ export default async function RegistrationDetailPage({ params }: { params: { reg
     notFound();
   }
 
+  const availableCourses = registration.course ? await prisma.course.findMany({
+    where: {
+      id: { not: registration.course.id },
+      categoryId: registration.course.categoryId,
+      locationId: registration.course.locationId,
+      courseDate: { gte: new Date() },
+      spotsAvailable: { gt: 0 },
+    },
+    orderBy: { courseDate: 'asc' },
+  }) : [];
+
   const getStatusVariant = (status: string) => {
     switch (status) {
       case 'paid': return 'default';
@@ -36,6 +48,18 @@ export default async function RegistrationDetailPage({ params }: { params: { reg
         return 'destructive';
       default: return 'outline';
     }
+  };
+
+  const formatDate = (dateInput: Date) => {
+    const date = new Date(dateInput);
+    // Correct for timezone offset by formatting based on UTC values
+    const timezoneOffset = date.getTimezoneOffset() * 60000;
+    const correctedDate = new Date(date.getTime() + timezoneOffset);
+    return format(correctedDate, "eeee d MMMM yyyy", { locale: nl });
+  };
+  
+  const formatDateTime = (dateInput: Date) => {
+    return format(new Date(dateInput), "d MMM yyyy HH:mm", { locale: nl });
   };
 
   return (
@@ -58,7 +82,7 @@ export default async function RegistrationDetailPage({ params }: { params: { reg
               <p><strong>Email:</strong> <a href={`mailto:${registration.email}`} className="text-primary hover:underline">{registration.email}</a></p>
               <p><strong>Telefoon:</strong> <a href={`tel:${registration.phoneNumber}`} className="text-primary hover:underline">{registration.phoneNumber}</a></p>
               <p><strong>Geboortedatum:</strong> {format(new Date(registration.dateOfBirth), "d MMMM yyyy", { locale: nl })}</p>
-              <p><strong>Aangemeld op:</strong> {format(new Date(registration.createdAt), "d MMM yyyy HH:mm", { locale: nl })}</p>
+              <p><strong>Aangemeld op:</strong> {formatDateTime(registration.createdAt)}</p>
             </CardContent>
           </Card>
 
@@ -81,7 +105,7 @@ export default async function RegistrationDetailPage({ params }: { params: { reg
             <CardTitle className="flex items-center gap-2"><BookOpen className="h-5 w-5" /> Cursus Details</CardTitle>
             {registration.course ? (
               <CardDescription>
-                {registration.course.category.name} op {format(new Date(registration.course.courseDate), "eeee d MMMM", { locale: nl })}
+                {registration.course.category.name} op {formatDate(registration.course.courseDate)}
               </CardDescription>
             ) : null}
           </CardHeader>
@@ -89,10 +113,14 @@ export default async function RegistrationDetailPage({ params }: { params: { reg
             <CardContent className="space-y-2 text-sm">
               <p><strong>Categorie:</strong> {registration.course.category.name}</p>
               <p><strong>Locatie:</strong> {registration.course.location.name}</p>
-              <p><strong>Datum:</strong> {format(new Date(registration.course.courseDate), "eeee d MMMM yyyy", { locale: nl })}</p>
+              <p><strong>Datum:</strong> {formatDate(registration.course.courseDate)}</p>
               <p><strong>Tijd:</strong> {registration.course.startTime.substring(0,5)} - {registration.course.endTime.substring(0,5)}</p>
               <p><strong>Opleidernummer:</strong> {registration.course.instructorNumber}</p>
-              <RegistrationActions registrationId={registration.id} isCancelled={registration.paymentStatus === 'canceled'} />
+              <RegistrationActions 
+                registrationId={registration.id} 
+                isCancelled={registration.paymentStatus === 'canceled'}
+                availableCourses={availableCourses as Course[]}
+              />
             </CardContent>
           ) : (
             <CardContent>
