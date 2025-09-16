@@ -2,7 +2,8 @@ import { createServerClient, type CookieOptions } from '@supabase/ssr'
 import { NextResponse, type NextRequest } from 'next/server'
 
 export async function middleware(request: NextRequest) {
-  let response = NextResponse.next({
+  // Create a response object that can be modified
+  const response = NextResponse.next({
     request: {
       headers: request.headers,
     },
@@ -17,22 +18,24 @@ export async function middleware(request: NextRequest) {
           return request.cookies.get(name)?.value
         },
         set(name: string, value: string, options: CookieOptions) {
+          // Modify the cookies on the request and response
           request.cookies.set({ name, value, ...options })
-          response = NextResponse.next({ request: { headers: request.headers }})
           response.cookies.set({ name, value, ...options })
         },
         remove(name: string, options: CookieOptions) {
+          // Modify the cookies on the request and response
           request.cookies.set({ name, value: '', ...options })
-          response = NextResponse.next({ request: { headers: request.headers }})
           response.cookies.set({ name, value: '', ...options })
         },
       },
     }
   )
 
+  // This call is crucial for refreshing the session cookie
   const { data: { session } } = await supabase.auth.getSession()
   const { pathname } = request.nextUrl
 
+  // Redirect logic
   if (!session && pathname.startsWith('/admin') && pathname !== '/admin/login') {
     return NextResponse.redirect(new URL('/admin/login', request.url))
   }
