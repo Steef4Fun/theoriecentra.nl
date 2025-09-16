@@ -84,6 +84,7 @@ Op deze website kun je zien hoe de inschrijfformulieren uitzien. De koppeling va
 
 Na de aanmelding krijgt de leerling diverse mails qua instructies. Eerste mail met de ontvangstbevestiging (samenvatting van de inschrijving met korte instructies). 2e mail krijgen zij met informatie dat de leerlingen ons dienen te machtigen voor het theorie-examen met instructies. De machtigingsmail is geen standaard mail die zij krijgen omdat de opleidernummer per categorie en locatie kan veranderen. Dus een aanmelding in Venlo, Eindhoven of Maastricht/Roermond krijgen ieder een aparte mail met een ander opleidernummer. Dit moet dan geautomatiseerd worden. Deze mails moeten zo ingesteld zijn dat dit zeker aankomt in de Postvak IN en niet in de spam of iets dergelijks.
 
+We gebruiken een EIGEN back-end op een VPS! Deze bouw jij ook
 
 If you receive a big prompt, please try to exercise every detail of it, not just creating a plan and doing a quarter of it. You can do it, you can take a few minutes, but please do as told, and even more if you think of someone that makes the website a ton better.
 
