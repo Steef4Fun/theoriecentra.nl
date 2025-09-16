@@ -35,6 +35,10 @@ export default async function RegistrationDetailPage({ params }: { params: { reg
       courseDate: { gte: new Date() },
       spotsAvailable: { gt: 0 },
     },
+    include: { // <-- DEZE TOEVOEGING LOST DE FOUT OP
+      location: true,
+      category: true,
+    },
     orderBy: { courseDate: 'asc' },
   }) : [];
 
