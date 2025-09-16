@@ -11,9 +11,9 @@ import { Button } from "@/components/ui/button";
 import { Reviews } from "@/components/reviews";
 import { WallOfFame } from "@/components/wall-of-fame";
 import { AnimatedSection } from "@/components/animated-section";
+import { Award, BadgePercent, CalendarCheck } from "lucide-react";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import Image from "next/image";
 
 export default function Home() {
   const heroVariants = {
@@ -140,14 +140,8 @@ export default function Home() {
           <div className="grid gap-20">
             <AnimatedSection>
               <div className="grid md:grid-cols-2 gap-12 items-center">
-                <div className="rounded-xl overflow-hidden shadow-soft aspect-square">
-                  <Image
-                    src="https://images.unsplash.com/photo-1600880292210-85938a039492?q=80&w=1974&auto=format&fit=crop"
-                    alt="Geslaagde leerling"
-                    width={800}
-                    height={800}
-                    className="h-full w-full object-cover"
-                  />
+                <div className="bg-background/50 rounded-xl p-8 flex items-center justify-center aspect-square">
+                  <Award className="h-48 w-48 text-primary" strokeWidth={1.5} />
                 </div>
                 <div>
                   <h3 className="text-3xl font-bold mb-4">Hoogste Slagingskans</h3>
@@ -165,27 +159,15 @@ export default function Home() {
                     Bij ons geen verrassingen. Je betaalt één vaste prijs voor de volledige cursusdag én de reservering van je CBR theorie-examen. Geen verborgen kosten, geen 'vanaf' prijzen. Wel zo eerlijk.
                   </p>
                 </div>
-                <div className="order-first md:order-last rounded-xl overflow-hidden shadow-soft aspect-square">
-                   <Image
-                    src="https://images.unsplash.com/photo-1561414927-6d86591d0c4f?q=80&w=1974&auto=format&fit=crop"
-                    alt="Duidelijke prijzen"
-                    width={800}
-                    height={800}
-                    className="h-full w-full object-cover"
-                  />
+                <div className="order-first md:order-last bg-background/50 rounded-xl p-8 flex items-center justify-center aspect-square">
+                   <BadgePercent className="h-48 w-48 text-primary" strokeWidth={1.5} />
                 </div>
               </div>
             </AnimatedSection>
              <AnimatedSection>
               <div className="grid md:grid-cols-2 gap-12 items-center">
-                <div className="rounded-xl overflow-hidden shadow-soft aspect-square">
-                  <Image
-                    src="https://images.unsplash.com/photo-1506784983877-45594efa4cbe?q=80&w=2068&auto=format&fit=crop"
-                    alt="Examenplek reserveren"
-                    width={800}
-                    height={800}
-                    className="h-full w-full object-cover"
-                  />
+                <div className="bg-background/50 rounded-xl p-8 flex items-center justify-center aspect-square">
+                  <CalendarCheck className="h-48 w-48 text-primary" strokeWidth={1.5} />
                 </div>
                 <div>
                   <h3 className="text-3xl font-bold mb-4">Direct een Examenplek</h3>
