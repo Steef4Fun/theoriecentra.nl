@@ -37,3 +37,13 @@ export type Registration = {
         } | null;
     } | null;
 };
+
+export type Profile = {
+  id: string;
+  role: string;
+  instructor_number: string | null;
+  user: {
+    email: string;
+    created_at: string;
+  } | null;
+};

@@ -6,6 +6,8 @@ import {
   Mail,
   FileClock,
   History,
+  Settings,
+  UserCog,
 } from "lucide-react";
 import Image from "next/image";
 
@@ -41,6 +43,20 @@ export function AdminSidebar() {
             >
               <BookCopy className="h-4 w-4" />
               Cursussen
+            </Link>
+            <Link
+              href="/admin/gebruikers"
+              className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"
+            >
+              <UserCog className="h-4 w-4" />
+              Gebruikers
+            </Link>
+            <Link
+              href="/admin/instellingen"
+              className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"
+            >
+              <Settings className="h-4 w-4" />
+              Instellingen
             </Link>
             <Link
               href="/admin/mail-templates"

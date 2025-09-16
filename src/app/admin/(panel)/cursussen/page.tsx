@@ -1,8 +1,24 @@
-export default function CursussenAdminPage() {
+import { createSupabaseServerClient } from "@/integrations/supabase/server";
+import { CoursesTable } from "@/components/admin/courses-table";
+
+export default async function CursussenAdminPage() {
+  const supabase = createSupabaseServerClient();
+  
+  const { data: courses } = await supabase
+    .from("courses")
+    .select("*, location:locations(id, name), category:categories(id, name)")
+    .order("course_date", { ascending: false });
+
+  const { data: locations } = await supabase.from("locations").select("*");
+  const { data: categories } = await supabase.from("categories").select("*");
+
   return (
     <div>
-      <h1 className="text-3xl font-bold tracking-tight mb-6">Cursussen</h1>
-      <p className="text-muted-foreground">Hier kun je cursussen aanmaken en beheren.</p>
+      <CoursesTable 
+        courses={courses || []} 
+        locations={locations || []}
+        categories={categories || []}
+      />
     </div>
   );
 }

@@ -32,3 +32,17 @@ export const courseSchema = z.object({
   instructor_number: z.string().min(1, { message: "Opleidernummer is verplicht." }),
   spots_available: z.coerce.number().int().min(0, { message: "Aantal plekken moet positief zijn." }),
 });
+
+export const userSchema = z.object({
+  email: z.string().email({ message: "Ongeldig e-mailadres." }),
+  password: z.string().min(8, { message: "Wachtwoord moet minimaal 8 karakters lang zijn." }).optional().or(z.literal('')),
+  role: z.enum(["admin", "instructor"], { required_error: "Rol is verplicht." }),
+  instructor_number: z.string().optional(),
+}).refine(data => data.role !== 'instructor' || (data.instructor_number && data.instructor_number.length > 0), {
+  message: "Opleidernummer is verplicht voor een cursusleider.",
+  path: ["instructor_number"],
+});
+
+export const settingSchema = z.object({
+  name: z.string().min(2, { message: "Naam is verplicht." }),
+});
