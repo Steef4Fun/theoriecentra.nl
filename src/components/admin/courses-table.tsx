@@ -43,9 +43,9 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import { deleteCourse } from "@/app/actions/course-actions";
 
 export function CoursesTable({ courses, locations, categories }: { courses: Course[], locations: Location[], categories: Category[] }) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
@@ -54,9 +54,9 @@ export function CoursesTable({ courses, locations, categories }: { courses: Cour
   const router = useRouter();
 
   const handleDelete = async (courseId: string) => {
-    const { error } = await supabase.from("courses").delete().eq("id", courseId);
-    if (error) {
-      toast.error("Verwijderen mislukt", { description: error.message });
+    const result = await deleteCourse(courseId);
+    if (result.error) {
+      toast.error("Verwijderen mislukt", { description: result.error });
     } else {
       toast.success("Cursus succesvol verwijderd.");
       router.refresh();
@@ -65,9 +65,9 @@ export function CoursesTable({ courses, locations, categories }: { courses: Cour
 
   const columns: ColumnDef<Course>[] = [
     {
-      accessorKey: "course_date",
+      accessorKey: "courseDate",
       header: "Datum",
-      cell: ({ row }) => format(new Date(row.getValue("course_date")), "d MMMM yyyy", { locale: nl }),
+      cell: ({ row }) => format(new Date(row.getValue("courseDate")), "d MMMM yyyy", { locale: nl }),
     },
     {
       accessorKey: "category.name",
@@ -80,10 +80,10 @@ export function CoursesTable({ courses, locations, categories }: { courses: Cour
       cell: ({ row }) => row.original.location?.name || "N/A",
     },
     {
-      accessorKey: "spots_available",
+      accessorKey: "spotsAvailable",
       header: "Plekken",
       cell: ({ row }) => {
-        const spots = row.getValue("spots_available") as number;
+        const spots = row.getValue("spotsAvailable") as number;
         return <Badge variant={spots > 0 ? "default" : "destructive"}>{spots}</Badge>;
       },
     },

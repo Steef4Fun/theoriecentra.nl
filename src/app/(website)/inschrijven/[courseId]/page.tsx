@@ -1,49 +1,35 @@
-import { createSupabaseServerClient } from "@/integrations/supabase/server";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Terminal } from "lucide-react";
 import { RegistrationWizard } from "@/components/registration-wizard";
 import type { Course } from "@/lib/types";
 import { notFound } from "next/navigation";
 import { AnimatedSection } from "@/components/animated-section";
+import prisma from "@/lib/prisma";
 
 export default async function RegistrationPage({
   params,
 }: {
   params: { courseId: string };
 }) {
-  const supabase = createSupabaseServerClient();
-  
-  const { data, error } = await supabase
-    .from("courses")
-    .select(
-      `
-      id,
-      course_date,
-      start_time,
-      end_time,
-      base_price,
-      exam_fee,
-      spots_available,
-      location_id,
-      category_id,
-      location:locations (name),
-      category:categories (name)
-    `
-    )
-    .eq("id", params.courseId)
-    .single();
+  const courseData = await prisma.course.findUnique({
+    where: { id: params.courseId },
+    include: {
+      location: true,
+      category: true,
+    },
+  });
 
-  if (error || !data) {
+  if (!courseData) {
     notFound();
   }
-
-  const course = {
-    ...data,
-    location: Array.isArray(data.location) ? data.location[0] || null : data.location,
-    category: Array.isArray(data.category) ? data.category[0] || null : data.category,
-  } as Course;
   
-  if (course.spots_available < 1) {
+  // Convert Date object to string to avoid serialization issues
+  const course: Course = {
+    ...courseData,
+    courseDate: courseData.courseDate.toISOString(),
+  } as Course;
+
+  if (course.spotsAvailable < 1) {
     return (
        <div className="container max-w-4xl py-12 flex items-center justify-center">
          <Alert variant="destructive">

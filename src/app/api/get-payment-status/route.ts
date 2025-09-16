@@ -1,5 +1,5 @@
-import { createClient } from "@supabase/supabase-js";
 import { NextRequest, NextResponse } from "next/server";
+import prisma from "@/lib/prisma";
 
 export async function POST(req: NextRequest) {
   try {
@@ -8,29 +8,19 @@ export async function POST(req: NextRequest) {
       throw new Error("Registration ID is required.");
     }
 
-    const supabaseAdmin = createClient(
-      process.env.NEXT_PUBLIC_SUPABASE_URL!,
-      process.env.SUPABASE_SERVICE_ROLE_KEY!
-    );
+    const registration = await prisma.registration.findUnique({
+      where: { id: registrationId },
+      select: { paymentStatus: true },
+    });
 
-    const { data, error } = await supabaseAdmin
-      .from("registrations")
-      .select("payment_status")
-      .eq("id", registrationId)
-      .single();
-
-    if (error) {
-      throw error;
-    }
-
-    if (!data) {
+    if (!registration) {
       return NextResponse.json(
         { error: "Registration not found." },
         { status: 404 }
       );
     }
 
-    return NextResponse.json({ payment_status: data.payment_status });
+    return NextResponse.json({ payment_status: registration.paymentStatus });
   } catch (error) {
     console.error("Error fetching payment status:", error);
     const message =

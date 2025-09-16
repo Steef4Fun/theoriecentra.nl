@@ -53,8 +53,8 @@ export function RegistrationWizard({ course }: RegistrationWizardProps) {
     },
   });
 
-  const totalPrice = course.base_price + course.exam_fee;
-  const depositPrice = course.exam_fee + 20;
+  const totalPrice = course.basePrice + course.examFee;
+  const depositPrice = course.examFee + 20;
   const remainingPrice = totalPrice - depositPrice;
 
   type FieldName = keyof z.infer<typeof registrationSchema>;
@@ -72,7 +72,7 @@ export function RegistrationWizard({ course }: RegistrationWizardProps) {
 
   const prev = () => {
     if (currentStep > 0) {
-      setCurrentStep((step) => step + 1);
+      setCurrentStep((step) => step - 1);
     }
   };
 
@@ -139,8 +139,8 @@ export function RegistrationWizard({ course }: RegistrationWizardProps) {
                 <div className="mt-4 space-y-2 rounded-lg border p-4">
                   <p><strong>Cursus:</strong> {course.category?.name} Theoriecursus</p>
                   <p><strong>Locatie:</strong> {course.location?.name}</p>
-                  <p><strong>Datum:</strong> {format(new Date(course.course_date), "eeee d MMMM yyyy", { locale: nl })}</p>
-                  <p><strong>Tijd:</strong> {course.start_time.substring(0, 5)} - {course.end_time.substring(0, 5)}</p>
+                  <p><strong>Datum:</strong> {format(new Date(course.courseDate), "eeee d MMMM yyyy", { locale: nl })}</p>
+                  <p><strong>Tijd:</strong> {course.startTime.substring(0, 5)} - {course.endTime.substring(0, 5)}</p>
                   <p className="font-bold text-lg mt-2">Totaalprijs: €{totalPrice.toFixed(2)}</p>
                 </div>
               </motion.div>
@@ -172,7 +172,7 @@ export function RegistrationWizard({ course }: RegistrationWizardProps) {
                     <p><strong>Naam:</strong> {form.getValues("firstName")} {form.getValues("lastName")}</p>
                     <p><strong>Email:</strong> {form.getValues("email")}</p>
                     <p><strong>Telefoon:</strong> {form.getValues("phoneNumber")}</p>
-                    <p><strong>Geboortedatum:</strong> {format(form.getValues("dateOfBirth"), "d MMMM yyyy", { locale: nl })}</p>
+                    <p><strong>Geboortedatum:</strong> {form.getValues("dateOfBirth") ? format(form.getValues("dateOfBirth"), "d MMMM yyyy", { locale: nl }) : ''}</p>
                     <p className="font-bold mt-2">Gekozen optie: {form.getValues("paymentOption") === 'full' ? `Volledige betaling (€${totalPrice.toFixed(2)})` : `Aanbetaling (€${depositPrice.toFixed(2)})`}</p>
                 </div>
               </motion.div>

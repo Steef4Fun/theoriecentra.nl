@@ -22,25 +22,25 @@ export const contactSchema = z.object({
 });
 
 export const courseSchema = z.object({
-  course_date: z.date({ required_error: "Datum is verplicht." }),
-  start_time: z.string().regex(/^([01]\d|2[0-3]):([0-5]\d)$/, { message: "Ongeldig formaat (HH:MM)." }),
-  end_time: z.string().regex(/^([01]\d|2[0-3]):([0-5]\d)$/, { message: "Ongeldig formaat (HH:MM)." }),
-  location_id: z.string().uuid({ message: "Selecteer een locatie." }),
-  category_id: z.string().uuid({ message: "Selecteer een categorie." }),
-  base_price: z.coerce.number().min(0, { message: "Prijs moet positief zijn." }),
-  exam_fee: z.coerce.number().min(0, { message: "Examengeld moet positief zijn." }),
-  instructor_number: z.string().min(1, { message: "Opleidernummer is verplicht." }),
-  spots_available: z.coerce.number().int().min(0, { message: "Aantal plekken moet positief zijn." }),
+  courseDate: z.date({ required_error: "Datum is verplicht." }),
+  startTime: z.string().regex(/^([01]\d|2[0-3]):([0-5]\d)$/, { message: "Ongeldig formaat (HH:MM)." }),
+  endTime: z.string().regex(/^([01]\d|2[0-3]):([0-5]\d)$/, { message: "Ongeldig formaat (HH:MM)." }),
+  locationId: z.string().uuid({ message: "Selecteer een locatie." }),
+  categoryId: z.string().uuid({ message: "Selecteer een categorie." }),
+  basePrice: z.coerce.number().min(0, { message: "Prijs moet positief zijn." }),
+  examFee: z.coerce.number().min(0, { message: "Examengeld moet positief zijn." }),
+  instructorNumber: z.string().min(1, { message: "Opleidernummer is verplicht." }),
+  spotsAvailable: z.coerce.number().int().min(0, { message: "Aantal plekken moet positief zijn." }),
 });
 
 export const userSchema = z.object({
   email: z.string().email({ message: "Ongeldig e-mailadres." }),
   password: z.string().min(8, { message: "Wachtwoord moet minimaal 8 karakters lang zijn." }).optional().or(z.literal('')),
   role: z.enum(["admin", "instructor"], { required_error: "Rol is verplicht." }),
-  instructor_number: z.string().optional(),
-}).refine(data => data.role !== 'instructor' || (data.instructor_number && data.instructor_number.length > 0), {
+  instructorNumber: z.string().optional(),
+}).refine(data => data.role !== 'instructor' || (data.instructorNumber && data.instructorNumber.length > 0), {
   message: "Opleidernummer is verplicht voor een cursusleider.",
-  path: ["instructor_number"],
+  path: ["instructorNumber"],
 });
 
 export const settingSchema = z.object({

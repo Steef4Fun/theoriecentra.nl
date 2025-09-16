@@ -1,15 +1,15 @@
 export type Course = {
   id: string;
-  course_date: string;
-  start_time: string;
-  end_time: string;
-  base_price: number;
-  exam_fee: number;
-  spots_available: number;
-  instructor_number: string;
-  location_id: string;
+  courseDate: string;
+  startTime: string;
+  endTime: string;
+  basePrice: number;
+  examFee: number;
+  spotsAvailable: number;
+  instructorNumber: string;
+  locationId: string;
   location: { id: string; name: string } | null;
-  category_id: string;
+  categoryId: string;
   category: { id: string; name: string } | null;
 };
 
@@ -25,13 +25,13 @@ export type Category = {
 
 export type Registration = {
     id: string;
-    created_at: string;
-    first_name: string;
-    last_name: string;
+    createdAt: string;
+    firstName: string;
+    lastName: string;
     email: string;
-    payment_status: string;
+    paymentStatus: string;
     course: {
-        course_date: string;
+        courseDate: string;
         category: {
             name: string;
         } | null;
@@ -41,9 +41,9 @@ export type Registration = {
 export type Profile = {
   id: string;
   role: string;
-  instructor_number: string | null;
+  instructorNumber: string | null;
   user: {
     email: string;
-    created_at: string;
+    createdAt: string;
   } | null;
 };

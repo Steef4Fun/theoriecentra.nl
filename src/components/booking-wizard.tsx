@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { supabase } from "@/integrations/supabase/client";
 import type { Location, Category, Course } from "@/lib/types";
 import { motion, AnimatePresence } from "framer-motion";
 import { Card, CardContent } from "@/components/ui/card";
@@ -36,11 +35,15 @@ export function BookingWizard() {
     const fetchData = async () => {
       setIsLoading(true);
       const [locationsRes, categoriesRes] = await Promise.all([
-        supabase.from("locations").select("*"),
-        supabase.from("categories").select("*"),
+        fetch("/api/locations"),
+        fetch("/api/categories"),
       ]);
-      setLocations(locationsRes.data || []);
-      setCategories(categoriesRes.data || []);
+      const [locationsData, categoriesData] = await Promise.all([
+        locationsRes.json(),
+        categoriesRes.json(),
+      ]);
+      setLocations(locationsData || []);
+      setCategories(categoriesData || []);
       setIsLoading(false);
     };
     fetchData();
@@ -52,12 +55,8 @@ export function BookingWizard() {
         setIsLoading(true);
         setSelectedDate(undefined);
         setSelectedCourse(null);
-        const { data } = await supabase
-          .from("courses")
-          .select("*, location:locations(name), category:categories(name)")
-          .eq("location_id", selectedLocation.id)
-          .eq("category_id", selectedCategory.id)
-          .gte("course_date", new Date().toISOString());
+        const response = await fetch(`/api/courses?locationId=${selectedLocation.id}&categoryId=${selectedCategory.id}`);
+        const data = await response.json();
         setCourses((data as Course[]) || []);
         setIsLoading(false);
       }
@@ -69,7 +68,7 @@ export function BookingWizard() {
     setSelectedDate(date);
     if (date) {
       const courseOnDate = courses.find((c) =>
-        isSameDay(new Date(c.course_date), date)
+        isSameDay(new Date(c.courseDate), date)
       );
       setSelectedCourse(courseOnDate || null);
     } else {
@@ -77,7 +76,7 @@ export function BookingWizard() {
     }
   };
 
-  const availableDates = courses.map((c) => new Date(c.course_date));
+  const availableDates = courses.map((c) => new Date(c.courseDate));
 
   const reset = () => {
     setStep(1);
@@ -182,25 +181,25 @@ export function BookingWizard() {
                       <div className="flex items-center">
                         <CalendarIcon className="mr-2 h-4 w-4" />
                         <span>
-                          {format(new Date(selectedCourse.course_date), "eeee d MMMM yyyy", { locale: nl })}
+                          {format(new Date(selectedCourse.courseDate), "eeee d MMMM yyyy", { locale: nl })}
                         </span>
                       </div>
                       <div className="flex items-center">
                         <Clock className="mr-2 h-4 w-4" />
                         <span>
-                          {selectedCourse.start_time.substring(0, 5)} - {selectedCourse.end_time.substring(0, 5)}
+                          {selectedCourse.startTime.substring(0, 5)} - {selectedCourse.endTime.substring(0, 5)}
                         </span>
                       </div>
                       <div className="flex items-center">
                         <Users className="mr-2 h-4 w-4" />
                         <span>
-                          {selectedCourse.spots_available} plekken vrij
+                          {selectedCourse.spotsAvailable} plekken vrij
                         </span>
                       </div>
                     </div>
                     <div className="pt-2">
                       <p className="text-2xl font-bold">
-                        €{(selectedCourse.base_price + selectedCourse.exam_fee).toFixed(2)}
+                        €{(selectedCourse.basePrice + selectedCourse.examFee).toFixed(2)}
                       </p>
                       <p className="text-xs text-muted-foreground">
                         inclusief cursus & examen

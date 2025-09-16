@@ -1,5 +1,5 @@
-import { createClient } from "@supabase/supabase-js";
 import { NextRequest, NextResponse } from "next/server";
+import prisma from "@/lib/prisma";
 
 const MOLLIE_API_URL = "https://api.mollie.com/v2/payments";
 
@@ -9,59 +9,54 @@ export async function POST(req: NextRequest) {
     const paymentId = formData.get("id") as string;
 
     if (!paymentId) {
-      console.log("Webhook test request received and acknowledged.");
       return new NextResponse("OK", { status: 200 });
     }
 
     const mollieApiKey = process.env.MOLLIE_API_KEY;
-    if (!mollieApiKey) {
-      throw new Error("MOLLIE_API_KEY is not set.");
-    }
+    if (!mollieApiKey) throw new Error("MOLLIE_API_KEY is not set.");
 
     const paymentResponse = await fetch(`${MOLLIE_API_URL}/${paymentId}`, {
-      method: "GET",
-      headers: {
-        Authorization: `Bearer ${mollieApiKey}`,
-      },
+      headers: { Authorization: `Bearer ${mollieApiKey}` },
     });
 
-    if (!paymentResponse.ok) {
-      throw new Error("Failed to fetch payment status from Mollie.");
-    }
+    if (!paymentResponse.ok) throw new Error("Failed to fetch payment from Mollie.");
 
     const payment = await paymentResponse.json();
     const registrationId = payment.metadata?.registration_id;
     const newStatus = payment.status;
 
-    if (!registrationId) {
-      throw new Error("Registration ID not found in payment metadata.");
-    }
+    if (!registrationId) throw new Error("Registration ID not found in metadata.");
 
-    const supabaseAdmin = createClient(
-      process.env.NEXT_PUBLIC_SUPABASE_URL!,
-      process.env.SUPABASE_SERVICE_ROLE_KEY!
-    );
+    const registration = await prisma.registration.findUnique({
+      where: { id: registrationId },
+    });
 
-    const { error: rpcError } = await supabaseAdmin.rpc(
-      "handle_payment_update",
-      {
-        registration_id_param: registrationId,
-        new_status: newStatus,
-      }
-    );
+    if (!registration) throw new Error(`Registration ${registrationId} not found.`);
 
-    if (rpcError) {
-      throw new Error(
-        `Failed to process payment update via RPC: ${rpcError.message}`
-      );
+    if (newStatus === 'paid' && registration.paymentStatus !== 'paid') {
+      await prisma.$transaction(async (tx) => {
+        await tx.registration.update({
+          where: { id: registrationId },
+          data: { paymentStatus: newStatus },
+        });
+        if (registration.courseId) {
+          await tx.course.update({
+            where: { id: registration.courseId },
+            data: { spotsAvailable: { decrement: 1 } },
+          });
+        }
+      });
+      // TODO: Hier kan een e-mail worden verstuurd
+    } else if (newStatus !== registration.paymentStatus) {
+      await prisma.registration.update({
+        where: { id: registrationId },
+        data: { paymentStatus: newStatus },
+      });
     }
 
     return new NextResponse("OK", { status: 200 });
   } catch (error) {
-    const message =
-      error instanceof Error
-        ? error.message
-        : "An unknown error occurred.";
+    const message = error instanceof Error ? error.message : "Unknown error.";
     console.error("Webhook error:", message);
     return new NextResponse(`Webhook error: ${message}`, { status: 500 });
   }
