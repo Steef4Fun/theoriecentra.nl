@@ -1,4 +1,4 @@
-import { supabase } from "@/integrations/supabase/client";
+import { createSupabaseServerClient } from "@/integrations/supabase/server";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Terminal } from "lucide-react";
 import { RegistrationWizard } from "@/components/registration-wizard";
@@ -7,6 +7,7 @@ import { notFound } from "next/navigation";
 import { AnimatedSection } from "@/components/animated-section";
 
 async function getCourseById(courseId: string) {
+  const supabase = createSupabaseServerClient();
   const { data, error } = await supabase
     .from("courses")
     .select(
