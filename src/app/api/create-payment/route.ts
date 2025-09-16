@@ -1,33 +1,26 @@
-// @ts-nocheck
-/// <reference types="https://deno.land/x/deno/runtime/deno.d.ts" />
-
-import { serve } from "https://deno.land/std@0.224.0/http/server.ts";
-import { createClient } from "https://esm.sh/@supabase/supabase-js@2.57.4";
-
-const corsHeaders = {
-  "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
-};
+import { createClient } from "@supabase/supabase-js";
+import { NextRequest, NextResponse } from "next/server";
+import type { Course } from "@/lib/types";
 
 const MOLLIE_API_URL = "https://api.mollie.com/v2/payments";
 
-serve(async (req: Request) => {
-  if (req.method === "OPTIONS") {
-    return new Response("ok", { headers: corsHeaders });
-  }
-
+export async function POST(req: NextRequest) {
   try {
-    const { course, registrationDetails, redirectUrl, webhookUrl } = await req.json();
-    if (!course || !registrationDetails || !redirectUrl || !webhookUrl) {
-      throw new Error("Course, registration details, redirectUrl, and webhookUrl are required.");
+    const { course, registrationDetails } = (await req.json()) as {
+      course: Course;
+      registrationDetails: any;
+    };
+
+    if (!course || !registrationDetails) {
+      throw new Error("Course and registration details are required.");
     }
 
     const supabaseAdmin = createClient(
-      Deno.env.get("SUPABASE_URL") ?? "",
-      Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") ?? ""
+      process.env.NEXT_PUBLIC_SUPABASE_URL!,
+      process.env.SUPABASE_SERVICE_ROLE_KEY!
     );
 
-    const mollieApiKey = Deno.env.get("MOLLIE_API_KEY");
+    const mollieApiKey = process.env.MOLLIE_API_KEY;
     if (!mollieApiKey) {
       throw new Error("MOLLIE_API_KEY is not set in environment variables.");
     }
@@ -35,7 +28,10 @@ serve(async (req: Request) => {
     // 1. Calculate amount
     const totalPrice = course.base_price + course.exam_fee;
     const depositPrice = course.exam_fee + 20;
-    const amountToPay = registrationDetails.paymentOption === "full" ? totalPrice : depositPrice;
+    const amountToPay =
+      registrationDetails.paymentOption === "full"
+        ? totalPrice
+        : depositPrice;
 
     // 2. Create preliminary registration
     const { data: registration, error: insertError } = await supabaseAdmin
@@ -55,7 +51,11 @@ serve(async (req: Request) => {
 
     if (insertError) throw insertError;
 
-    // 3. Create payment with Mollie using fetch
+    // 3. Create payment with Mollie
+    const appUrl = process.env.NEXT_PUBLIC_APP_URL || req.nextUrl.origin;
+    const redirectUrl = `${appUrl}/inschrijving-status?registration_id=${registration.id}`;
+    const webhookUrl = `${appUrl}/api/payment-webhook`;
+
     const paymentResponse = await fetch(MOLLIE_API_URL, {
       method: "POST",
       headers: {
@@ -67,9 +67,9 @@ serve(async (req: Request) => {
           currency: "EUR",
           value: amountToPay.toFixed(2),
         },
-        description: `Inschrijving ${course.category.name} Cursus op ${course.course_date}`,
-        redirectUrl: `${redirectUrl}?registration_id=${registration.id}`,
-        webhookUrl: webhookUrl, // Use the URL provided by the client
+        description: `Inschrijving ${course.category?.name} Cursus op ${course.course_date}`,
+        redirectUrl: redirectUrl,
+        webhookUrl: webhookUrl,
         metadata: {
           registration_id: registration.id,
         },
@@ -98,17 +98,11 @@ serve(async (req: Request) => {
       throw new Error("Checkout URL not found in Mollie response.");
     }
 
-    return new Response(JSON.stringify({ checkoutUrl }), {
-      headers: { ...corsHeaders, "Content-Type": "application/json" },
-      status: 200,
-    });
-
+    return NextResponse.json({ checkoutUrl });
   } catch (error) {
     console.error("Error creating payment:", error);
-    const message = error instanceof Error ? error.message : "An unknown error occurred.";
-    return new Response(JSON.stringify({ error: message }), {
-      headers: { ...corsHeaders, "Content-Type": "application/json" },
-      status: 500,
-    });
+    const message =
+      error instanceof Error ? error.message : "An unknown error occurred.";
+    return NextResponse.json({ error: message }, { status: 500 });
   }
-});
+}

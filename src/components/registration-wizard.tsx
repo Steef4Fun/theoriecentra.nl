@@ -25,7 +25,6 @@ import { nl } from "date-fns/locale";
 import { registrationSchema } from "@/lib/validators";
 import type { Course } from "@/lib/types";
 import { toast } from "sonner";
-import { supabase } from "@/integrations/supabase/client";
 import { Card, CardContent, CardFooter, CardHeader } from "./ui/card";
 
 interface RegistrationWizardProps {
@@ -73,21 +72,27 @@ export function RegistrationWizard({ course }: RegistrationWizardProps) {
 
   const prev = () => {
     if (currentStep > 0) {
-      setCurrentStep((step) => step - 1);
+      setCurrentStep((step) => step + 1);
     }
   };
 
   async function onSubmit(values: z.infer<typeof registrationSchema>) {
     setIsLoading(true);
     try {
-      const redirectUrl = `${window.location.origin}/inschrijving-status`;
-      const webhookUrl = `https://mmuhtwhyldvvgcclobuz.supabase.co/functions/v1/payment-webhook`;
-
-      const { data, error } = await supabase.functions.invoke("create-payment", {
-        body: { course, registrationDetails: values, redirectUrl, webhookUrl },
+      const response = await fetch('/api/create-payment', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ course, registrationDetails: values }),
       });
 
-      if (error) throw new Error(error.message);
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || "Er is een fout opgetreden.");
+      }
+      
       if (data.checkoutUrl) {
         window.location.href = data.checkoutUrl;
       } else {
@@ -96,7 +101,7 @@ export function RegistrationWizard({ course }: RegistrationWizardProps) {
     } catch (error) {
       console.error("Payment initiation failed:", error);
       toast.error("Betaling kon niet worden gestart", {
-        description: "Controleer je gegevens en probeer het opnieuw.",
+        description: error instanceof Error ? error.message : "Controleer je gegevens en probeer het opnieuw.",
       });
       setIsLoading(false);
     }

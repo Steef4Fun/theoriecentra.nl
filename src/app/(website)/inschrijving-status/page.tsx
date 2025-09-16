@@ -1,6 +1,5 @@
 "use client";
 
-import { supabase } from "@/integrations/supabase/client";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState, Suspense } from "react";
 import { Loader2, CheckCircle, XCircle, AlertTriangle } from "lucide-react";
@@ -27,39 +26,47 @@ function StatusDisplay() {
     let intervalId: number | undefined;
 
     const fetchStatus = async () => {
-      const { data, error } = await supabase.functions.invoke("get-payment-status", {
-        body: { registrationId },
-      });
+      try {
+        const response = await fetch('/api/get-payment-status', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ registrationId }),
+        });
+        
+        const data = await response.json();
 
-      if (!isMounted) return;
+        if (!isMounted) return;
 
-      if (error || !data || !data.payment_status) {
+        if (!response.ok || !data.payment_status) {
+          throw new Error(data.error || "Kon de status niet ophalen.");
+        }
+
+        let currentStatus: Status;
+        switch (data.payment_status) {
+          case "paid":
+            currentStatus = "success";
+            break;
+          case "pending":
+            currentStatus = "pending";
+            break;
+          case "failed":
+          case "expired":
+          case "canceled":
+            currentStatus = "failed";
+            break;
+          default:
+            currentStatus = "pending";
+        }
+        
+        setStatus(currentStatus);
+
+        if (currentStatus !== 'pending') {
+          if (intervalId) clearInterval(intervalId);
+        }
+      } catch (error) {
+        if (!isMounted) return;
         setStatus("error");
-        setErrorMessage("Kon de status van de inschrijving niet ophalen.");
-        if (intervalId) clearInterval(intervalId);
-        return;
-      }
-
-      let currentStatus: Status;
-      switch (data.payment_status) {
-        case "paid":
-          currentStatus = "success";
-          break;
-        case "pending":
-          currentStatus = "pending";
-          break;
-        case "failed":
-        case "expired":
-        case "canceled":
-          currentStatus = "failed";
-          break;
-        default:
-          currentStatus = "pending";
-      }
-      
-      setStatus(currentStatus);
-
-      if (currentStatus !== 'pending') {
+        setErrorMessage(error instanceof Error ? error.message : "Kon de status van de inschrijving niet ophalen.");
         if (intervalId) clearInterval(intervalId);
       }
     };
