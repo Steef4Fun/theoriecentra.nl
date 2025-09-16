@@ -10,6 +10,21 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model User {
+  id               String    @id @default(cuid())
+  name             String?
+  email            String    @unique
+  emailVerified    DateTime?
+  password         String?
+  image            String?
+  role             String    @default("instructor") // admin, instructor
+  instructorNumber String?
+  accounts         Account[]
+  sessions         Session[]
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+}
+
 model Account {
   id                String  @id @default(cuid())
   userId            String
@@ -37,21 +52,6 @@ model Session {
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
-model User {
-  id               String    @id @default(cuid())
-  name             String?
-  email            String?   @unique
-  emailVerified    DateTime?
-  image            String?
-  password         String?
-  role             String    @default("instructor")
-  instructorNumber String?
-  accounts         Account[]
-  sessions         Session[]
-  createdAt        DateTime  @default(now())
-  updatedAt        DateTime  @updatedAt
-}
-
 model VerificationToken {
   identifier String
   token      String   @unique
@@ -60,49 +60,46 @@ model VerificationToken {
   @@unique([identifier, token])
 }
 
-model Category {
-  id          String   @id @default(cuid())
-  name        String   @unique
-  description String?
-  courses     Course[]
-  createdAt   DateTime @default(now())
+model Location {
+  id      String   @id @default(uuid())
+  name    String   @unique
+  courses Course[]
 }
 
-model Location {
-  id        String   @id @default(cuid())
-  name      String   @unique
-  courses   Course[]
-  createdAt DateTime @default(now())
+model Category {
+  id      String   @id @default(uuid())
+  name    String   @unique
+  icon    String? // e.g., "Car", "Bike" from lucide-react
+  courses Course[]
 }
 
 model Course {
-  id              String         @id @default(cuid())
-  courseDate      DateTime
-  startTime       String // Stored as "HH:mm"
-  endTime         String // Stored as "HH:mm"
-  basePrice       Float
-  examFee         Float
+  id               String         @id @default(uuid())
+  courseDate       DateTime
+  startTime        String
+  endTime          String
+  basePrice        Float
+  examFee          Float
+  spotsAvailable   Int
   instructorNumber String
-  spotsAvailable  Int            @default(15)
-  createdAt       DateTime       @default(now())
-  locationId      String
-  location        Location       @relation(fields: [locationId], references: [id])
-  categoryId      String
-  category        Category       @relation(fields: [categoryId], references: [id])
-  registrations   Registration[]
+  locationId       String
+  location         Location       @relation(fields: [locationId], references: [id])
+  categoryId       String
+  category         Category       @relation(fields: [categoryId], references: [id])
+  registrations    Registration[]
 }
 
 model Registration {
-  id              String   @id @default(cuid())
+  id              String   @id @default(uuid())
   firstName       String
   lastName        String
   email           String
   phoneNumber     String
   dateOfBirth     DateTime
-  paymentOption   String
-  paymentStatus   String   @default("pending")
+  paymentOption   String // "full" or "deposit"
+  paymentStatus   String   @default("pending") // pending, paid, failed, expired, canceled
   molliePaymentId String?  @unique
-  createdAt       DateTime @default(now())
   courseId        String
   course          Course   @relation(fields: [courseId], references: [id])
+  createdAt       DateTime @default(now())
 }

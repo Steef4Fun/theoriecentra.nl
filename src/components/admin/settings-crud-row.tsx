@@ -22,6 +22,7 @@ import { updateSetting, deleteSetting } from "@/app/actions/settings-actions";
 interface Item {
   id: string;
   name: string;
+  icon?: string | null;
 }
 
 interface SettingsCrudRowProps {
@@ -34,13 +35,14 @@ export function SettingsCrudRow({ item, tableName, title }: SettingsCrudRowProps
   const router = useRouter();
   const [isEditing, setIsEditing] = useState(false);
   const [name, setName] = useState(item.name);
+  const [icon, setIcon] = useState(item.icon || "");
 
   const onUpdate = async () => {
     if (!name.trim()) {
       toast.error("Naam mag niet leeg zijn.");
       return;
     }
-    const result = await updateSetting(tableName, item.id, name);
+    const result = await updateSetting(tableName, item.id, name, icon);
     if (result.error) {
       toast.error("Bijwerken mislukt", { description: result.error });
     } else {
@@ -62,6 +64,7 @@ export function SettingsCrudRow({ item, tableName, title }: SettingsCrudRowProps
 
   const handleEditClick = () => {
     setName(item.name);
+    setIcon(item.icon || "");
     setIsEditing(true);
   };
 
@@ -70,20 +73,37 @@ export function SettingsCrudRow({ item, tableName, title }: SettingsCrudRowProps
   };
 
   return (
-    <div className="flex items-center justify-between p-2 rounded-md border">
+    <div className="flex items-center justify-between p-2 rounded-md border gap-2">
       {isEditing ? (
-        <Input
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          className="h-8"
-          autoFocus
-          onKeyDown={(e) => {
-            if (e.key === 'Enter') onUpdate();
-            if (e.key === 'Escape') handleCancelClick();
-          }}
-        />
+        <div className="flex-grow flex gap-2">
+          <Input
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            className="h-8"
+            autoFocus
+            onKeyDown={(e) => {
+              if (e.key === 'Enter') onUpdate();
+              if (e.key === 'Escape') handleCancelClick();
+            }}
+          />
+          {tableName === 'category' && (
+            <Input
+              value={icon}
+              onChange={(e) => setIcon(e.target.value)}
+              className="h-8"
+              placeholder="Icoon"
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') onUpdate();
+                if (e.key === 'Escape') handleCancelClick();
+              }}
+            />
+          )}
+        </div>
       ) : (
-        <span>{item.name}</span>
+        <div className="flex items-center gap-2">
+          <span>{item.name}</span>
+          {item.icon && <span className="text-xs text-muted-foreground">({item.icon})</span>}
+        </div>
       )}
       <div className="flex gap-1">
         {isEditing ? (

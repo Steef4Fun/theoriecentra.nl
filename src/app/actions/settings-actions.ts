@@ -5,12 +5,12 @@ import { revalidatePath } from "next/cache";
 
 type TableName = "location" | "category";
 
-export async function createSetting(tableName: TableName, name: string) {
+export async function createSetting(tableName: TableName, name: string, icon?: string | null) {
   try {
     if (tableName === 'location') {
       await prisma.location.create({ data: { name } });
     } else if (tableName === 'category') {
-      await prisma.category.create({ data: { name } });
+      await prisma.category.create({ data: { name, icon } });
     } else {
       return { error: "Ongeldige tabelnaam." };
     }
@@ -21,12 +21,12 @@ export async function createSetting(tableName: TableName, name: string) {
   }
 }
 
-export async function updateSetting(tableName: TableName, id: string, name: string) {
+export async function updateSetting(tableName: TableName, id: string, name: string, icon?: string | null) {
   try {
     if (tableName === 'location') {
       await prisma.location.update({ where: { id }, data: { name } });
     } else if (tableName === 'category') {
-      await prisma.category.update({ where: { id }, data: { name } });
+      await prisma.category.update({ where: { id }, data: { name, icon } });
     } else {
       return { error: "Ongeldige tabelnaam." };
     }

@@ -13,6 +13,7 @@ import { createSetting } from "@/app/actions/settings-actions";
 interface Item {
   id: string;
   name: string;
+  icon?: string | null;
 }
 
 interface SettingsCrudProps {
@@ -32,6 +33,7 @@ export function SettingsCrud({ title, description, tableName, items }: SettingsC
     const form = event.currentTarget;
     const formData = new FormData(form);
     const name = formData.get("name") as string;
+    const icon = formData.get("icon") as string | null;
 
     if (!name || !name.trim()) {
       toast.error("Naam mag niet leeg zijn.");
@@ -39,7 +41,7 @@ export function SettingsCrud({ title, description, tableName, items }: SettingsC
       return;
     }
 
-    const result = await createSetting(tableName, name);
+    const result = await createSetting(tableName, name, icon);
     
     if (result.error) {
       toast.error("Toevoegen mislukt", { description: result.error });
@@ -58,9 +60,12 @@ export function SettingsCrud({ title, description, tableName, items }: SettingsC
         <CardDescription>{description}</CardDescription>
       </CardHeader>
       <CardContent>
-        <form onSubmit={onAddNew} className="flex gap-2 mb-4">
+        <form onSubmit={onAddNew} className="flex flex-col sm:flex-row gap-2 mb-4">
           <Input name="name" placeholder={`Nieuwe ${title.toLowerCase().slice(0, -1)}...`} required />
-          <Button type="submit" disabled={isSubmitting}>
+          {tableName === 'category' && (
+            <Input name="icon" placeholder="Icoon (bv. Car)" />
+          )}
+          <Button type="submit" disabled={isSubmitting} className="w-full sm:w-auto">
             {isSubmitting ? <Loader2 className="h-4 w-4 animate-spin" /> : "Toevoegen"}
           </Button>
         </form>
