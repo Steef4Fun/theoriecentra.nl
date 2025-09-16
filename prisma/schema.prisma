@@ -61,16 +61,20 @@ model VerificationToken {
 }
 
 model Location {
-  id      String   @id @default(uuid())
-  name    String   @unique
-  courses Course[]
+  id        String   @id @default(uuid())
+  name      String   @unique
+  courses   Course[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Category {
-  id      String   @id @default(uuid())
-  name    String   @unique
-  icon    String? // e.g., "Car", "Bike" from lucide-react
-  courses Course[]
+  id        String   @id @default(uuid())
+  name      String   @unique
+  icon      String? // e.g., "Car", "Bike" from lucide-react
+  courses   Course[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Course {
