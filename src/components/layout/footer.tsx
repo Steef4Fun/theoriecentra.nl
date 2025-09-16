@@ -16,6 +16,7 @@ export function Footer() {
             <h3 className="font-semibold text-lg text-white">Navigatie</h3>
             <ul className="space-y-3">
               <li><Link href="/cursussen" className="text-muted-foreground hover:text-primary transition-colors">Cursussen</Link></li>
+              <li><Link href="/over-ons" className="text-muted-foreground hover:text-primary transition-colors">Over Ons</Link></li>
               <li><Link href="/contact" className="text-muted-foreground hover:text-primary transition-colors">Contact</Link></li>
               <li><Link href="/#faq" className="text-muted-foreground hover:text-primary transition-colors">Veelgestelde Vragen</Link></li>
             </ul>

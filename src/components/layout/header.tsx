@@ -53,6 +53,15 @@ export function Header() {
               Cursussen
             </Link>
             <Link
+              href="/over-ons"
+              className={cn(
+                "transition-colors",
+                scrolled ? "text-foreground/60 hover:text-foreground" : "text-white/80 hover:text-white"
+              )}
+            >
+              Over Ons
+            </Link>
+            <Link
               href="/contact"
               className={cn(
                 "transition-colors",
