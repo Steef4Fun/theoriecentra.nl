@@ -1,4 +1,4 @@
-import { supabase } from "@/integrations/supabase/client";
+import { createSupabaseServerClient } from "@/integrations/supabase/server";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Terminal } from "lucide-react";
 import { RegistrationWizard } from "@/components/registration-wizard";
@@ -6,7 +6,13 @@ import type { Course } from "@/lib/types";
 import { notFound } from "next/navigation";
 import { AnimatedSection } from "@/components/animated-section";
 
-async function getCourseById(courseId: string) {
+export default async function RegistrationPage({
+  params,
+}: {
+  params: { courseId: string };
+}) {
+  const supabase = createSupabaseServerClient();
+  
   const { data, error } = await supabase
     .from("courses")
     .select(
@@ -24,33 +30,18 @@ async function getCourseById(courseId: string) {
       category:categories (name)
     `
     )
-    .eq("id", courseId)
+    .eq("id", params.courseId)
     .single();
 
   if (error || !data) {
-    return null;
+    notFound();
   }
 
-  // Supabase may return joined data as an array. Flatten it to match our type.
-  const formattedData = {
+  const course = {
     ...data,
     location: Array.isArray(data.location) ? data.location[0] || null : data.location,
     category: Array.isArray(data.category) ? data.category[0] || null : data.category,
-  };
-
-  return formattedData as Course;
-}
-
-export default async function RegistrationPage({
-  params,
-}: {
-  params: { courseId: string };
-}) {
-  const course = await getCourseById(params.courseId);
-
-  if (!course) {
-    notFound();
-  }
+  } as Course;
   
   if (course.spots_available < 1) {
     return (
