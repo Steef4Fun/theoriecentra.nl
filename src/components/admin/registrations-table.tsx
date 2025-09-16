@@ -36,7 +36,7 @@ export function RegistrationsTable({ registrations }: { registrations: Registrat
     {
       accessorKey: "name",
       header: "Naam",
-      cell: ({ row }) => `${row.original.first_name} ${row.original.last_name}`,
+      cell: ({ row }) => `${row.original.firstName} ${row.original.lastName}`,
     },
     {
       accessorKey: "email",
@@ -48,7 +48,7 @@ export function RegistrationsTable({ registrations }: { registrations: Registrat
       cell: ({ row }) => {
         const course = row.original.course;
         if (!course) return "N/A";
-        return `${course.category?.name} - ${format(new Date(course.course_date), "d MMM yyyy", { locale: nl })}`;
+        return `${course.category?.name} - ${format(new Date(course.courseDate), "d MMM yyyy", { locale: nl })}`;
       },
     },
     {

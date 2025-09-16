@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
+import { Prisma } from "@prisma/client";
 
 const MOLLIE_API_URL = "https://api.mollie.com/v2/payments";
 
@@ -34,7 +35,7 @@ export async function POST(req: NextRequest) {
     if (!registration) throw new Error(`Registration ${registrationId} not found.`);
 
     if (newStatus === 'paid' && registration.paymentStatus !== 'paid') {
-      await prisma.$transaction(async (tx) => {
+      await prisma.$transaction(async (tx: Prisma.TransactionClient) => {
         await tx.registration.update({
           where: { id: registrationId },
           data: { paymentStatus: newStatus },
