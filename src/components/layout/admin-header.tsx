@@ -24,7 +24,6 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import Image from "next/image";
 import { Avatar, AvatarFallback } from "../ui/avatar";
 import { signOut } from "next-auth/react";
-import logoLight from "public/logo-light.png";
 
 export function AdminHeader() {
   const handleLogout = async () => {
@@ -46,7 +45,7 @@ export function AdminHeader() {
               href="/"
               className="flex items-center gap-2 text-lg font-semibold mb-4"
             >
-              <Image src={logoLight} alt="Logo" width={150} height={30} />
+              <Image src="/logo-light.png" alt="Logo" width={150} height={30} />
             </Link>
             <Link
               href="/admin/dashboard"
