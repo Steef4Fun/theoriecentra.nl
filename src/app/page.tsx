@@ -104,21 +104,22 @@ export default function Home() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.6, delay: 1.2 }}
-              className="whitespace-nowrap"
             >
-              <div className="inline-block animate-ticker">
-                <span className="mx-8 text-sm uppercase tracking-widest font-semibold">Snel</span>
-                <span className="text-primary">•</span>
-                <span className="mx-8 text-sm uppercase tracking-widest font-semibold">Makkelijk</span>
-                <span className="text-primary">•</span>
-                <span className="mx-8 text-sm uppercase tracking-widest font-semibold">Geslaagd</span>
-              </div>
-              <div className="inline-block animate-ticker">
-                <span className="mx-8 text-sm uppercase tracking-widest font-semibold">Snel</span>
-                <span className="text-primary">•</span>
-                <span className="mx-8 text-sm uppercase tracking-widest font-semibold">Makkelijk</span>
-                <span className="text-primary">•</span>
-                <span className="mx-8 text-sm uppercase tracking-widest font-semibold">Geslaagd</span>
+              <div className="flex w-max animate-ticker">
+                <div className="flex items-center">
+                  <span className="mx-8 text-sm uppercase tracking-widest font-semibold">Snel</span>
+                  <span className="text-primary">•</span>
+                  <span className="mx-8 text-sm uppercase tracking-widest font-semibold">Makkelijk</span>
+                  <span className="text-primary">•</span>
+                  <span className="mx-8 text-sm uppercase tracking-widest font-semibold">Geslaagd</span>
+                </div>
+                <div className="flex items-center">
+                  <span className="mx-8 text-sm uppercase tracking-widest font-semibold">Snel</span>
+                  <span className="text-primary">•</span>
+                  <span className="mx-8 text-sm uppercase tracking-widest font-semibold">Makkelijk</span>
+                  <span className="text-primary">•</span>
+                  <span className="mx-8 text-sm uppercase tracking-widest font-semibold">Geslaagd</span>
+                </div>
               </div>
             </motion.div>
           </div>
