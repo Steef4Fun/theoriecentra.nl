@@ -99,27 +99,18 @@ export default function Home() {
           </div>
         </div>
         <div className="absolute bottom-0 left-0 w-full h-20 bg-gradient-to-t from-black/40 to-transparent">
-          <div className="absolute bottom-8 w-full text-white overflow-hidden">
+          <div className="absolute bottom-8 w-full text-white">
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.6, delay: 1.2 }}
             >
-              <div className="flex w-max animate-ticker">
-                <div className="flex items-center">
-                  <span className="mx-8 text-sm uppercase tracking-widest font-semibold">Snel</span>
-                  <span className="text-primary">•</span>
-                  <span className="mx-8 text-sm uppercase tracking-widest font-semibold">Makkelijk</span>
-                  <span className="text-primary">•</span>
-                  <span className="mx-8 text-sm uppercase tracking-widest font-semibold">Geslaagd</span>
-                </div>
-                <div className="flex items-center">
-                  <span className="mx-8 text-sm uppercase tracking-widest font-semibold">Snel</span>
-                  <span className="text-primary">•</span>
-                  <span className="mx-8 text-sm uppercase tracking-widest font-semibold">Makkelijk</span>
-                  <span className="text-primary">•</span>
-                  <span className="mx-8 text-sm uppercase tracking-widest font-semibold">Geslaagd</span>
-                </div>
+              <div className="flex justify-center items-center space-x-4">
+                <span className="text-sm uppercase tracking-widest font-semibold">Snel</span>
+                <span className="text-primary">•</span>
+                <span className="text-sm uppercase tracking-widest font-semibold">Makkelijk</span>
+                <span className="text-primary">•</span>
+                <span className="text-sm uppercase tracking-widest font-semibold">Geslaagd</span>
               </div>
             </motion.div>
           </div>
