@@ -65,13 +65,13 @@ export function UsersTable({ profiles }: { profiles: Profile[] }) {
       cell: ({ row }) => <Badge variant="secondary" className="capitalize">{row.getValue("role")}</Badge>,
     },
     {
-      accessorKey: "instructor_number",
+      accessorKey: "instructorNumber",
       header: "Opleidernummer",
     },
     {
       accessorKey: "user.created_at",
       header: "Aangemaakt op",
-      cell: ({ row }) => format(new Date(row.original.user?.created_at || 0), "d MMMM yyyy", { locale: nl }),
+      cell: ({ row }) => format(new Date(row.original.user?.createdAt || 0), "d MMMM yyyy", { locale: nl }),
     },
     {
       id: "actions",

@@ -26,7 +26,7 @@ export async function createUser(values: z.infer<typeof userSchema>) {
         email: values.email,
         password: hashedPassword,
         role: values.role,
-        instructorNumber: values.role === 'instructor' ? values.instructor_number : null,
+        instructorNumber: values.role === 'instructor' ? values.instructorNumber : null,
       },
     });
 
@@ -42,7 +42,7 @@ export async function updateUser(userId: string, values: z.infer<typeof userSche
       where: { id: userId },
       data: {
         role: values.role,
-        instructorNumber: values.role === 'instructor' ? values.instructor_number : null,
+        instructorNumber: values.role === 'instructor' ? values.instructorNumber : null,
       },
     });
     return { error: null };

@@ -12,10 +12,10 @@ export default async function GebruikersPage() {
   const profiles = users.map(user => ({
     id: user.id,
     role: user.role,
-    instructor_number: user.instructorNumber,
+    instructorNumber: user.instructorNumber,
     user: {
       email: user.email,
-      created_at: user.createdAt.toISOString(),
+      createdAt: user.createdAt.toISOString(),
     }
   }));
 
