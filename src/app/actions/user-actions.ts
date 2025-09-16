@@ -9,7 +9,7 @@ import { userSchema } from '@/lib/validators';
 const createSupabaseAdminClient = () => {
   const cookieStore = cookies();
   return createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    "https://mmuhtwhyldvvgcclobuz.supabase.co",
     process.env.SUPABASE_SERVICE_ROLE_KEY!, // Use service role key here
     {
       cookies: {
