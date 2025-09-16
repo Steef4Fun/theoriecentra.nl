@@ -7,7 +7,13 @@ type TableName = "location" | "category";
 
 export async function createSetting(tableName: TableName, name: string) {
   try {
-    await prisma[tableName].create({ data: { name } });
+    if (tableName === 'location') {
+      await prisma.location.create({ data: { name } });
+    } else if (tableName === 'category') {
+      await prisma.category.create({ data: { name } });
+    } else {
+      return { error: "Ongeldige tabelnaam." };
+    }
     revalidatePath("/admin/instellingen");
     return { error: null };
   } catch (error) {
@@ -17,7 +23,13 @@ export async function createSetting(tableName: TableName, name: string) {
 
 export async function updateSetting(tableName: TableName, id: string, name: string) {
   try {
-    await prisma[tableName].update({ where: { id }, data: { name } });
+    if (tableName === 'location') {
+      await prisma.location.update({ where: { id }, data: { name } });
+    } else if (tableName === 'category') {
+      await prisma.category.update({ where: { id }, data: { name } });
+    } else {
+      return { error: "Ongeldige tabelnaam." };
+    }
     revalidatePath("/admin/instellingen");
     return { error: null };
   } catch (error) {
@@ -27,7 +39,13 @@ export async function updateSetting(tableName: TableName, id: string, name: stri
 
 export async function deleteSetting(tableName: TableName, id: string) {
   try {
-    await prisma[tableName].delete({ where: { id } });
+    if (tableName === 'location') {
+      await prisma.location.delete({ where: { id } });
+    } else if (tableName === 'category') {
+      await prisma.category.delete({ where: { id } });
+    } else {
+      return { error: "Ongeldige tabelnaam." };
+    }
     revalidatePath("/admin/instellingen");
     return { error: null };
   } catch (error) {
