@@ -11,8 +11,8 @@ import { settingSchema } from "@/lib/validators";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
-import { Loader2, Trash2, Edit, X, Check } from "lucide-react";
+import { Loader2 } from "lucide-react";
+import { SettingsCrudRow } from "./settings-crud-row";
 
 interface Item {
   id: string;
@@ -28,8 +28,6 @@ interface SettingsCrudProps {
 
 export function SettingsCrud({ title, description, tableName, items }: SettingsCrudProps) {
   const router = useRouter();
-  const [editingId, setEditingId] = useState<string | null>(null);
-  const [editingName, setEditingName] = useState("");
 
   const form = useForm<z.infer<typeof settingSchema>>({
     resolver: zodResolver(settingSchema),
@@ -43,31 +41,6 @@ export function SettingsCrud({ title, description, tableName, items }: SettingsC
     } else {
       toast.success(`${title.slice(0, -1)} succesvol toegevoegd.`);
       form.reset();
-      router.refresh();
-    }
-  };
-
-  const onUpdate = async (id: string) => {
-    if (!editingName.trim()) {
-        toast.error("Naam mag niet leeg zijn.");
-        return;
-    }
-    const { error } = await supabase.from(tableName).update({ name: editingName }).eq("id", id);
-    if (error) {
-      toast.error("Bijwerken mislukt", { description: error.message });
-    } else {
-      toast.success(`${title.slice(0, -1)} succesvol bijgewerkt.`);
-      setEditingId(null);
-      router.refresh();
-    }
-  };
-
-  const onDelete = async (id: string) => {
-    const { error } = await supabase.from(tableName).delete().eq("id", id);
-    if (error) {
-      toast.error("Verwijderen mislukt", { description: error.message });
-    } else {
-      toast.success(`${title.slice(0, -1)} succesvol verwijderd.`);
       router.refresh();
     }
   };
@@ -89,26 +62,12 @@ export function SettingsCrud({ title, description, tableName, items }: SettingsC
         </Form>
         <div className="space-y-2">
           {items.map((item) => (
-            <div key={item.id} className="flex items-center justify-between p-2 rounded-md border">
-              {editingId === item.id ? (
-                <Input value={editingName} onChange={(e) => setEditingName(e.target.value)} className="h-8" />
-              ) : (
-                <span>{item.name}</span>
-              )}
-              <div className="flex gap-1">
-                {editingId === item.id ? (
-                    <>
-                        <Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => onUpdate(item.id)}><Check className="h-4 w-4 text-green-500" /></Button>
-                        <Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => setEditingId(null)}><X className="h-4 w-4" /></Button>
-                    </>
-                ) : (
-                    <>
-                        <Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => { setEditingId(item.id); setEditingName(item.name); }}><Edit className="h-4 w-4" /></Button>
-                        <Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => onDelete(item.id)}><Trash2 className="h-4 w-4 text-red-500" /></Button>
-                    </>
-                )}
-              </div>
-            </div>
+            <SettingsCrudRow
+              key={item.id}
+              item={item}
+              tableName={tableName}
+              title={title}
+            />
           ))}
         </div>
       </CardContent>
