@@ -19,7 +19,7 @@ export default async function GebruikersPage() {
 
   return (
     <div>
-      <UsersTable profiles={profiles || []} />
+      <UsersTable profiles={profiles as any || []} />
     </div>
   );
 }

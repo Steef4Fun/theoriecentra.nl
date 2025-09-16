@@ -22,7 +22,7 @@ export default async function AanmeldingenPage() {
 
   return (
     <div>
-      <RegistrationsTable registrations={registrations || []} />
+      <RegistrationsTable registrations={registrations as any || []} />
     </div>
   );
 }
