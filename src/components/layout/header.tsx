@@ -32,7 +32,7 @@ export function Header() {
       <div className="container flex h-20 items-center justify-between">
         <Link href="/" className="flex items-center">
           <Image
-            src={scrolled ? "/logo-light.png" : "/logo-dark.png"}
+            src="/logo.png"
             alt="Theoriecentra.nl Logo"
             width={180}
             height={40}

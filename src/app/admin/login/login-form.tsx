@@ -69,7 +69,7 @@ export default function LoginForm() {
       <div className="w-full max-w-sm">
         <div className="mb-8 text-center">
           <Image
-            src="/logo-light.png"
+            src="/logo.png"
             alt="Logo"
             width={200}
             height={40}
