@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import type { Course } from "@/lib/types";
 import prisma from "@/lib/prisma";
+import { format } from "date-fns";
 
 const MOLLIE_API_URL = "https://api.mollie.com/v2/payments";
 
