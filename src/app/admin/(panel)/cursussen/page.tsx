@@ -1,21 +1,24 @@
-import { createSupabaseServerClient } from "@/integrations/supabase/server";
 import { CoursesTable } from "@/components/admin/courses-table";
+import prisma from "@/lib/prisma";
 
 export default async function CursussenAdminPage() {
-  const supabase = createSupabaseServerClient();
-  
-  const { data: courses } = await supabase
-    .from("courses")
-    .select("*, location:locations(id, name), category:categories(id, name)")
-    .order("course_date", { ascending: false });
+  const courses = await prisma.course.findMany({
+    include: {
+      location: true,
+      category: true,
+    },
+    orderBy: {
+      courseDate: "desc",
+    },
+  });
 
-  const { data: locations } = await supabase.from("locations").select("*");
-  const { data: categories } = await supabase.from("categories").select("*");
+  const locations = await prisma.location.findMany();
+  const categories = await prisma.category.findMany();
 
   return (
     <div>
       <CoursesTable 
-        courses={courses || []} 
+        courses={courses as any || []} 
         locations={locations || []}
         categories={categories || []}
       />

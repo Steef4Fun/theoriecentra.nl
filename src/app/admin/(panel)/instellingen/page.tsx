@@ -1,11 +1,9 @@
-import { createSupabaseServerClient } from "@/integrations/supabase/server";
 import { SettingsCrud } from "@/components/admin/settings-crud";
+import prisma from "@/lib/prisma";
 
 export default async function InstellingenPage() {
-  const supabase = createSupabaseServerClient();
-  
-  const { data: locations } = await supabase.from("locations").select("id, name").order("name");
-  const { data: categories } = await supabase.from("categories").select("id, name").order("name");
+  const locations = await prisma.location.findMany({ orderBy: { name: 'asc' } });
+  const categories = await prisma.category.findMany({ orderBy: { name: 'asc' } });
 
   return (
     <div>
@@ -14,13 +12,13 @@ export default async function InstellingenPage() {
         <SettingsCrud
           title="Locaties"
           description="Beheer hier de cursuslocaties."
-          tableName="locations"
+          tableName="location"
           items={locations || []}
         />
         <SettingsCrud
           title="Categorieën"
           description="Beheer hier de cursuscategorieën (bv. Auto, Motor)."
-          tableName="categories"
+          tableName="category"
           items={categories || []}
         />
       </div>

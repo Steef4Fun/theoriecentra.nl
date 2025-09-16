@@ -1,6 +1,7 @@
 import { AdminSidebar } from "@/components/layout/admin-sidebar";
 import { AdminHeader } from "@/components/layout/admin-header";
-import { createSupabaseServerClient } from "@/integrations/supabase/server";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { redirect } from "next/navigation";
 
 export default async function AdminPanelLayout({
@@ -8,8 +9,7 @@ export default async function AdminPanelLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const supabase = createSupabaseServerClient();
-  const { data: { session }} = await supabase.auth.getSession();
+  const session = await getServerSession(authOptions);
 
   if (!session) {
     redirect('/admin/login');

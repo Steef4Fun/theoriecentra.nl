@@ -3,7 +3,6 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { Trash2, Edit, X, Check } from "lucide-react";
@@ -18,6 +17,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
+import { updateSetting, deleteSetting } from "@/app/actions/settings-actions";
 
 interface Item {
   id: string;
@@ -26,7 +26,7 @@ interface Item {
 
 interface SettingsCrudRowProps {
   item: Item;
-  tableName: "locations" | "categories";
+  tableName: "location" | "category";
   title: string;
 }
 
@@ -40,9 +40,9 @@ export function SettingsCrudRow({ item, tableName, title }: SettingsCrudRowProps
       toast.error("Naam mag niet leeg zijn.");
       return;
     }
-    const { error } = await supabase.from(tableName).update({ name }).eq("id", item.id);
-    if (error) {
-      toast.error("Bijwerken mislukt", { description: error.message });
+    const result = await updateSetting(tableName, item.id, name);
+    if (result.error) {
+      toast.error("Bijwerken mislukt", { description: result.error });
     } else {
       toast.success(`${title.slice(0, -1)} succesvol bijgewerkt.`);
       setIsEditing(false);
@@ -51,9 +51,9 @@ export function SettingsCrudRow({ item, tableName, title }: SettingsCrudRowProps
   };
 
   const onDelete = async () => {
-    const { error } = await supabase.from(tableName).delete().eq("id", item.id);
-    if (error) {
-      toast.error("Verwijderen mislukt", { description: error.message });
+    const result = await deleteSetting(tableName, item.id);
+    if (result.error) {
+      toast.error("Verwijderen mislukt", { description: result.error });
     } else {
       toast.success(`${title.slice(0, -1)} succesvol verwijderd.`);
       router.refresh();

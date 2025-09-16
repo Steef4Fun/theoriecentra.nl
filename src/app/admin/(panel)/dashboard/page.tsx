@@ -4,20 +4,19 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { createSupabaseServerClient } from "@/integrations/supabase/server";
+import prisma from "@/lib/prisma";
 import { BookCopy, Users } from "lucide-react";
 
 export default async function Dashboard() {
-  const supabase = createSupabaseServerClient();
+  const registrationCount = await prisma.registration.count();
 
-  const { count: registrationCount } = await supabase
-    .from("registrations")
-    .select("*", { count: "exact", head: true });
-
-  const { count: courseCount } = await supabase
-    .from("courses")
-    .select("*", { count: "exact", head: true })
-    .gte("course_date", new Date().toISOString());
+  const courseCount = await prisma.course.count({
+    where: {
+      courseDate: {
+        gte: new Date(),
+      },
+    },
+  });
 
   return (
     <div>

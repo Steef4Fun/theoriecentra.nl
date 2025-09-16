@@ -4,11 +4,11 @@ import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { Loader2 } from "lucide-react";
 import { SettingsCrudRow } from "./settings-crud-row";
 import { useState } from "react";
+import { createSetting } from "@/app/actions/settings-actions";
 
 interface Item {
   id: string;
@@ -18,7 +18,7 @@ interface Item {
 interface SettingsCrudProps {
   title: string;
   description: string;
-  tableName: "locations" | "categories";
+  tableName: "location" | "category";
   items: Item[];
 }
 
@@ -39,10 +39,10 @@ export function SettingsCrud({ title, description, tableName, items }: SettingsC
       return;
     }
 
-    const { error } = await supabase.from(tableName).insert({ name });
+    const result = await createSetting(tableName, name);
     
-    if (error) {
-      toast.error("Toevoegen mislukt", { description: error.message });
+    if (result.error) {
+      toast.error("Toevoegen mislukt", { description: result.error });
     } else {
       toast.success(`${title.slice(0, -1)} succesvol toegevoegd.`);
       form.reset();

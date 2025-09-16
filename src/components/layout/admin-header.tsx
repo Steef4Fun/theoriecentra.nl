@@ -23,16 +23,11 @@ import {
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import Image from "next/image";
 import { Avatar, AvatarFallback } from "../ui/avatar";
-import { supabase } from "@/integrations/supabase/client";
-import { useRouter } from "next/navigation";
+import { signOut } from "next-auth/react";
 
 export function AdminHeader() {
-  const router = useRouter();
-
   const handleLogout = async () => {
-    await supabase.auth.signOut();
-    router.push('/admin/login');
-    router.refresh();
+    await signOut({ callbackUrl: '/admin/login' });
   };
 
   return (
