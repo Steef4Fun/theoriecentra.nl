@@ -48,7 +48,7 @@ export function MailTemplatesEditor({ templates }: { templates: MailTemplate[] }
       <CardHeader>
         <CardTitle>Mail Template Editor</CardTitle>
         <CardDescription>
-          Selecteer een template om de inhoud aan te passen. Gebruik placeholders zoals `{{name}}` voor dynamische data.
+          {'Selecteer een template om de inhoud aan te passen. Gebruik placeholders zoals `{{name}}` voor dynamische data.'}
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-4">
