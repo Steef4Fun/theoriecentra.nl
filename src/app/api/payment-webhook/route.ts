@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
 import { Prisma } from "@prisma/client";
+import { sendRegistrationConfirmationEmail } from "@/lib/mail";
 
 const MOLLIE_API_URL = "https://api.mollie.com/v2/payments";
 
@@ -47,7 +48,26 @@ export async function POST(req: NextRequest) {
           });
         }
       });
-      // TODO: Hier kan een e-mail worden verstuurd
+      
+      // Send confirmation email
+      const fullRegistration = await prisma.registration.findUnique({
+        where: { id: registrationId },
+        include: {
+          course: {
+            include: {
+              category: true,
+              location: true,
+            },
+          },
+        },
+      });
+
+      if (fullRegistration) {
+        await sendRegistrationConfirmationEmail(fullRegistration);
+      } else {
+        console.error(`Could not find full registration details for ${registrationId} to send email.`);
+      }
+
     } else if (newStatus !== registration.paymentStatus) {
       await prisma.registration.update({
         where: { id: registrationId },
