@@ -16,6 +16,11 @@ export default async function RegistrationPage({
     include: {
       location: true,
       category: true,
+      instructor: {
+        select: {
+          email: true,
+        },
+      },
     },
   });
 
