@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import type { Course } from "@/lib/types";
+import type { ClientCourse } from "@/lib/types";
 import prisma from "@/lib/prisma";
 import { format } from "date-fns";
 
@@ -8,7 +8,7 @@ const MOLLIE_API_URL = "https://api.mollie.com/v2/payments";
 export async function POST(req: NextRequest) {
   try {
     const { course, registrationDetails } = (await req.json()) as {
-      course: Course;
+      course: ClientCourse;
       registrationDetails: any;
     };
 
