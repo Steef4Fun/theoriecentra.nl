@@ -1,13 +1,20 @@
 import prisma from "@/lib/prisma";
-import { MailTemplatesEditor } from "@/components/admin/mail-templates-editor";
+import { MailTemplatesTable } from "@/components/admin/mail-templates-table";
 
 export default async function MailTemplatesPage() {
-  const templates = await prisma.mailTemplate.findMany();
+  const templates = await prisma.mailTemplate.findMany({
+    orderBy: { name: 'asc' }
+  });
 
   return (
     <div>
-      <h1 className="text-3xl font-bold tracking-tight mb-6">Mail Templates</h1>
-      <MailTemplatesEditor templates={templates} />
+      <div className="flex items-center justify-between mb-6">
+        <div>
+          <h1 className="text-3xl font-bold tracking-tight">Mail Templates</h1>
+          <p className="text-muted-foreground">Beheer hier de inhoud van de automatische e-mails.</p>
+        </div>
+      </div>
+      <MailTemplatesTable templates={templates} />
     </div>
   );
 }
