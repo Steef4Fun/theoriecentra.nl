@@ -2,6 +2,7 @@
   "extends": "./tsconfig.json",
   "compilerOptions": {
     "module": "CommonJS",
-    "moduleResolution": "node"
-  }
+    "jsx": "react-jsx"
+  },
+  "include": ["prisma", "src/emails"]
 }
