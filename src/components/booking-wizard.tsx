@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import type { Location, Category, Course } from "@/lib/types";
+import type { Location, Category, ClientCourse } from "@/lib/types";
 import { motion, AnimatePresence } from "framer-motion";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -23,13 +23,13 @@ export function BookingWizard() {
   const [step, setStep] = useState(1);
   const [locations, setLocations] = useState<Location[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
-  const [courses, setCourses] = useState<Course[]>([]);
+  const [courses, setCourses] = useState<ClientCourse[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
   const [selectedLocation, setSelectedLocation] = useState<Location | null>(null);
   const [selectedCategory, setSelectedCategory] = useState<Category | null>(null);
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(undefined);
-  const [selectedCourse, setSelectedCourse] = useState<Course | null>(null);
+  const [selectedCourse, setSelectedCourse] = useState<ClientCourse | null>(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -57,7 +57,7 @@ export function BookingWizard() {
         setSelectedCourse(null);
         const response = await fetch(`/api/courses?locationId=${selectedLocation.id}&categoryId=${selectedCategory.id}`);
         const data = await response.json();
-        setCourses((data as Course[]) || []);
+        setCourses((data as ClientCourse[]) || []);
         setIsLoading(false);
       }
     };

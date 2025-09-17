@@ -23,12 +23,12 @@ import { cn } from "@/lib/utils";
 import { format } from "date-fns";
 import { nl } from "date-fns/locale";
 import { registrationSchema } from "@/lib/validators";
-import type { Course } from "@/lib/types";
+import type { ClientCourse } from "@/lib/types";
 import { toast } from "sonner";
 import { Card, CardContent, CardFooter, CardHeader } from "./ui/card";
 
 interface RegistrationWizardProps {
-  course: Course;
+  course: ClientCourse;
 }
 
 const steps = [

@@ -21,7 +21,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { courseSchema } from "@/lib/validators";
-import { Category, Course, Location } from "@/lib/types";
+import { Category, ClientCourse, Location } from "@/lib/types";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import { cn } from "@/lib/utils";
 import { format } from "date-fns";
@@ -37,7 +37,7 @@ import { createCourse, updateCourse } from "@/app/actions/course-actions";
 interface CourseFormProps {
   isOpen: boolean;
   setIsOpen: (isOpen: boolean) => void;
-  course: Course | null;
+  course: ClientCourse | null;
   locations: Location[];
   categories: Category[];
 }

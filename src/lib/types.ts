@@ -1,4 +1,4 @@
-export type Course = {
+export type ClientCourse = {
   id: string;
   courseDate: string;
   startTime: string;

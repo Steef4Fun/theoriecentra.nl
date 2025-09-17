@@ -8,7 +8,7 @@ import { RegistrationActions } from "@/components/admin/registration-actions";
 import Link from "next/link";
 import { ArrowLeft, User, BookOpen, CreditCard } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Course } from "@/lib/types";
+import { ClientCourse } from "@/lib/types";
 
 export default async function RegistrationDetailPage({ params }: { params: { registrationId: string } }) {
   const registration = await prisma.registration.findUnique({
@@ -43,7 +43,7 @@ export default async function RegistrationDetailPage({ params }: { params: { reg
   }) : [];
 
   // Convert Date objects to strings for serialization
-  const availableCourses: Course[] = availableCoursesFromDb.map((course: any) => ({
+  const availableCourses: ClientCourse[] = availableCoursesFromDb.map((course: any) => ({
     ...course,
     courseDate: course.courseDate.toISOString(),
   }));

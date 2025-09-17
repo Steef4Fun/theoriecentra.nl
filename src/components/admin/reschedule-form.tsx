@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Course } from "@/lib/types";
+import { ClientCourse } from "@/lib/types";
 import { format } from "date-fns";
 import { nl } from "date-fns/locale";
 import { toast } from "sonner";
@@ -22,7 +22,7 @@ interface RescheduleFormProps {
   isOpen: boolean;
   setIsOpen: (isOpen: boolean) => void;
   registrationId: string;
-  availableCourses: Course[];
+  availableCourses: ClientCourse[];
 }
 
 export function RescheduleForm({ isOpen, setIsOpen, registrationId, availableCourses }: RescheduleFormProps) {

@@ -1,7 +1,7 @@
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Terminal } from "lucide-react";
 import { RegistrationWizard } from "@/components/registration-wizard";
-import type { Course } from "@/lib/types";
+import type { ClientCourse } from "@/lib/types";
 import { notFound } from "next/navigation";
 import { AnimatedSection } from "@/components/animated-section";
 import prisma from "@/lib/prisma";
@@ -24,10 +24,10 @@ export default async function RegistrationPage({
   }
   
   // Convert Date object to string to avoid serialization issues
-  const course: Course = {
+  const course: ClientCourse = {
     ...courseData,
     courseDate: courseData.courseDate.toISOString(),
-  } as Course;
+  } as ClientCourse;
 
   if (course.spotsAvailable < 1) {
     return (
