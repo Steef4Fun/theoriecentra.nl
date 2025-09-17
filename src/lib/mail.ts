@@ -4,12 +4,12 @@ import { Resend } from 'resend';
 import RegistrationConfirmationEmail from '@/emails/registration-confirmation';
 import { format } from 'date-fns';
 import { nl } from 'date-fns/locale';
-import { Registration, Course, Category, Location } from '@prisma/client';
+import { Registration, Course as PrismaCourse, Category, Location } from '@prisma/client';
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
 type FullRegistration = Registration & {
-  course: (Course & {
+  course: (PrismaCourse & {
     category: Category | null;
     location: Location | null;
   }) | null;
