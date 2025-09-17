@@ -18,7 +18,7 @@ export async function cancelRegistration(registrationId: string) {
     // Alleen plekken vrijgeven als de status 'paid' was.
     const wasPaid = registration.paymentStatus === 'paid';
 
-    await prisma.$transaction(async (tx) => {
+    await prisma.$transaction(async (tx: Prisma.TransactionClient) => {
       await tx.registration.update({
         where: { id: registrationId },
         data: { paymentStatus: 'canceled' },
@@ -53,7 +53,7 @@ export async function rescheduleRegistration(registrationId: string, newCourseId
       return { error: "Kan niet verzetten naar dezelfde cursus." };
     }
 
-    await prisma.$transaction(async (tx) => {
+    await prisma.$transaction(async (tx: Prisma.TransactionClient) => {
       // Update registration
       await tx.registration.update({
         where: { id: registrationId },

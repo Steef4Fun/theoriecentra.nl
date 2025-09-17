@@ -43,7 +43,7 @@ export default async function RegistrationDetailPage({ params }: { params: { reg
   }) : [];
 
   // Convert Date objects to strings for serialization
-  const availableCourses: Course[] = availableCoursesFromDb.map(course => ({
+  const availableCourses: Course[] = availableCoursesFromDb.map((course: any) => ({
     ...course,
     courseDate: course.courseDate.toISOString(),
   }));
