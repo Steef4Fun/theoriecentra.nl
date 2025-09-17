@@ -87,8 +87,8 @@ model Course {
   location         Location       @relation(fields: [locationId], references: [id])
   categoryId       String
   category         Category       @relation(fields: [categoryId], references: [id])
-  instructorId     String
-  instructor       User           @relation(fields: [instructorId], references: [id])
+  instructorId     String?
+  instructor       User?          @relation(fields: [instructorId], references: [id])
   registrations    Registration[]
 }
 
@@ -105,7 +105,7 @@ model Registration {
   courseId        String?
   course          Course?  @relation(fields: [courseId], references: [id])
   createdAt       DateTime @default(now())
-  updatedAt       DateTime @updatedAt
+  updatedAt       DateTime @default(now()) @updatedAt
 }
 
 model MailLog {
