@@ -57,6 +57,7 @@ export function CourseForm({ isOpen, setIsOpen, course, locations, categories, i
         courseDate: new Date(course.courseDate),
         startTime: course.startTime.substring(0, 5),
         endTime: course.endTime.substring(0, 5),
+        instructorId: course.instructorId ?? undefined,
       });
     } else {
       form.reset({
