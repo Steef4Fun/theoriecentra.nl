@@ -27,7 +27,7 @@ export default async function RegistrationDetailPage({ params }: { params: { reg
     notFound();
   }
 
-  const availableCourses = registration.course ? await prisma.course.findMany({
+  const availableCoursesFromDb = registration.course ? await prisma.course.findMany({
     where: {
       id: { not: registration.course.id },
       categoryId: registration.course.categoryId,
@@ -35,12 +35,18 @@ export default async function RegistrationDetailPage({ params }: { params: { reg
       courseDate: { gte: new Date() },
       spotsAvailable: { gt: 0 },
     },
-    include: { // <-- DEZE TOEVOEGING LOST DE FOUT OP
+    include: {
       location: true,
       category: true,
     },
     orderBy: { courseDate: 'asc' },
   }) : [];
+
+  // Convert Date objects to strings for serialization
+  const availableCourses: Course[] = availableCoursesFromDb.map(course => ({
+    ...course,
+    courseDate: course.courseDate.toISOString(),
+  }));
 
   const getStatusVariant = (status: string) => {
     switch (status) {
@@ -123,7 +129,7 @@ export default async function RegistrationDetailPage({ params }: { params: { reg
               <RegistrationActions 
                 registrationId={registration.id} 
                 isCancelled={registration.paymentStatus === 'canceled'}
-                availableCourses={availableCourses as Course[]}
+                availableCourses={availableCourses}
               />
             </CardContent>
           ) : (
