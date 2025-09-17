@@ -44,6 +44,5 @@ export type Profile = {
   instructorNumber: string | null;
   user: {
     email: string;
-    createdAt: string;
   } | null;
 };

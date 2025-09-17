@@ -5,7 +5,7 @@ import { User } from "@prisma/client";
 export default async function GebruikersPage() {
   const users = await prisma.user.findMany({
     orderBy: {
-      createdAt: "desc",
+      email: "asc",
     },
   });
 
@@ -16,7 +16,6 @@ export default async function GebruikersPage() {
     instructorNumber: user.instructorNumber,
     user: {
       email: user.email,
-      createdAt: user.createdAt.toISOString(),
     }
   }));
 

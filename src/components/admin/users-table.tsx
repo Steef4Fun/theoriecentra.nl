@@ -18,8 +18,6 @@ import {
 import { Button } from "@/components/ui/button";
 import { MoreHorizontal, PlusCircle, Trash2, Edit } from "lucide-react";
 import { Profile } from "@/lib/types";
-import { format } from "date-fns";
-import { nl } from "date-fns/locale";
 import { Badge } from "@/components/ui/badge";
 import { UserForm } from "./user-form";
 import {
@@ -67,11 +65,6 @@ export function UsersTable({ profiles }: { profiles: Profile[] }) {
     {
       accessorKey: "instructorNumber",
       header: "Opleidernummer",
-    },
-    {
-      accessorKey: "user.created_at",
-      header: "Aangemaakt op",
-      cell: ({ row }) => format(new Date(row.original.user?.createdAt || 0), "d MMMM yyyy", { locale: nl }),
     },
     {
       id: "actions",
