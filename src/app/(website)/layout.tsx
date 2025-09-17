@@ -1,5 +1,6 @@
 import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
+import { CookieBanner } from "@/components/cookie-banner";
 
 export default function WebsiteLayout({
   children,
@@ -11,6 +12,7 @@ export default function WebsiteLayout({
       <Header />
       <main className="-mt-20">{children}</main>
       <Footer />
+      <CookieBanner />
     </>
   );
 }

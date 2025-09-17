@@ -16,6 +16,7 @@ import {
   ArrowRight,
   Users,
   Clock,
+  Check,
 } from "lucide-react";
 import Link from "next/link";
 
@@ -64,6 +65,16 @@ export function BookingWizard() {
     fetchCourses();
   }, [selectedLocation, selectedCategory]);
 
+  const handleLocationSelect = (location: Location) => {
+    setSelectedLocation(location);
+    if (categories.length === 1) {
+      setSelectedCategory(categories[0]);
+      setStep(3);
+    } else {
+      setStep(2);
+    }
+  };
+
   const handleDateSelect = (date: Date | undefined) => {
     setSelectedDate(date);
     if (date) {
@@ -100,10 +111,7 @@ export function BookingWizard() {
               <Card
                 key={location.id}
                 className="p-4 text-center cursor-pointer hover:bg-muted"
-                onClick={() => {
-                  setSelectedLocation(location);
-                  setStep(2);
-                }}
+                onClick={() => handleLocationSelect(location)}
               >
                 <MapPin className="h-8 w-8 mx-auto text-primary mb-2" />
                 <p className="font-semibold">{location.name}</p>
@@ -197,13 +205,18 @@ export function BookingWizard() {
                         </span>
                       </div>
                     </div>
-                    <div className="pt-2">
+                    <div className="pt-4 border-t mt-4">
                       <p className="text-2xl font-bold">
-                        €{(selectedCourse.basePrice + selectedCourse.examFee).toFixed(2)}
+                        €{selectedCourse.basePrice.toFixed(2)}
                       </p>
-                      <p className="text-xs text-muted-foreground">
-                        inclusief cursus & examen
+                      <p className="text-sm text-muted-foreground -mt-1">
+                        + €{selectedCourse.examFee.toFixed(2)} CBR examenkosten
                       </p>
+                      <ul className="text-sm space-y-1.5 mt-3 text-muted-foreground">
+                        <li className="flex items-center"><Check className="h-4 w-4 mr-2 text-primary" /> Dagcursus</li>
+                        <li className="flex items-center"><Check className="h-4 w-4 mr-2 text-primary" /> CBR Theorie-examen</li>
+                        <li className="flex items-center"><Check className="h-4 w-4 mr-2 text-primary" /> Hoogste slagingskans</li>
+                      </ul>
                     </div>
                     <Button asChild className="w-full mt-2">
                       <Link href={`/inschrijven/${selectedCourse.id}`}>
