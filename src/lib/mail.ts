@@ -1,31 +1,56 @@
 "use server";
 
 import { Resend } from 'resend';
-import RegistrationConfirmationEmail from '@/emails/registration-confirmation';
 import { format } from 'date-fns';
 import { nl } from 'date-fns/locale';
-import { Registration, Course, Category, Location } from '@prisma/client';
+import { Registration, Course, Category, Location, User } from '@prisma/client';
+import prisma from './prisma';
+
+// Import Email Components
+import RegistrationConfirmationEmail from '@/emails/registration-confirmation';
+import { AuthorizationRequestEmail } from '@/emails/authorization-request';
+import { NewRegistrationNotificationEmail } from '@/emails/new-registration-notification';
+import { CancellationConfirmationEmail } from '@/emails/cancellation-confirmation';
+import { RescheduleConfirmationEmail } from '@/emails/reschedule-confirmation';
 
 const resend = new Resend(process.env.RESEND_API_KEY);
+const fromEmail = 'Theoriecentra.nl <info@theoriecentra.chargehosting.com>';
 
 type FullRegistration = Registration & {
   course: (Course & {
     category: Category | null;
     location: Location | null;
+    instructor: User | null;
   }) | null;
 };
 
-export const sendRegistrationConfirmationEmail = async (registration: FullRegistration) => {
-  if (!registration.course) {
-    console.error("Kan bevestigingsmail niet verzenden: cursusgegevens ontbreken.");
-    return;
+async function sendEmail(to: string[], subject: string, react: React.ReactElement) {
+  try {
+    await resend.emails.send({ from: fromEmail, to, subject, react });
+    await prisma.mailLog.create({
+      data: { recipient: to.join(', '), subject, status: 'sent' },
+    });
+  } catch (error) {
+    console.error(`Fout bij verzenden van e-mail "${subject}" naar ${to.join(', ')}:`, error);
+    await prisma.mailLog.create({
+      data: {
+        recipient: to.join(', '),
+        subject,
+        status: 'failed',
+        error: error instanceof Error ? error.message : 'Unknown error',
+      },
+    });
   }
+}
 
+export const sendRegistrationEmails = async (registration: FullRegistration) => {
+  if (!registration.course) return;
+
+  // 1. Confirmation to student
   const totalPrice = registration.course.basePrice + registration.course.examFee;
   const depositPrice = registration.course.examFee + 20;
   const remainingPrice = totalPrice - depositPrice;
-
-  const emailData = {
+  const confirmationData = {
     name: registration.firstName,
     courseName: `${registration.course.category?.name} Theoriecursus`,
     courseDate: format(new Date(registration.course.courseDate), "eeee d MMMM yyyy", { locale: nl }),
@@ -35,16 +60,59 @@ export const sendRegistrationConfirmationEmail = async (registration: FullRegist
       ? `Volledige betaling van €${totalPrice.toFixed(2)} is voldaan.`
       : `Aanbetaling van €${depositPrice.toFixed(2)} is voldaan. Het resterende bedrag van €${remainingPrice.toFixed(2)} dient contant betaald te worden op de cursusdag.`,
   };
+  await sendEmail([registration.email], 'Bevestiging van je inschrijving', RegistrationConfirmationEmail(confirmationData));
 
-  try {
-    await resend.emails.send({
-      from: 'Theoriecentra.nl <info@theoriecentra.chargehosting.com>',
-      to: [registration.email],
-      subject: 'Bevestiging van je inschrijving',
-      react: RegistrationConfirmationEmail(emailData),
-    });
-    console.log(`Bevestigingsmail verzonden naar ${registration.email}`);
-  } catch (error) {
-    console.error('Fout bij verzenden van bevestigingsmail:', error);
+  // 2. Authorization request to student
+  const authData = {
+    name: registration.firstName,
+    instructorNumber: registration.course.instructorNumber,
+  };
+  await sendEmail([registration.email], 'Belangrijke actie: Machtig ons voor je examen', AuthorizationRequestEmail(authData));
+
+  // 3. Notification to admin/instructor
+  const setting = await prisma.setting.findUnique({ where: { key: 'sendAdminNotifications' } });
+  const sendToAdmins = setting?.value === 'true';
+  
+  const recipients = new Set<string>();
+  if (registration.course.instructor?.email) {
+    recipients.add(registration.course.instructor.email);
   }
+
+  if (sendToAdmins) {
+    const admins = await prisma.user.findMany({ where: { role: 'admin' } });
+    admins.forEach(admin => recipients.add(admin.email));
+  }
+
+  if (recipients.size > 0) {
+    const notificationData = {
+      studentName: `${registration.firstName} ${registration.lastName}`,
+      courseName: `${registration.course.category?.name} Theoriecursus`,
+      courseDate: format(new Date(registration.course.courseDate), "d MMMM yyyy", { locale: nl }),
+      registrationId: registration.id,
+    };
+    await sendEmail(Array.from(recipients), `Nieuwe inschrijving: ${registration.firstName}`, NewRegistrationNotificationEmail(notificationData));
+  }
+};
+
+export const sendCancellationEmail = async (registration: FullRegistration) => {
+  if (!registration.course) return;
+  const data = {
+    name: registration.firstName,
+    courseName: `${registration.course.category?.name} Theoriecursus`,
+    courseDate: format(new Date(registration.course.courseDate), "d MMMM yyyy", { locale: nl }),
+  };
+  await sendEmail([registration.email], 'Bevestiging van je annulering', CancellationConfirmationEmail(data));
+};
+
+export const sendRescheduleEmail = async (registration: FullRegistration, oldCourseDate: Date) => {
+    if (!registration.course) return;
+    const data = {
+        name: registration.firstName,
+        courseName: `${registration.course.category?.name} Theoriecursus`,
+        oldCourseDate: format(oldCourseDate, "d MMMM yyyy", { locale: nl }),
+        newCourseDate: format(new Date(registration.course.courseDate), "d MMMM yyyy", { locale: nl }),
+        newCourseTime: `${registration.course.startTime.substring(0, 5)} - ${registration.course.endTime.substring(0, 5)}`,
+        location: registration.course.location?.name || 'N/A',
+    };
+    await sendEmail([registration.email], 'Je cursus is succesvol verzet', RescheduleConfirmationEmail(data));
 };

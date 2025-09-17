@@ -1,8 +1,17 @@
-export default function MailLogsPage() {
+import { MailLogsTable } from "@/components/admin/mail-logs-table";
+import prisma from "@/lib/prisma";
+
+export default async function MailLogsPage() {
+  const logs = await prisma.mailLog.findMany({
+    orderBy: {
+      sentAt: "desc",
+    },
+    take: 100, // Limiteer tot de laatste 100 voor performance
+  });
+
   return (
     <div>
-      <h1 className="text-3xl font-bold tracking-tight mb-6">Mail Logs</h1>
-      <p className="text-muted-foreground">Hier komt het overzicht van verzonden e-mails.</p>
+      <MailLogsTable logs={logs} />
     </div>
   );
 }

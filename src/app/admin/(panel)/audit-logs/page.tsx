@@ -1,8 +1,20 @@
-export default function AuditLogsPage() {
+import { AuditLogsTable } from "@/components/admin/audit-logs-table";
+import prisma from "@/lib/prisma";
+
+export default async function AuditLogsPage() {
+  const logs = await prisma.auditLog.findMany({
+    orderBy: {
+      createdAt: "desc",
+    },
+    take: 100,
+    include: {
+      actor: true,
+    },
+  });
+
   return (
     <div>
-      <h1 className="text-3xl font-bold tracking-tight mb-6">Audit Logs</h1>
-      <p className="text-muted-foreground">Hier komt het overzicht van alle gemaakte wijzigingen in het systeem.</p>
+      <AuditLogsTable logs={logs as any} />
     </div>
   );
 }

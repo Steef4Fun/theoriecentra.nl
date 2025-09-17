@@ -11,18 +11,19 @@ datasource db {
 }
 
 model User {
-  id               String    @id @default(cuid())
+  id               String          @id @default(cuid())
   name             String?
-  email            String    @unique
+  email            String          @unique
   emailVerified    DateTime?
-  password         String?
-  image            String?
-  role             String    @default("instructor") // admin, instructor
+  password         String
+  role             String          @default("instructor") // "admin" or "instructor"
   instructorNumber String?
+  createdAt        DateTime        @default(now())
+  updatedAt        DateTime        @updatedAt
+  courses          Course[]
+  auditLogs        AuditLog[]
   accounts         Account[]
   sessions         Session[]
-  createdAt        DateTime  @default(now())
-  updatedAt        DateTime  @updatedAt
 }
 
 model Account {
@@ -61,20 +62,16 @@ model VerificationToken {
 }
 
 model Location {
-  id        String   @id @default(uuid())
-  name      String   @unique
-  courses   Course[]
-  createdAt DateTime @default(now())
-  updatedAt DateTime @default(now()) @updatedAt
+  id      String   @id @default(uuid())
+  name    String   @unique
+  courses Course[]
 }
 
 model Category {
-  id        String   @id @default(uuid())
-  name      String   @unique
-  icon      String? // e.g., "Car", "Bike" from lucide-react
-  courses   Course[]
-  createdAt DateTime @default(now())
-  updatedAt DateTime @default(now()) @updatedAt
+  id      String   @id @default(uuid())
+  name    String   @unique
+  icon    String?
+  courses Course[]
 }
 
 model Course {
@@ -90,6 +87,8 @@ model Course {
   location         Location       @relation(fields: [locationId], references: [id])
   categoryId       String
   category         Category       @relation(fields: [categoryId], references: [id])
+  instructorId     String
+  instructor       User           @relation(fields: [instructorId], references: [id])
   registrations    Registration[]
 }
 
@@ -101,9 +100,36 @@ model Registration {
   phoneNumber     String
   dateOfBirth     DateTime
   paymentOption   String // "full" or "deposit"
-  paymentStatus   String   @default("pending") // pending, paid, failed, expired, canceled
+  paymentStatus   String   @default("pending") // e.g., "pending", "paid", "failed", "expired", "canceled"
   molliePaymentId String?  @unique
-  courseId        String
-  course          Course   @relation(fields: [courseId], references: [id])
+  courseId        String?
+  course          Course?  @relation(fields: [courseId], references: [id])
   createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
+model MailLog {
+  id         String   @id @default(uuid())
+  recipient  String
+  subject    String
+  status     String // "sent", "failed"
+  sentAt     DateTime @default(now())
+  error      String?
+}
+
+model AuditLog {
+  id         String   @id @default(uuid())
+  actorId    String
+  actor      User     @relation(fields: [actorId], references: [id])
+  action     String   // e.g., "CREATE_COURSE", "CANCEL_REGISTRATION"
+  entityType String   // e.g., "Course", "Registration"
+  entityId   String
+  details    Json?
+  createdAt  DateTime @default(now())
+}
+
+model Setting {
+  id    String @id @default(uuid())
+  key   String @unique
+  value String
 }
