@@ -45,7 +45,6 @@ export type Registration = {
 export type Profile = {
   id: string;
   role: string;
-  instructorNumber: string | null;
   user: {
     email: string;
   } | null;

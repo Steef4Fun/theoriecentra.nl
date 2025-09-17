@@ -63,10 +63,6 @@ export function UsersTable({ profiles }: { profiles: Profile[] }) {
       cell: ({ row }) => <Badge variant="secondary" className="capitalize">{row.getValue("role")}</Badge>,
     },
     {
-      accessorKey: "instructorNumber",
-      header: "Opleidernummer",
-    },
-    {
       id: "actions",
       cell: ({ row }) => {
         const profile = row.original;

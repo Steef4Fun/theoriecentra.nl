@@ -38,10 +38,6 @@ export const userSchema = z.object({
   email: z.string().email({ message: "Ongeldig e-mailadres." }),
   password: z.string().min(8, { message: "Wachtwoord moet minimaal 8 karakters lang zijn." }).optional().or(z.literal('')),
   role: z.enum(["admin", "instructor"], { required_error: "Rol is verplicht." }),
-  instructorNumber: z.string().optional(),
-}).refine(data => data.role !== 'instructor' || (data.instructorNumber && data.instructorNumber.length > 0), {
-  message: "Opleidernummer is verplicht voor een cursusleider.",
-  path: ["instructorNumber"],
 });
 
 export const settingSchema = z.object({

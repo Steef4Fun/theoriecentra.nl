@@ -43,18 +43,17 @@ model VerificationToken {
 }
 
 model User {
-  id               String       @id @default(cuid())
-  name             String?
-  email            String       @unique
-  emailVerified    DateTime?
-  image            String?
-  password         String?
-  role             String       @default("user") // 'user', 'admin', 'instructor'
-  instructorNumber String?
-  accounts         Account[]
-  sessions         Session[]
-  courses          Course[]
-  auditLogs        AuditLog[]
+  id            String     @id @default(cuid())
+  name          String?
+  email         String     @unique
+  emailVerified DateTime?
+  image         String?
+  password      String?
+  role          String     @default("user") // 'user', 'admin', 'instructor'
+  accounts      Account[]
+  sessions      Session[]
+  courses       Course[]
+  auditLogs     AuditLog[]
 }
 
 model Location {

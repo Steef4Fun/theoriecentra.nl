@@ -28,21 +28,17 @@ export function UserForm({ isOpen, setIsOpen, profile }: UserFormProps) {
     resolver: zodResolver(userSchema),
   });
 
-  const role = form.watch("role");
-
   useEffect(() => {
     if (profile) {
       form.reset({
         email: profile.user?.email,
         role: profile.role as "admin" | "instructor",
-        instructorNumber: profile.instructorNumber || "",
       });
     } else {
       form.reset({
         email: "",
         password: "",
         role: "instructor",
-        instructorNumber: "",
       });
     }
   }, [profile, form, isOpen]);
@@ -80,9 +76,6 @@ export function UserForm({ isOpen, setIsOpen, profile }: UserFormProps) {
               <FormField control={form.control} name="password" render={({ field }) => (<FormItem><FormLabel>Wachtwoord</FormLabel><FormControl><Input type="password" {...field} /></FormControl><FormMessage /></FormItem>)} />
             )}
             <FormField control={form.control} name="role" render={({ field }) => (<FormItem><FormLabel>Rol</FormLabel><Select onValueChange={field.onChange} defaultValue={field.value}><FormControl><SelectTrigger><SelectValue placeholder="Selecteer een rol" /></SelectTrigger></FormControl><SelectContent><SelectItem value="admin">Admin</SelectItem><SelectItem value="instructor">Cursusleider</SelectItem></SelectContent></Select><FormMessage /></FormItem>)} />
-            {role === 'instructor' && (
-              <FormField control={form.control} name="instructorNumber" render={({ field }) => (<FormItem><FormLabel>Opleidernummer</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>)} />
-            )}
             <div className="flex justify-end gap-2 pt-4">
                 <Button type="button" variant="outline" onClick={() => setIsOpen(false)}>Annuleren</Button>
                 <Button type="submit" disabled={form.formState.isSubmitting}>
