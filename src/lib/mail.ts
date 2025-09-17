@@ -21,8 +21,8 @@ export const sendRegistrationConfirmationEmail = async (registration: FullRegist
     return;
   }
 
-  const totalPrice = registration.course.basePrice.toNumber() + registration.course.examFee.toNumber();
-  const depositPrice = registration.course.examFee.toNumber() + 20;
+  const totalPrice = registration.course.basePrice + registration.course.examFee;
+  const depositPrice = registration.course.examFee + 20;
   const remainingPrice = totalPrice - depositPrice;
 
   const emailData = {
