@@ -42,7 +42,7 @@ export function MailTemplateForm({ template }: { template: MailTemplate }) {
           <label className="text-sm font-medium">Inhoud</label>
           <TiptapEditor content={htmlBody} onChange={setHtmlBody} />
            <p className="text-xs text-muted-foreground">
-            Gebruik placeholders zoals `{{name}}` voor dynamische data.
+            {'Gebruik placeholders zoals `{{name}}` voor dynamische data.'}
           </p>
         </div>
         <div className="flex justify-end gap-2">
