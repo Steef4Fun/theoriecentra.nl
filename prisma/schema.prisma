@@ -1,23 +1,10 @@
-datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
-}
-
 generator client {
   provider = "prisma-client-js"
 }
 
-model User {
-  id               String        @id @default(cuid())
-  name             String?
-  email            String        @unique
-  password         String
-  role             String        @default("instructor") // "admin" or "instructor"
-  instructorNumber String?
-  courses          Course[]
-  auditLogs        AuditLog[]
-  sessions         Session[]
-  accounts         Account[]
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
 }
 
 model Account {
@@ -55,21 +42,36 @@ model VerificationToken {
   @@unique([identifier, token])
 }
 
+model User {
+  id               String          @id @default(cuid())
+  name             String?
+  email            String          @unique
+  emailVerified    DateTime?
+  password         String?
+  image            String?
+  role             String          @default("instructor") // 'admin' or 'instructor'
+  instructorNumber String?
+  accounts         Account[]
+  sessions         Session[]
+  courses          Course[]
+  auditLogs        AuditLog[]
+}
+
 model Location {
-  id      String   @id @default(uuid())
+  id      String   @id @default(cuid())
   name    String   @unique
   courses Course[]
 }
 
 model Category {
-  id      String   @id @default(uuid())
+  id      String   @id @default(cuid())
   name    String   @unique
   icon    String?
   courses Course[]
 }
 
 model Course {
-  id               String         @id @default(uuid())
+  id               String         @id @default(cuid())
   courseDate       DateTime
   startTime        String
   endTime          String
@@ -77,6 +79,8 @@ model Course {
   examFee          Float
   spotsAvailable   Int
   instructorNumber String
+  createdAt        DateTime       @default(now())
+  updatedAt        DateTime       @updatedAt
   locationId       String
   location         Location       @relation(fields: [locationId], references: [id])
   categoryId       String
@@ -87,49 +91,50 @@ model Course {
 }
 
 model Registration {
-  id              String   @id @default(uuid())
-  createdAt       DateTime @default(now())
+  id              String   @id @default(cuid())
   firstName       String
   lastName        String
   email           String
   phoneNumber     String
   dateOfBirth     DateTime
-  paymentOption   String // "full" or "deposit"
-  paymentStatus   String   @default("pending") // "pending", "paid", "failed", "expired", "canceled"
+  paymentOption   String // 'full' or 'deposit'
+  paymentStatus   String   @default("pending") // 'pending', 'paid', 'failed', 'expired', 'canceled'
   molliePaymentId String?  @unique
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
   courseId        String
   course          Course   @relation(fields: [courseId], references: [id])
 }
 
-model Setting {
-  key   String @id
-  value String
+model MailTemplate {
+  id          String @id @default(cuid())
+  name        String @unique
+  description String
+  subject     String
+  htmlBody    String @db.Text
 }
 
 model MailLog {
-  id        String   @id @default(uuid())
-  sentAt    DateTime @default(now())
+  id        String   @id @default(cuid())
   recipient String
   subject   String
-  status    String // "sent" or "failed"
+  status    String // 'sent' or 'failed'
   error     String?
+  sentAt    DateTime @default(now())
 }
 
 model AuditLog {
-  id         String   @id @default(uuid())
-  createdAt  DateTime @default(now())
+  id         String   @id @default(cuid())
   actorId    String
   actor      User     @relation(fields: [actorId], references: [id])
   action     String
   entityType String
   entityId   String
   details    Json?
+  createdAt  DateTime @default(now())
 }
 
-model MailTemplate {
-  id          String @id @default(uuid())
-  name        String @unique
-  description String
-  subject     String
-  htmlBody    String @db.Text
+model Setting {
+  key   String @id
+  value String
 }
