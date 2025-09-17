@@ -21,8 +21,17 @@ import { MailLog } from "@prisma/client";
 import { format } from "date-fns";
 import { nl } from "date-fns/locale";
 import { Badge } from "@/components/ui/badge";
+import { Eye } from "lucide-react";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 
 export function MailLogsTable({ logs }: { logs: MailLog[] }) {
+  const [previewHtml, setPreviewHtml] = React.useState<string | null>(null);
+
   const columns: ColumnDef<MailLog>[] = [
     {
       accessorKey: "sentAt",
@@ -43,6 +52,22 @@ export function MailLogsTable({ logs }: { logs: MailLog[] }) {
       cell: ({ row }) => {
         const status = row.getValue("status") as string;
         return <Badge variant={status === 'sent' ? 'default' : 'destructive'} className="capitalize">{status}</Badge>;
+      },
+    },
+    {
+      id: "actions",
+      header: "Acties",
+      cell: ({ row }) => {
+        const log = row.original;
+        return (
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => setPreviewHtml(log.htmlBody)}
+          >
+            <Eye className="mr-2 h-4 w-4" /> Bekijk
+          </Button>
+        );
       },
     },
   ];
@@ -104,6 +129,20 @@ export function MailLogsTable({ logs }: { logs: MailLog[] }) {
           Volgende
         </Button>
       </div>
+      <Dialog open={!!previewHtml} onOpenChange={(isOpen) => !isOpen && setPreviewHtml(null)}>
+        <DialogContent className="max-w-4xl h-[80vh] flex flex-col">
+          <DialogHeader>
+            <DialogTitle>E-mail Voorbeeld</DialogTitle>
+          </DialogHeader>
+          <div className="flex-grow border rounded-md overflow-hidden">
+            <iframe
+              srcDoc={previewHtml || ''}
+              className="w-full h-full border-0"
+              title="E-mail preview"
+            />
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

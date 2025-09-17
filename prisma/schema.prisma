@@ -117,6 +117,7 @@ model MailLog {
   id        String   @id @default(cuid())
   recipient String
   subject   String
+  htmlBody  String   @db.Text
   status    String // 'sent' or 'failed'
   error     String?
   sentAt    DateTime @default(now())

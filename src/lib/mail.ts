@@ -21,7 +21,7 @@ async function sendEmail(to: string[], subject: string, html: string) {
   try {
     await resend.emails.send({ from: fromEmail, to, subject, html });
     await prisma.mailLog.create({
-      data: { recipient: to.join(', '), subject, status: 'sent' },
+      data: { recipient: to.join(', '), subject, htmlBody: html, status: 'sent' },
     });
   } catch (error) {
     console.error(`Fout bij verzenden van e-mail "${subject}" naar ${to.join(', ')}:`, error);
@@ -29,6 +29,7 @@ async function sendEmail(to: string[], subject: string, html: string) {
       data: {
         recipient: to.join(', '),
         subject,
+        htmlBody: html,
         status: 'failed',
         error: error instanceof Error ? error.message : 'Unknown error',
       },
