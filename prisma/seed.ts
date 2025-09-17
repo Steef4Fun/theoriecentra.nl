@@ -93,7 +93,7 @@ async function main() {
   ];
 
   for (const t of templates) {
-    const htmlBody = render(t.component);
+    const htmlBody = await render(t.component);
     await prisma.mailTemplate.upsert({
       where: { name: t.name },
       update: {},
