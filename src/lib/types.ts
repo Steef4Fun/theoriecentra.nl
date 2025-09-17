@@ -11,6 +11,10 @@ export type Course = {
   location: { id: string; name: string } | null;
   categoryId: string;
   category: { id: string; name: string } | null;
+  instructorId?: string | null;
+  instructor: {
+    email: string;
+  } | null;
 };
 
 export type Location = {
