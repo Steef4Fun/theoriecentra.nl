@@ -93,7 +93,11 @@ export const sendRegistrationEmails = async (registration: FullRegistration) => 
 
   if (sendToAdmins) {
     const admins = await prisma.user.findMany({ where: { role: 'admin' } });
-    admins.forEach(admin => recipients.add(admin.email));
+    admins.forEach(admin => {
+      if (admin.email) {
+        recipients.add(admin.email);
+      }
+    });
   }
 
   if (recipients.size > 0) {
