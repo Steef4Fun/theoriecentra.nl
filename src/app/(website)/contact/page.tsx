@@ -1,7 +1,7 @@
 import { AnimatedSection } from "@/components/animated-section";
 import { ContactForm } from "@/components/contact-form";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Mail, Phone } from "lucide-react";
+import { Mail, MapPin, Briefcase } from "lucide-react";
 
 export default function ContactPage() {
   return (
@@ -22,15 +22,19 @@ export default function ContactPage() {
           <div className="space-y-6">
             <h2 className="text-2xl font-semibold">Contactgegevens</h2>
             <div className="space-y-4">
-              <div className="flex items-center">
-                <Mail className="h-5 w-5 mr-3 text-primary" />
+              <div className="flex items-start">
+                <Mail className="h-5 w-5 mr-3 text-primary mt-1" />
                 <a href="mailto:info@theoriecentra.nl" className="hover:underline">
                   info@theoriecentra.nl
                 </a>
               </div>
-              <div className="flex items-center">
-                <Phone className="h-5 w-5 mr-3 text-primary" />
-                <span>+31 6 12345678 (Ma-Vr, 09:00-17:00)</span>
+              <div className="flex items-start">
+                <MapPin className="h-5 w-5 mr-3 text-primary mt-1" />
+                <span>Jan Romeinstraat 4, 5624JJ Eindhoven</span>
+              </div>
+              <div className="flex items-start">
+                <Briefcase className="h-5 w-5 mr-3 text-primary mt-1" />
+                <span>KVK: 59739584</span>
               </div>
             </div>
             <p className="text-sm text-muted-foreground">

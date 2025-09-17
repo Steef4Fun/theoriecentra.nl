@@ -46,9 +46,9 @@ export function Footer() {
                     <a href="mailto:info@theoriecentra.nl" className="hover:text-primary transition-colors">info@theoriecentra.nl</a>
                 </p>
                 <p>
-                    <a href="tel:+31612345678" className="hover:text-primary transition-colors">+31 6 12345678</a>
+                    Jan Romeinstraat 4, 5624JJ Eindhoven
                 </p>
-                <p>KVK: 12345678</p>
+                <p>KVK: 59739584</p>
             </div>
           </div>
         </div>
