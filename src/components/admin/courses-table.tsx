@@ -27,7 +27,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { MoreHorizontal, PlusCircle, Trash2, Edit } from "lucide-react";
-import { ClientCourse, Location, Category } from "@/lib/types";
+import { Course, Location, Category } from "@/lib/types";
 import { format } from "date-fns";
 import { nl } from "date-fns/locale";
 import { Badge } from "@/components/ui/badge";
@@ -47,10 +47,10 @@ import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { deleteCourse } from "@/app/actions/course-actions";
 
-export function CoursesTable({ courses, locations, categories }: { courses: ClientCourse[], locations: Location[], categories: Category[] }) {
+export function CoursesTable({ courses, locations, categories }: { courses: Course[], locations: Location[], categories: Category[] }) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [isFormOpen, setIsFormOpen] = React.useState(false);
-  const [selectedCourse, setSelectedCourse] = React.useState<ClientCourse | null>(null);
+  const [selectedCourse, setSelectedCourse] = React.useState<Course | null>(null);
   const router = useRouter();
 
   const handleDelete = async (courseId: string) => {
@@ -63,7 +63,7 @@ export function CoursesTable({ courses, locations, categories }: { courses: Clie
     }
   };
 
-  const columns: ColumnDef<ClientCourse>[] = [
+  const columns: ColumnDef<Course>[] = [
     {
       accessorKey: "courseDate",
       header: "Datum",

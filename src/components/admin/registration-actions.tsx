@@ -16,13 +16,13 @@ import { toast } from "sonner";
 import { cancelRegistration } from "@/app/actions/registration-actions";
 import { useState } from "react";
 import { Loader2 } from "lucide-react";
-import { ClientCourse } from "@/lib/types";
+import { Course } from "@/lib/types";
 import { RescheduleForm } from "./reschedule-form";
 
 interface RegistrationActionsProps {
   registrationId: string;
   isCancelled: boolean;
-  availableCourses: ClientCourse[];
+  availableCourses: Course[];
 }
 
 export function RegistrationActions({ registrationId, isCancelled, availableCourses }: RegistrationActionsProps) {
