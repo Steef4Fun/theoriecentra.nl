@@ -3,14 +3,14 @@
 import Image from "next/image";
 
 const students = [
-  { name: "Max", src: "https://api.dicebear.com/8.x/personas/svg?seed=Max", width: 500, height: 500 },
-  { name: "Lisa", src: "https://api.dicebear.com/8.x/personas/svg?seed=Lisa", width: 500, height: 500 },
-  { name: "Tom", src: "https://api.dicebear.com/8.x/personas/svg?seed=Tom", width: 500, height: 500 },
-  { name: "Eva", src: "https://api.dicebear.com/8.x/personas/svg?seed=Eva", width: 500, height: 500 },
-  { name: "Sem", src: "https://api.dicebear.com/8.x/personas/svg?seed=Sem", width: 500, height: 500 },
-  { name: "Noa", src: "https://api.dicebear.com/8.x/personas/svg?seed=Noa", width: 500, height: 500 },
-  { name: "Daan", src: "https://api.dicebear.com/8.x/personas/svg?seed=Daan", width: 500, height: 500 },
-  { name: "Zoe", src: "https://api.dicebear.com/8.x/personas/svg?seed=Zoe", width: 500, height: 500 },
+  { name: "Max", src: "https://api.dicebear.com/8.x/adventurer/svg?seed=Max", width: 500, height: 500 },
+  { name: "Lisa", src: "https://api.dicebear.com/8.x/adventurer/svg?seed=Lisa", width: 500, height: 500 },
+  { name: "Tom", src: "https://api.dicebear.com/8.x/adventurer/svg?seed=Tom", width: 500, height: 500 },
+  { name: "Eva", src: "https://api.dicebear.com/8.x/adventurer/svg?seed=Eva", width: 500, height: 500 },
+  { name: "Sem", src: "https://api.dicebear.com/8.x/adventurer/svg?seed=Sem", width: 500, height: 500 },
+  { name: "Noa", src: "https://api.dicebear.com/8.x/adventurer/svg?seed=Noa", width: 500, height: 500 },
+  { name: "Daan", src: "https://api.dicebear.com/8.x/adventurer/svg?seed=Daan", width: 500, height: 500 },
+  { name: "Zoe", src: "https://api.dicebear.com/8.x/adventurer/svg?seed=Zoe", width: 500, height: 500 },
 ];
 
 export function WallOfFame() {
