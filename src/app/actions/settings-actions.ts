@@ -2,18 +2,26 @@
 
 import prisma from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
+import { createAuditLog } from "@/lib/audit-log";
 
 type TableName = "location" | "category";
 
 export async function createSetting(tableName: TableName, name: string, icon?: string | null) {
   try {
+    let createdItem;
     if (tableName === 'location') {
-      await prisma.location.create({ data: { name } });
+      createdItem = await prisma.location.create({ data: { name } });
     } else if (tableName === 'category') {
-      await prisma.category.create({ data: { name, icon } });
+      createdItem = await prisma.category.create({ data: { name, icon } });
     } else {
       return { error: "Ongeldige tabelnaam." };
     }
+    await createAuditLog({
+      action: `CREATE_${tableName.toUpperCase()}`,
+      entityType: tableName,
+      entityId: createdItem.id,
+      details: { name },
+    });
     revalidatePath("/admin/instellingen");
     return { error: null };
   } catch (error) {
@@ -30,6 +38,12 @@ export async function updateSetting(tableName: TableName, id: string, name: stri
     } else {
       return { error: "Ongeldige tabelnaam." };
     }
+    await createAuditLog({
+      action: `UPDATE_${tableName.toUpperCase()}`,
+      entityType: tableName,
+      entityId: id,
+      details: { newName: name },
+    });
     revalidatePath("/admin/instellingen");
     return { error: null };
   } catch (error) {
@@ -46,6 +60,11 @@ export async function deleteSetting(tableName: TableName, id: string) {
     } else {
       return { error: "Ongeldige tabelnaam." };
     }
+    await createAuditLog({
+      action: `DELETE_${tableName.toUpperCase()}`,
+      entityType: tableName,
+      entityId: id,
+    });
     revalidatePath("/admin/instellingen");
     return { error: null };
   } catch (error) {

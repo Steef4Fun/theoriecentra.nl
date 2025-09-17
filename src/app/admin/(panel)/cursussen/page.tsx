@@ -6,6 +6,7 @@ export default async function CursussenAdminPage() {
     include: {
       location: true,
       category: true,
+      instructor: true,
     },
     orderBy: {
       courseDate: "desc",
@@ -14,6 +15,10 @@ export default async function CursussenAdminPage() {
 
   const locations = await prisma.location.findMany();
   const categories = await prisma.category.findMany();
+  const instructors = await prisma.user.findMany({
+    where: { role: 'instructor' },
+    orderBy: { email: 'asc' },
+  });
 
   return (
     <div>
@@ -21,6 +26,7 @@ export default async function CursussenAdminPage() {
         courses={courses as any || []} 
         locations={locations || []}
         categories={categories || []}
+        instructors={instructors || []}
       />
     </div>
   );

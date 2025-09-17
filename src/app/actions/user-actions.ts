@@ -4,6 +4,8 @@ import { z } from 'zod';
 import { userSchema } from '@/lib/validators';
 import prisma from '@/lib/prisma';
 import bcrypt from 'bcrypt';
+import { createAuditLog } from '@/lib/audit-log';
+import { revalidatePath } from 'next/cache';
 
 export async function createUser(values: z.infer<typeof userSchema>) {
   try {
@@ -21,7 +23,7 @@ export async function createUser(values: z.infer<typeof userSchema>) {
 
     const hashedPassword = await bcrypt.hash(values.password, 10);
 
-    await prisma.user.create({
+    const user = await prisma.user.create({
       data: {
         email: values.email,
         password: hashedPassword,
@@ -30,6 +32,14 @@ export async function createUser(values: z.infer<typeof userSchema>) {
       },
     });
 
+    await createAuditLog({
+        action: 'CREATE_USER',
+        entityType: 'User',
+        entityId: user.id,
+        details: { email: values.email, role: values.role },
+    });
+    
+    revalidatePath('/admin/gebruikers');
     return { error: null };
   } catch (error) {
     return { error: "Er is een fout opgetreden bij het aanmaken van de gebruiker." };
@@ -45,6 +55,13 @@ export async function updateUser(userId: string, values: z.infer<typeof userSche
         instructorNumber: values.role === 'instructor' ? values.instructorNumber : null,
       },
     });
+    await createAuditLog({
+        action: 'UPDATE_USER',
+        entityType: 'User',
+        entityId: userId,
+        details: { role: values.role },
+    });
+    revalidatePath('/admin/gebruikers');
     return { error: null };
   } catch (error) {
     return { error: "Er is een fout opgetreden bij het bijwerken van de gebruiker." };
@@ -56,6 +73,12 @@ export async function deleteUser(userId: string) {
     await prisma.user.delete({
       where: { id: userId },
     });
+    await createAuditLog({
+        action: 'DELETE_USER',
+        entityType: 'User',
+        entityId: userId,
+    });
+    revalidatePath('/admin/gebruikers');
     return { error: null };
   } catch (error) {
     return { error: "Er is een fout opgetreden bij het verwijderen van de gebruiker." };

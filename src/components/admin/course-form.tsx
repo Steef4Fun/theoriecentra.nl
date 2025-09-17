@@ -22,6 +22,7 @@ import {
 } from "@/components/ui/dialog";
 import { courseSchema } from "@/lib/validators";
 import { Category, Course, Location } from "@/lib/types";
+import { User } from "@prisma/client";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import { cn } from "@/lib/utils";
 import { format } from "date-fns";
@@ -40,9 +41,10 @@ interface CourseFormProps {
   course: Course | null;
   locations: Location[];
   categories: Category[];
+  instructors: User[];
 }
 
-export function CourseForm({ isOpen, setIsOpen, course, locations, categories }: CourseFormProps) {
+export function CourseForm({ isOpen, setIsOpen, course, locations, categories, instructors }: CourseFormProps) {
   const router = useRouter();
   const form = useForm<z.infer<typeof courseSchema>>({
     resolver: zodResolver(courseSchema),
@@ -67,6 +69,7 @@ export function CourseForm({ isOpen, setIsOpen, course, locations, categories }:
         examFee: 48.75,
         instructorNumber: "",
         spotsAvailable: 15,
+        instructorId: undefined,
       });
     }
   }, [course, form, isOpen]);
@@ -109,6 +112,7 @@ export function CourseForm({ isOpen, setIsOpen, course, locations, categories }:
               <FormField control={form.control} name="basePrice" render={({ field }) => (<FormItem><FormLabel>Cursusprijs</FormLabel><FormControl><Input type="number" step="0.01" {...field} /></FormControl><FormMessage /></FormItem>)} />
               <FormField control={form.control} name="examFee" render={({ field }) => (<FormItem><FormLabel>Examengeld</FormLabel><FormControl><Input type="number" step="0.01" {...field} /></FormControl><FormMessage /></FormItem>)} />
               <FormField control={form.control} name="spotsAvailable" render={({ field }) => (<FormItem><FormLabel>Plekken</FormLabel><FormControl><Input type="number" {...field} /></FormControl><FormMessage /></FormItem>)} />
+              <FormField control={form.control} name="instructorId" render={({ field }) => (<FormItem><FormLabel>Cursusleider</FormLabel><Select onValueChange={field.onChange} defaultValue={field.value}><FormControl><SelectTrigger><SelectValue placeholder="Selecteer een cursusleider" /></SelectTrigger></FormControl><SelectContent>{instructors.map(i => <SelectItem key={i.id} value={i.id}>{i.email}</SelectItem>)}</SelectContent></Select><FormMessage /></FormItem>)} />
             </div>
             <div className="flex justify-end gap-2 pt-4">
                 <Button type="button" variant="outline" onClick={() => setIsOpen(false)}>Annuleren</Button>

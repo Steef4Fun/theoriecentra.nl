@@ -1,77 +1,42 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
 generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "mongodb"
   url      = env("DATABASE_URL")
 }
 
-model Account {
-  id                String  @id @default(cuid())
-  userId            String
-  type              String
-  provider          String
-  providerAccountId String
-  refresh_token     String? @db.Text
-  access_token      String? @db.Text
-  expires_at        Int?
-  token_type        String?
-  scope             String?
-  id_token          String? @db.Text
-  session_state     String?
-
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  @@unique([provider, providerAccountId])
-}
-
-model Session {
-  id           String   @id @default(cuid())
-  sessionToken String   @unique
-  userId       String
-  expires      DateTime
-  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-}
-
-model VerificationToken {
-  identifier String
-  token      String   @unique
-  expires    DateTime
-
-  @@unique([identifier, token])
-}
-
 model User {
-  id               String          @id @default(cuid())
+  id               String    @id @default(auto()) @map("_id") @db.ObjectId
   name             String?
-  email            String          @unique
-  emailVerified    DateTime?
-  password         String?
-  image            String?
-  role             String          @default("instructor") // 'admin' or 'instructor'
+  email            String    @unique
+  password         String
+  role             String    @default("instructor") // 'admin' or 'instructor'
   instructorNumber String?
-  accounts         Account[]
-  sessions         Session[]
-  courses          Course[]
-  auditLogs        AuditLog[]
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+  courses          Course[] // Een instructeur kan meerdere cursussen geven
 }
 
 model Location {
-  id      String   @id @default(cuid())
+  id      String   @id @default(auto()) @map("_id") @db.ObjectId
   name    String   @unique
   courses Course[]
 }
 
 model Category {
-  id      String   @id @default(cuid())
+  id      String   @id @default(auto()) @map("_id") @db.ObjectId
   name    String   @unique
   icon    String?
   courses Course[]
 }
 
 model Course {
-  id               String         @id @default(cuid())
+  id               String         @id @default(auto()) @map("_id") @db.ObjectId
   courseDate       DateTime
   startTime        String
   endTime          String
@@ -79,19 +44,19 @@ model Course {
   examFee          Float
   spotsAvailable   Int
   instructorNumber String
-  createdAt        DateTime       @default(now())
-  updatedAt        DateTime       @updatedAt
-  locationId       String
+  locationId       String         @db.ObjectId
   location         Location       @relation(fields: [locationId], references: [id])
-  categoryId       String
+  categoryId       String         @db.ObjectId
   category         Category       @relation(fields: [categoryId], references: [id])
-  instructorId     String?
+  instructorId     String?        @db.ObjectId
   instructor       User?          @relation(fields: [instructorId], references: [id])
   registrations    Registration[]
+  createdAt        DateTime       @default(now())
+  updatedAt        DateTime       @updatedAt
 }
 
 model Registration {
-  id              String   @id @default(cuid())
+  id              String   @id @default(auto()) @map("_id") @db.ObjectId
   firstName       String
   lastName        String
   email           String
@@ -99,33 +64,33 @@ model Registration {
   dateOfBirth     DateTime
   paymentOption   String // 'full' or 'deposit'
   paymentStatus   String   @default("pending") // 'pending', 'paid', 'failed', 'expired', 'canceled'
-  molliePaymentId String?  @unique
+  molliePaymentId String?
+  courseId        String   @db.ObjectId
+  course          Course   @relation(fields: [courseId], references: [id])
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
-  courseId        String
-  course          Course   @relation(fields: [courseId], references: [id])
 }
 
 model MailTemplate {
-  id          String @id @default(cuid())
+  id          String @id @default(auto()) @map("_id") @db.ObjectId
   name        String @unique
   description String
   subject     String
-  htmlBody    String @db.Text
+  htmlBody    String
 }
 
 model MailLog {
-  id        String   @id @default(cuid())
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  sentAt    DateTime @default(now())
   recipient String
   subject   String
   status    String // 'sent' or 'failed'
   error     String?
-  sentAt    DateTime @default(now())
 }
 
 model AuditLog {
-  id         String   @id @default(cuid())
-  actorId    String
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  actorId    String   @db.ObjectId
   actor      User     @relation(fields: [actorId], references: [id])
   action     String
   entityType String
@@ -135,6 +100,7 @@ model AuditLog {
 }
 
 model Setting {
-  key   String @id
+  id    String @id @default(auto()) @map("_id") @db.ObjectId
+  key   String @unique
   value String
 }

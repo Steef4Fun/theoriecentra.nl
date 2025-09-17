@@ -12,7 +12,7 @@ export const registrationSchema = z.object({
   paymentOption: z.enum(["full", "deposit"], {
     required_error: "Kies een betaaloptie.",
   }),
-  courseId: z.string().uuid(),
+  courseId: z.string(),
 });
 
 export const contactSchema = z.object({
@@ -31,6 +31,7 @@ export const courseSchema = z.object({
   examFee: z.coerce.number().min(0, { message: "Examengeld moet positief zijn." }),
   instructorNumber: z.string().min(1, { message: "Opleidernummer is verplicht." }),
   spotsAvailable: z.coerce.number().int().min(0, { message: "Aantal plekken moet positief zijn." }),
+  instructorId: z.string().optional(),
 });
 
 export const userSchema = z.object({

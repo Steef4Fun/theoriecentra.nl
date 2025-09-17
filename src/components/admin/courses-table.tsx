@@ -28,6 +28,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { MoreHorizontal, PlusCircle, Trash2, Edit } from "lucide-react";
 import { Course, Location, Category } from "@/lib/types";
+import { User } from "@prisma/client";
 import { format } from "date-fns";
 import { nl } from "date-fns/locale";
 import { Badge } from "@/components/ui/badge";
@@ -47,7 +48,7 @@ import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { deleteCourse } from "@/app/actions/course-actions";
 
-export function CoursesTable({ courses, locations, categories }: { courses: Course[], locations: Location[], categories: Category[] }) {
+export function CoursesTable({ courses, locations, categories, instructors }: { courses: Course[], locations: Location[], categories: Category[], instructors: User[] }) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [isFormOpen, setIsFormOpen] = React.useState(false);
   const [selectedCourse, setSelectedCourse] = React.useState<Course | null>(null);
@@ -78,6 +79,11 @@ export function CoursesTable({ courses, locations, categories }: { courses: Cour
       accessorKey: "location.name",
       header: "Locatie",
       cell: ({ row }) => row.original.location?.name || "N/A",
+    },
+    {
+      accessorKey: "instructor.email",
+      header: "Cursusleider",
+      cell: ({ row }) => row.original.instructor?.email || "N/A",
     },
     {
       accessorKey: "spotsAvailable",
@@ -201,6 +207,7 @@ export function CoursesTable({ courses, locations, categories }: { courses: Cour
         course={selectedCourse}
         locations={locations}
         categories={categories}
+        instructors={instructors}
       />
     </div>
   );
