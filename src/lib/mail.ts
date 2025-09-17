@@ -6,13 +6,6 @@ import { nl } from 'date-fns/locale';
 import { Registration, Course, Category, Location, User } from '@prisma/client';
 import prisma from './prisma';
 
-// Import Email Components
-import RegistrationConfirmationEmail from '@/emails/registration-confirmation';
-import { AuthorizationRequestEmail } from '@/emails/authorization-request';
-import { NewRegistrationNotificationEmail } from '@/emails/new-registration-notification';
-import { CancellationConfirmationEmail } from '@/emails/cancellation-confirmation';
-import { RescheduleConfirmationEmail } from '@/emails/reschedule-confirmation';
-
 const resend = new Resend(process.env.RESEND_API_KEY);
 const fromEmail = 'Theoriecentra.nl <info@theoriecentra.chargehosting.com>';
 
@@ -24,9 +17,9 @@ type FullRegistration = Registration & {
   }) | null;
 };
 
-async function sendEmail(to: string[], subject: string, react: React.ReactElement) {
+async function sendEmail(to: string[], subject: string, html: string) {
   try {
-    await resend.emails.send({ from: fromEmail, to, subject, react });
+    await resend.emails.send({ from: fromEmail, to, subject, html });
     await prisma.mailLog.create({
       data: { recipient: to.join(', '), subject, status: 'sent' },
     });
@@ -41,6 +34,26 @@ async function sendEmail(to: string[], subject: string, react: React.ReactElemen
       },
     });
   }
+}
+
+async function sendTemplatedEmail(templateName: string, recipient: string | string[], data: Record<string, any>) {
+  const template = await prisma.mailTemplate.findUnique({ where: { name: templateName } });
+  if (!template) {
+    console.error(`Mail template "${templateName}" niet gevonden.`);
+    return;
+  }
+
+  let subject = template.subject;
+  let htmlBody = template.htmlBody;
+
+  for (const key in data) {
+    const regex = new RegExp(`{{${key}}}`, 'g');
+    subject = subject.replace(regex, data[key]);
+    htmlBody = htmlBody.replace(regex, data[key]);
+  }
+
+  const to = Array.isArray(recipient) ? recipient : [recipient];
+  await sendEmail(to, subject, htmlBody);
 }
 
 export const sendRegistrationEmails = async (registration: FullRegistration) => {
@@ -60,14 +73,14 @@ export const sendRegistrationEmails = async (registration: FullRegistration) => 
       ? `Volledige betaling van €${totalPrice.toFixed(2)} is voldaan.`
       : `Aanbetaling van €${depositPrice.toFixed(2)} is voldaan. Het resterende bedrag van €${remainingPrice.toFixed(2)} dient contant betaald te worden op de cursusdag.`,
   };
-  await sendEmail([registration.email], 'Bevestiging van je inschrijving', RegistrationConfirmationEmail(confirmationData));
+  await sendTemplatedEmail('registration-confirmation', registration.email, confirmationData);
 
   // 2. Authorization request to student
   const authData = {
     name: registration.firstName,
     instructorNumber: registration.course.instructorNumber,
   };
-  await sendEmail([registration.email], 'Belangrijke actie: Machtig ons voor je examen', AuthorizationRequestEmail(authData));
+  await sendTemplatedEmail('authorization-request', registration.email, authData);
 
   // 3. Notification to admin/instructor
   const setting = await prisma.setting.findUnique({ where: { key: 'sendAdminNotifications' } });
@@ -90,7 +103,7 @@ export const sendRegistrationEmails = async (registration: FullRegistration) => 
       courseDate: format(new Date(registration.course.courseDate), "d MMMM yyyy", { locale: nl }),
       registrationId: registration.id,
     };
-    await sendEmail(Array.from(recipients), `Nieuwe inschrijving: ${registration.firstName}`, NewRegistrationNotificationEmail(notificationData));
+    await sendTemplatedEmail('new-registration-notification', Array.from(recipients), notificationData);
   }
 };
 
@@ -101,7 +114,7 @@ export const sendCancellationEmail = async (registration: FullRegistration) => {
     courseName: `${registration.course.category?.name} Theoriecursus`,
     courseDate: format(new Date(registration.course.courseDate), "d MMMM yyyy", { locale: nl }),
   };
-  await sendEmail([registration.email], 'Bevestiging van je annulering', CancellationConfirmationEmail(data));
+  await sendTemplatedEmail('cancellation-confirmation', registration.email, data);
 };
 
 export const sendRescheduleEmail = async (registration: FullRegistration, oldCourseDate: Date) => {
@@ -114,5 +127,5 @@ export const sendRescheduleEmail = async (registration: FullRegistration, oldCou
         newCourseTime: `${registration.course.startTime.substring(0, 5)} - ${registration.course.endTime.substring(0, 5)}`,
         location: registration.course.location?.name || 'N/A',
     };
-    await sendEmail([registration.email], 'Je cursus is succesvol verzet', RescheduleConfirmationEmail(data));
+    await sendTemplatedEmail('reschedule-confirmation', registration.email, data);
 };

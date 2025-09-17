@@ -1,29 +1,23 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-generator client {
-  provider = "prisma-client-js"
-}
-
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
+generator client {
+  provider = "prisma-client-js"
+}
+
 model User {
-  id               String          @id @default(cuid())
+  id               String        @id @default(cuid())
   name             String?
-  email            String          @unique
-  emailVerified    DateTime?
+  email            String        @unique
   password         String
-  role             String          @default("instructor") // "admin" or "instructor"
+  role             String        @default("instructor") // "admin" or "instructor"
   instructorNumber String?
-  createdAt        DateTime        @default(now())
-  updatedAt        DateTime        @updatedAt
   courses          Course[]
   auditLogs        AuditLog[]
-  accounts         Account[]
   sessions         Session[]
+  accounts         Account[]
 }
 
 model Account {
@@ -94,42 +88,48 @@ model Course {
 
 model Registration {
   id              String   @id @default(uuid())
+  createdAt       DateTime @default(now())
   firstName       String
   lastName        String
   email           String
   phoneNumber     String
   dateOfBirth     DateTime
   paymentOption   String // "full" or "deposit"
-  paymentStatus   String   @default("pending") // e.g., "pending", "paid", "failed", "expired", "canceled"
+  paymentStatus   String   @default("pending") // "pending", "paid", "failed", "expired", "canceled"
   molliePaymentId String?  @unique
-  courseId        String?
-  course          Course?  @relation(fields: [courseId], references: [id])
-  createdAt       DateTime @default(now())
-  updatedAt       DateTime @default(now()) @updatedAt
+  courseId        String
+  course          Course   @relation(fields: [courseId], references: [id])
+}
+
+model Setting {
+  key   String @id
+  value String
 }
 
 model MailLog {
-  id         String   @id @default(uuid())
-  recipient  String
-  subject    String
-  status     String // "sent", "failed"
-  sentAt     DateTime @default(now())
-  error      String?
+  id        String   @id @default(uuid())
+  sentAt    DateTime @default(now())
+  recipient String
+  subject   String
+  status    String // "sent" or "failed"
+  error     String?
 }
 
 model AuditLog {
   id         String   @id @default(uuid())
+  createdAt  DateTime @default(now())
   actorId    String
   actor      User     @relation(fields: [actorId], references: [id])
-  action     String   // e.g., "CREATE_COURSE", "CANCEL_REGISTRATION"
-  entityType String   // e.g., "Course", "Registration"
+  action     String
+  entityType String
   entityId   String
   details    Json?
-  createdAt  DateTime @default(now())
 }
 
-model Setting {
-  id    String @id @default(uuid())
-  key   String @unique
-  value String
+model MailTemplate {
+  id          String @id @default(uuid())
+  name        String @unique
+  description String
+  subject     String
+  htmlBody    String @db.Text
 }
