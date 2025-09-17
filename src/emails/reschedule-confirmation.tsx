@@ -8,6 +8,7 @@ import {
   Text,
   Heading,
   Section,
+  Hr,
 } from '@react-email/components';
 import * as React from 'react';
 
@@ -59,6 +60,10 @@ export const RescheduleConfirmationEmail = ({
         <Text style={paragraph}>
           We zien je graag op de nieuwe datum!
         </Text>
+        <Hr style={hr} />
+        <Text style={footer}>
+          Theoriecentra.nl | Vragen? Antwoord op deze e-mail.
+        </Text>
       </Container>
     </Body>
   </Html>
@@ -75,3 +80,5 @@ const heading = { fontSize: '24px', fontWeight: 'bold', textAlign: 'center' as c
 const subheading = { fontSize: '18px', fontWeight: 'bold', color: '#2d3748', borderBottom: '1px solid #e2e8f0', paddingBottom: '8px', marginBottom: '16px' };
 const paragraph = { color: '#4a5568', fontSize: '16px', lineHeight: '24px', textAlign: 'left' as const, padding: '0 24px' };
 const item = { ...paragraph, padding: '0', margin: '4px 0' };
+const hr = { borderColor: '#e2e8f0', margin: '20px 0' };
+const footer = { color: '#a0aec0', fontSize: '12px', lineHeight: '16px', textAlign: 'center' as const };
