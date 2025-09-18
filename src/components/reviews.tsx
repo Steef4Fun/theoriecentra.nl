@@ -43,6 +43,20 @@ const reviews = [
     text: "Top service en een hele duidelijke uitleg. De sfeer was ontspannen en de docent nam echt de tijd voor vragen. Zeker het geld waard!",
     source: "Google Review",
   },
+  {
+    name: "Linda Nguyen",
+    avatarSeed: "Linda",
+    rating: 5,
+    text: "De beste investering in mijn rijbewijs. De instructeur was geduldig en wist precies waar het CBR op let. Ik voelde me echt voorbereid.",
+    source: "Google Review",
+  },
+  {
+    name: "Kevin Janssen",
+    avatarSeed: "Kevin",
+    rating: 5,
+    text: "Ongelooflijk hoe ze zoveel stof in één dag zo duidelijk kunnen overbrengen. De oefenvragen waren perfect en leken precies op het echte examen.",
+    source: "Facebook Review",
+  },
 ];
 
 export function Reviews() {
@@ -59,7 +73,7 @@ export function Reviews() {
           {reviews.map((review, index) => (
             <CarouselItem key={index} className="md:basis-1/2 lg:basis-1/3">
               <div className="p-1 h-full">
-                <Card className="flex flex-col h-full bg-secondary/50 text-left">
+                <Card className="flex flex-col h-full bg-card text-left shadow-lg">
                   <CardContent className="p-8 flex-grow flex flex-col">
                     <div className="flex items-center justify-between mb-4">
                       <div className="flex items-center gap-4">
@@ -72,7 +86,7 @@ export function Reviews() {
                           <p className="text-xs text-muted-foreground">{review.source}</p>
                         </div>
                       </div>
-                      <Image src={review.source.includes('Google') ? '/google-logo.svg' : '/facebook-logo.svg'} alt={review.source} width={24} height={24} className="invert" />
+                      <Image src={review.source.includes('Google') ? '/google-logo.svg' : '/facebook-logo.svg'} alt={review.source} width={24} height={24} />
                     </div>
                     <div className="flex items-center gap-1 text-yellow-400 mb-4">
                       {[...Array(review.rating)].map((_, i) => (
@@ -88,8 +102,8 @@ export function Reviews() {
             </CarouselItem>
           ))}
         </CarouselContent>
-        <CarouselPrevious />
-        <CarouselNext />
+        <CarouselPrevious className="hidden md:inline-flex" />
+        <CarouselNext className="hidden md:inline-flex" />
       </Carousel>
       <div className="mt-8 text-center">
         <Button asChild variant="outline">
