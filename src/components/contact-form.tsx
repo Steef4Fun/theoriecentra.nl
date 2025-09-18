@@ -16,8 +16,12 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { contactSchema } from "@/lib/validators";
 import { toast } from "sonner";
+import { sendContactMessage } from "@/app/actions/contact-actions";
+import { useState } from "react";
+import { Loader2 } from "lucide-react";
 
 export function ContactForm() {
+  const [isLoading, setIsLoading] = useState(false);
   const form = useForm<z.infer<typeof contactSchema>>({
     resolver: zodResolver(contactSchema),
     defaultValues: {
@@ -27,13 +31,21 @@ export function ContactForm() {
     },
   });
 
-  function onSubmit(values: z.infer<typeof contactSchema>) {
-    // TODO: Implement server action to send email
-    console.log(values);
-    toast.success("Bericht verzonden!", {
-      description: "We nemen zo snel mogelijk contact met je op.",
-    });
-    form.reset();
+  async function onSubmit(values: z.infer<typeof contactSchema>) {
+    setIsLoading(true);
+    const result = await sendContactMessage(values);
+    setIsLoading(false);
+
+    if (result.success) {
+      toast.success("Bericht verzonden!", {
+        description: "We hebben je een bevestiging gestuurd per e-mail.",
+      });
+      form.reset();
+    } else {
+      toast.error("Verzenden mislukt", {
+        description: result.error,
+      });
+    }
   }
 
   return (
@@ -82,7 +94,8 @@ export function ContactForm() {
             </FormItem>
           )}
         />
-        <Button type="submit" className="w-full">
+        <Button type="submit" className="w-full" disabled={isLoading}>
+          {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
           Verstuur Bericht
         </Button>
       </form>

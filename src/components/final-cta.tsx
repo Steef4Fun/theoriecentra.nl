@@ -21,7 +21,7 @@ export function FinalCta() {
               Wacht niet langer. Vind de perfecte cursusdatum, reserveer je plek en zet vandaag nog de eerste stap naar je rijbewijs.
             </p>
             <Button asChild size="lg" variant="secondary" className="mt-8 rounded-full px-8">
-              <Link href="#booking-wizard">Vind je Cursus</Link>
+              <Link href="/cursussen">Vind je Cursus</Link>
             </Button>
           </div>
           <div className="bg-white/10 p-6 rounded-lg">

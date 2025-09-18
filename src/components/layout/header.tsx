@@ -7,23 +7,36 @@ import { cn } from "@/lib/utils";
 import { Sheet, SheetContent, SheetTrigger, SheetClose } from "@/components/ui/sheet";
 import { Menu } from "lucide-react";
 import { TextLogo } from "../text-logo";
+import { usePathname } from "next/navigation";
 
 export function Header() {
   const [scrolled, setScrolled] = useState(false);
+  const pathname = usePathname();
+  const isHomePage = pathname === '/';
+
+  // Header is solid if not on homepage, or if scrolled on homepage
+  const isSolid = !isHomePage || scrolled;
 
   useEffect(() => {
+    if (!isHomePage) {
+      setScrolled(true); // Force solid header on non-home pages
+      return;
+    }
+
     const handleScroll = () => {
       setScrolled(window.scrollY > 10);
     };
+    
+    setScrolled(window.scrollY > 10); // Check initial scroll position
 
     window.addEventListener("scroll", handleScroll);
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
-  }, []);
+  }, [isHomePage, pathname]); // Rerun effect when path changes
 
   const navLinks = [
-    { href: "/#booking-wizard", label: "Cursussen" },
+    { href: "/cursussen", label: "Cursussen" },
     { href: "/over-ons", label: "Over Ons" },
     { href: "/contact", label: "Contact" },
   ];
@@ -32,13 +45,13 @@ export function Header() {
     <header
       className={cn(
         "sticky top-0 z-50 w-full transition-all duration-300",
-        scrolled
+        isSolid
           ? "border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60"
           : "bg-transparent"
       )}
     >
       <div className="container flex h-16 items-center justify-between md:h-20">
-        <TextLogo isScrolled={scrolled} />
+        <TextLogo isScrolled={isSolid} />
         
         {/* Desktop Navigation */}
         <div className="hidden md:flex items-center gap-x-6">
@@ -49,7 +62,7 @@ export function Header() {
                 href={link.href}
                 className={cn(
                   "transition-colors",
-                  scrolled ? "text-foreground/60 hover:text-foreground" : "text-white/80 hover:text-white"
+                  isSolid ? "text-foreground/60 hover:text-foreground" : "text-white/80 hover:text-white"
                 )}
               >
                 {link.label}
@@ -57,7 +70,7 @@ export function Header() {
             ))}
           </nav>
           <Button asChild size="sm" className="rounded-full">
-            <Link href="/#booking-wizard">Direct Inschrijven</Link>
+            <Link href="/cursussen">Direct Inschrijven</Link>
           </Button>
         </div>
 
@@ -65,7 +78,7 @@ export function Header() {
         <div className="md:hidden">
           <Sheet>
             <SheetTrigger asChild>
-              <Button variant="ghost" size="icon" className={cn("h-11 w-11", !scrolled && "text-white hover:text-white hover:bg-white/10")}>
+              <Button variant="ghost" size="icon" className={cn("h-11 w-11", !isSolid && "text-white hover:text-white hover:bg-white/10")}>
                 <Menu className="h-6 w-6" />
                 <span className="sr-only">Open menu</span>
               </Button>
@@ -81,7 +94,7 @@ export function Header() {
                 ))}
               </nav>
               <Button asChild size="lg" className="w-full absolute bottom-8 left-0 rounded-none">
-                <Link href="/#booking-wizard">Direct Inschrijven</Link>
+                <Link href="/cursussen">Direct Inschrijven</Link>
               </Button>
             </SheetContent>
           </Sheet>

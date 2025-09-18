@@ -73,7 +73,7 @@ export function UpcomingCourses({ courses }: { courses: Course[] }) {
       {isMobile && courses.length > 3 && (
         <div className="mt-6 text-center">
           <Button asChild variant="outline" className="bg-transparent text-white border-white/50 hover:bg-white/10 hover:text-white">
-            <Link href="/#booking-wizard">
+            <Link href="/cursussen">
               Bekijk alle cursussen <ArrowRight className="ml-2 h-4 w-4" />
             </Link>
           </Button>

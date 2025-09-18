@@ -24,7 +24,7 @@ export function Footer() {
             <ul className="mt-4 space-y-3">
               <li>
                 <Link
-                  href="/#booking-wizard"
+                  href="/cursussen"
                   className="text-gray-400 hover:text-white transition-colors"
                 >
                   Cursussen
