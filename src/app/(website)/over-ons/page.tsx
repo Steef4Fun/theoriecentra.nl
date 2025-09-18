@@ -29,7 +29,7 @@ export default function AboutUsPage() {
   return (
     <>
       {/* Hero Section */}
-      <section className="relative bg-gray-900 py-32 text-white">
+      <section className="relative bg-gray-900 py-24 md:py-32 text-white">
         <Image
           src="https://images.unsplash.com/photo-1552664730-d307ca884978?q=80&w=2070&auto=format&fit=crop"
           alt="Team in overleg"
@@ -49,7 +49,7 @@ export default function AboutUsPage() {
         </div>
       </section>
 
-      <div className="container py-20 md:py-32 space-y-24">
+      <div className="container py-16 md:py-24 space-y-16 md:space-y-24">
         {/* Our Story Section */}
         <AnimatedSection>
           <div className="grid md:grid-cols-2 gap-12 items-center">

@@ -110,7 +110,7 @@ export function BookingWizard() {
             {locations.map((location) => (
               <Card
                 key={location.id}
-                className="p-4 text-center cursor-pointer hover:bg-muted"
+                className="p-6 text-center cursor-pointer hover:bg-muted"
                 onClick={() => handleLocationSelect(location)}
               >
                 <MapPin className="h-8 w-8 mx-auto text-primary mb-2" />
@@ -125,7 +125,7 @@ export function BookingWizard() {
             {categories.map((category) => (
               <Card
                 key={category.id}
-                className="p-4 text-center cursor-pointer hover:bg-muted"
+                className="p-6 text-center cursor-pointer hover:bg-muted"
                 onClick={() => {
                   setSelectedCategory(category);
                   setStep(3);

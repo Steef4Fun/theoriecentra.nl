@@ -37,7 +37,7 @@ export function Header() {
           : "bg-transparent"
       )}
     >
-      <div className="container flex h-20 items-center justify-between">
+      <div className="container flex h-16 items-center justify-between md:h-20">
         <Link href="/" className="flex items-center">
           <Image
             src="/logo.png"
@@ -74,7 +74,7 @@ export function Header() {
         <div className="md:hidden">
           <Sheet>
             <SheetTrigger asChild>
-              <Button variant="ghost" size="icon" className={cn(!scrolled && "text-white hover:text-white hover:bg-white/10")}>
+              <Button variant="ghost" size="icon" className={cn("h-11 w-11", !scrolled && "text-white hover:text-white hover:bg-white/10")}>
                 <Menu className="h-6 w-6" />
                 <span className="sr-only">Open menu</span>
               </Button>

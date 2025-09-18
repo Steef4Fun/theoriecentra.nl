@@ -66,7 +66,7 @@ export default function Home() {
         </div>
       </section>
 
-      <div className="space-y-20 md:space-y-32 py-20 md:py-32">
+      <div className="space-y-16 md:space-y-24 py-16 md:py-24">
         {/* Why Us Section */}
         <section className="container">
           <AnimatedSection>
@@ -115,7 +115,7 @@ export default function Home() {
         </section>
 
         {/* Social Proof: Reviews Section */}
-        <section id="reviews" className="w-full bg-muted py-20 md:py-32">
+        <section id="reviews" className="w-full bg-muted py-16 md:py-24">
           <div className="container">
             <AnimatedSection>
               <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl text-center mb-12">
@@ -144,7 +144,7 @@ export default function Home() {
         </section>
 
         {/* FAQ Section */}
-        <section id="faq" className="w-full bg-muted py-20 md:py-32">
+        <section id="faq" className="w-full bg-muted py-16 md:py-24">
           <div className="container">
             <AnimatedSection>
               <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl text-center mb-12">
