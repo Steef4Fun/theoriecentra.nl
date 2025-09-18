@@ -7,7 +7,6 @@ import {
 } from "@/components/ui/accordion";
 import { Reviews } from "@/components/reviews";
 import { AnimatedSection } from "@/components/animated-section";
-import { motion } from "framer-motion";
 import { WhyUs } from "@/components/why-us";
 import { HowItWorks } from "@/components/how-it-works";
 import { FinalCta } from "@/components/final-cta";
@@ -34,6 +33,7 @@ async function getUpcomingCourses() {
       include: {
         location: true,
         category: true,
+        instructor: true,
       },
       orderBy: {
         courseDate: 'asc',
@@ -73,10 +73,7 @@ export default async function Home() {
         </div>
         <div className="container">
           {/* Conversion Cockpit */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
+          <AnimatedSection
             className="w-full max-w-4xl mx-auto bg-black/40 backdrop-blur-lg rounded-xl p-6 md:p-8 text-white border border-white/20"
           >
             <div className="text-center">
@@ -91,7 +88,7 @@ export default async function Home() {
               <TrustBar />
             </div>
             <UpcomingCourses courses={upcomingCourses} />
-          </motion.div>
+          </AnimatedSection>
         </div>
       </section>
 
