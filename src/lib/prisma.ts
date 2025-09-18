@@ -1,5 +1,5 @@
 import { PrismaClient } from '@prisma/client';
-import mockPrisma from './prisma-mock';
+import mockPrisma from 'lib/prisma-mock';
 
 const prismaClientSingleton = () => {
   return new PrismaClient();

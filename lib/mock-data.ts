@@ -1,4 +1,4 @@
-import { Course, Location, Category, Registration, Profile } from './types';
+import { Course, Location, Category, Registration, Profile } from '@/lib/types';
 import { User } from '@prisma/client';
 
 export const mockLocations: Location[] = [
