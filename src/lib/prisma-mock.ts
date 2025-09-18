@@ -1,4 +1,6 @@
-import { mockCourses, mockLocations, mockCategories, mockRegistrations, mockUsers, mockProfiles } from './mock-data';
+import { mockCourses, mockLocations, mockCategories, mockRegistrations, mockUsers } from './mock-data';
+import { Course, Location, Category, Registration } from './types';
+import { User } from '@prisma/client';
 
 const mockPrisma = {
   location: {
@@ -9,12 +11,12 @@ const mockPrisma = {
       return newItem;
     },
     update: async (data: any) => {
-      const index = mockLocations.findIndex(i => i.id === data.where.id);
+      const index = mockLocations.findIndex((i: Location) => i.id === data.where.id);
       if (index > -1) mockLocations[index].name = data.data.name;
       return mockLocations[index];
     },
     delete: async (data: any) => {
-      const index = mockLocations.findIndex(i => i.id === data.where.id);
+      const index = mockLocations.findIndex((i: Location) => i.id === data.where.id);
       if (index > -1) mockLocations.splice(index, 1);
       return { id: data.where.id };
     },
@@ -27,12 +29,12 @@ const mockPrisma = {
       return newItem;
     },
     update: async (data: any) => {
-      const index = mockCategories.findIndex(i => i.id === data.where.id);
+      const index = mockCategories.findIndex((i: Category) => i.id === data.where.id);
       if (index > -1) mockCategories[index].name = data.data.name;
       return mockCategories[index];
     },
     delete: async (data: any) => {
-      const index = mockCategories.findIndex(i => i.id === data.where.id);
+      const index = mockCategories.findIndex((i: Category) => i.id === data.where.id);
       if (index > -1) mockCategories.splice(index, 1);
       return { id: data.where.id };
     },
@@ -40,11 +42,11 @@ const mockPrisma = {
   course: {
     findMany: async (query: any) => {
         if (query?.where?.locationId && query?.where?.categoryId) {
-            return mockCourses.filter(c => c.locationId === query.where.locationId && c.categoryId === query.where.categoryId);
+            return mockCourses.filter((c: Course) => c.locationId === query.where.locationId && c.categoryId === query.where.categoryId);
         }
         return mockCourses;
     },
-    findUnique: async (query: any) => mockCourses.find(c => c.id === query.where.id) || null,
+    findUnique: async (query: any) => mockCourses.find((c: Course) => c.id === query.where.id) || null,
     count: async () => mockCourses.length,
     create: async (data: any) => {
         const newCourse = { id: `new_${Math.random()}`, ...data.data };
@@ -52,12 +54,12 @@ const mockPrisma = {
         return newCourse;
     },
     update: async (data: any) => {
-        const index = mockCourses.findIndex(c => c.id === data.where.id);
+        const index = mockCourses.findIndex((c: Course) => c.id === data.where.id);
         if (index > -1) Object.assign(mockCourses[index], data.data);
         return mockCourses[index];
     },
     delete: async (data: any) => {
-        const index = mockCourses.findIndex(c => c.id === data.where.id);
+        const index = mockCourses.findIndex((c: Course) => c.id === data.where.id);
         if (index > -1) mockCourses.splice(index, 1);
         return { id: data.where.id };
     }
@@ -65,10 +67,31 @@ const mockPrisma = {
   registration: {
     findMany: async () => mockRegistrations,
     count: async () => mockRegistrations.length,
-    findUnique: async (query: any) => mockRegistrations.find(r => r.id === query.where.id) || null,
+    findUnique: async (query: any) => mockRegistrations.find((r: Registration) => r.id === query.where.id) || null,
   },
   user: {
-    findMany: async () => mockUsers,
+    findMany: async (query?: any) => {
+      if (query?.where?.role) {
+        return mockUsers.filter((u: User) => u.role === query.where.role);
+      }
+      return mockUsers;
+    },
+    findUnique: async (query: any) => mockUsers.find((u: User) => u.email === query.where.email) || null,
+    create: async (data: any) => {
+      const newUser = { id: `new_${Math.random()}`, ...data.data };
+      mockUsers.push(newUser);
+      return newUser;
+    },
+    update: async (data: any) => {
+      const index = mockUsers.findIndex((u: User) => u.id === data.where.id);
+      if (index > -1) Object.assign(mockUsers[index], data.data);
+      return mockUsers[index];
+    },
+    delete: async (data: any) => {
+      const index = mockUsers.findIndex((u: User) => u.id === data.where.id);
+      if (index > -1) mockUsers.splice(index, 1);
+      return { id: data.where.id };
+    },
   },
   auditLog: {
     findMany: async () => [],
