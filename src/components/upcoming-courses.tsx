@@ -3,8 +3,7 @@
 import { useEffect, useState } from "react";
 import { Course } from "@/lib/types";
 import { Card } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Loader2, MapPin, Calendar, ArrowRight } from "lucide-react";
+import { Loader2, MapPin, Calendar, ArrowRight, Users } from "lucide-react";
 import Link from "next/link";
 import { format } from "date-fns";
 import { nl } from "date-fns/locale";
@@ -30,7 +29,7 @@ export function UpcomingCourses() {
 
   if (isLoading) {
     return (
-      <div className="flex justify-center items-center h-64">
+      <div className="flex justify-center items-center h-48">
         <Loader2 className="h-8 w-8 animate-spin text-white" />
       </div>
     );
@@ -43,27 +42,33 @@ export function UpcomingCourses() {
   return (
     <div className="space-y-3">
       {courses.map((course) => (
-        <Card key={course.id} className="bg-white/10 backdrop-blur-sm border-white/20 text-white p-4">
-          <div className="grid grid-cols-1 sm:grid-cols-[1fr,1fr,auto,auto] items-center gap-4 text-left">
-            <div className="flex items-center gap-2">
-              <MapPin className="h-5 w-5 text-white/70 flex-shrink-0" />
-              <span className="font-semibold">{course.location?.name}</span>
+        <Link href={`/inschrijven/${course.id}`} key={course.id} className="block group">
+          <Card className="bg-white/10 border-white/20 text-white p-4 transition-all duration-300 group-hover:bg-white/20 group-hover:border-white/40 group-hover:scale-[1.02]">
+            <div className="grid grid-cols-1 sm:grid-cols-[1fr,1fr,auto] items-center gap-4 text-left">
+              <div className="flex items-center gap-3">
+                <MapPin className="h-5 w-5 text-white/70 flex-shrink-0" />
+                <div>
+                  <p className="font-semibold">{course.location?.name}</p>
+                  <p className="text-xs text-white/70">{course.category?.name}</p>
+                </div>
+              </div>
+              <div className="flex items-center gap-3">
+                <Calendar className="h-5 w-5 text-white/70 flex-shrink-0" />
+                <div>
+                  <p className="font-semibold">{format(new Date(course.courseDate), "eeee d MMMM", { locale: nl })}</p>
+                  <p className="text-xs text-white/70 flex items-center"><Users className="h-3 w-3 mr-1.5" />{course.spotsAvailable} plekken vrij</p>
+                </div>
+              </div>
+              <div className="flex items-center justify-start sm:justify-end gap-4">
+                <div className="text-left sm:text-right">
+                  <p className="text-lg font-bold">€{course.basePrice.toFixed(2)}</p>
+                  <p className="text-xs text-white/70 -mt-1">+ €{course.examFee.toFixed(2)} examenkosten</p>
+                </div>
+                <ArrowRight className="h-6 w-6 text-white/70 transition-transform duration-300 group-hover:translate-x-1" />
+              </div>
             </div>
-            <div className="flex items-center gap-2">
-              <Calendar className="h-5 w-5 text-white/70 flex-shrink-0" />
-              <span>{format(new Date(course.courseDate), "d MMMM yyyy", { locale: nl })}</span>
-            </div>
-            <div className="sm:text-right">
-              <p className="text-lg font-bold">€{course.basePrice.toFixed(2)}</p>
-              <p className="text-xs text-white/70 -mt-1">+ €{course.examFee.toFixed(2)} examenkosten</p>
-            </div>
-            <Button asChild className="w-full sm:w-auto justify-self-stretch sm:justify-self-end">
-              <Link href={`/inschrijven/${course.id}`}>
-                Boek Nu <ArrowRight className="ml-2 h-4 w-4" />
-              </Link>
-            </Button>
-          </div>
-        </Card>
+          </Card>
+        </Link>
       ))}
     </div>
   );

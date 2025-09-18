@@ -23,7 +23,7 @@ export default function Home() {
   return (
     <>
       {/* Hero Section */}
-      <section className="relative w-full min-h-screen flex items-center py-24">
+      <section className="relative w-full min-h-screen flex items-center justify-center py-24">
         <div className="absolute inset-0 z-[-1]">
           <video
             src="/hero-video.mp4"
@@ -37,19 +37,22 @@ export default function Home() {
           </video>
           <div className="absolute inset-0 bg-black/60"></div>
         </div>
-        <div className="container text-white">
+        <div className="container">
+          {/* Conversion Cockpit */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
-            className="max-w-4xl mx-auto text-center"
+            className="w-full max-w-4xl mx-auto bg-black/40 backdrop-blur-lg rounded-xl p-6 md:p-8 text-white border border-white/20"
           >
-            <h1 className="text-4xl font-extrabold tracking-tighter sm:text-5xl md:text-6xl text-shadow">
-              Haal je theorie. In één dag.
-            </h1>
-            <p className="mt-4 text-lg text-white/80 md:text-xl text-shadow-sm max-w-2xl mx-auto">
-              Vind hieronder direct de eerstvolgende cursusdata en reserveer je plek. Snel, simpel en met de hoogste slagingskans.
-            </p>
+            <div className="text-center">
+              <h1 className="text-4xl font-extrabold tracking-tighter sm:text-5xl text-shadow">
+                Haal je theorie. In één dag.
+              </h1>
+              <p className="mt-4 text-lg text-white/80 md:text-xl text-shadow-sm max-w-2xl mx-auto">
+                Vind hieronder direct de eerstvolgende cursusdata en reserveer je plek. Snel, simpel en met de hoogste slagingskans.
+              </p>
+            </div>
             <div className="my-8">
               <TrustBar />
             </div>
