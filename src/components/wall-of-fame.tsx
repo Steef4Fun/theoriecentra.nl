@@ -13,6 +13,9 @@ const students = [
   { name: "Zoe", src: "https://api.dicebear.com/8.x/adventurer/svg?seed=Zoe", width: 500, height: 500 },
 ];
 
+// A generic, lightweight SVG to use as a blur placeholder.
+const blurDataURL = "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNTAwIiBoZWlnaHQ9IjUwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZmlsdGVyIGlkPSJibHVyRmlsdGVyIj48ZmVHYXVzc2lhbkJsdXIgc3RkRGV2aWF0aW9uPSI1IiAvPjwvZmlsdGVyPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9IiNjY2MiIGZpbHRlcj0idXJsKCNibHVyRmlsdGVyKSIvPjwvc3ZnPg==";
+
 export function WallOfFame() {
   return (
     <div className="columns-2 md:columns-3 lg:columns-4 gap-4 space-y-4">
@@ -26,6 +29,8 @@ export function WallOfFame() {
             alt={`Geslaagde leerling ${student.name}`}
             width={student.width}
             height={student.height}
+            placeholder="blur"
+            blurDataURL={blurDataURL}
             className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-110"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
