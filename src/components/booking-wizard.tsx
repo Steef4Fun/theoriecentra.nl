@@ -110,7 +110,7 @@ export function BookingWizard() {
             {locations.map((location) => (
               <Card
                 key={location.id}
-                className="p-6 text-center cursor-pointer hover:bg-muted"
+                className="p-6 text-center cursor-pointer hover:bg-muted transition-colors"
                 onClick={() => handleLocationSelect(location)}
               >
                 <MapPin className="h-8 w-8 mx-auto text-primary mb-2" />
@@ -125,7 +125,7 @@ export function BookingWizard() {
             {categories.map((category) => (
               <Card
                 key={category.id}
-                className="p-6 text-center cursor-pointer hover:bg-muted"
+                className="p-6 text-center cursor-pointer hover:bg-muted transition-colors"
                 onClick={() => {
                   setSelectedCategory(category);
                   setStep(3);
@@ -177,6 +177,7 @@ export function BookingWizard() {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -20 }}
+                  transition={{ duration: 0.25, ease: "easeInOut" }}
                 >
                   <h3 className="text-lg font-semibold mb-2">
                     Jouw Gekozen Cursus
@@ -259,7 +260,7 @@ export function BookingWizard() {
             initial={{ opacity: 0, x: 50 }}
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: -50 }}
-            transition={{ duration: 0.3 }}
+            transition={{ duration: 0.25, ease: "easeInOut" }}
           >
             {renderStep()}
           </motion.div>
