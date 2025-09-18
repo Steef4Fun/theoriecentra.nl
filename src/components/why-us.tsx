@@ -6,6 +6,7 @@ const features = [
     icon: <Award className="h-8 w-8 text-primary" />,
     title: "92% Slagingskans",
     description: "Onze unieke, op het CBR-examen gerichte lesmethode heeft een bewezen eerste-keer-slagingskans van 92%.",
+    footnote: "*Gebaseerd op interne data Q1-Q2 2024.",
   },
   {
     icon: <BookOpenCheck className="h-8 w-8 text-primary" />,
@@ -28,8 +29,11 @@ export function WhyUs() {
             {feature.icon}
             <CardTitle>{feature.title}</CardTitle>
           </CardHeader>
-          <CardContent className="flex-grow">
-            <p className="text-muted-foreground">{feature.description}</p>
+          <CardContent className="flex-grow flex flex-col">
+            <p className="text-muted-foreground flex-grow">{feature.description}</p>
+            {feature.footnote && (
+              <p className="text-xs text-muted-foreground mt-4">{feature.footnote}</p>
+            )}
           </CardContent>
         </Card>
       ))}

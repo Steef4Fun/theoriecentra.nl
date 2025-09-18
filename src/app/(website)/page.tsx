@@ -8,7 +8,6 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { Reviews } from "@/components/reviews";
-import { WallOfSuccess } from "@/components/wall-of-success";
 import { AnimatedSection } from "@/components/animated-section";
 import { motion } from "framer-motion";
 import { WhyUs } from "@/components/why-us";
@@ -124,23 +123,6 @@ export default function Home() {
                 Wat onze leerlingen zeggen
               </h2>
               <Reviews />
-            </AnimatedSection>
-          </div>
-        </section>
-
-        {/* Social Proof: Wall of Success Section */}
-        <section id="wall-of-fame" className="w-full">
-          <div className="container">
-            <AnimatedSection>
-              <div className="text-center mb-12">
-                <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl">
-                  Zij zijn je voorgegaan
-                </h2>
-                <p className="max-w-2xl mx-auto mt-4 text-muted-foreground">
-                  Sluit je aan bij de 10.000+ leerlingen die dankzij onze methode in één keer zijn geslaagd.
-                </p>
-              </div>
-              <WallOfSuccess />
             </AnimatedSection>
           </div>
         </section>
