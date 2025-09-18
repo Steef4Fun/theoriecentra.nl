@@ -1,5 +1,3 @@
-"use client";
-
 import { BookingWizard } from "@/components/booking-wizard";
 import {
   Accordion,
@@ -19,8 +17,43 @@ import { TheOffer } from "@/components/the-offer";
 import { KeyQuestions } from "@/components/key-questions";
 import { InstructorShowcase } from "@/components/instructor-showcase";
 import { SuccessSpotlight } from "@/components/success-spotlight";
+import prisma from "@/lib/prisma";
+import { Course } from "@/lib/types";
 
-export default function Home() {
+async function getUpcomingCourses() {
+  try {
+    const courses = await prisma.course.findMany({
+      where: {
+        courseDate: {
+          gte: new Date(),
+        },
+        spotsAvailable: {
+          gt: 0,
+        },
+      },
+      include: {
+        location: true,
+        category: true,
+      },
+      orderBy: {
+        courseDate: 'asc',
+      },
+      take: 5,
+    });
+    // Serialize date objects to strings
+    return courses.map(course => ({
+      ...course,
+      courseDate: course.courseDate.toISOString(),
+    })) as Course[];
+  } catch (error) {
+    console.error("Failed to fetch upcoming courses:", error);
+    return [];
+  }
+}
+
+export default async function Home() {
+  const upcomingCourses = await getUpcomingCourses();
+
   return (
     <>
       {/* Hero Section */}
@@ -57,7 +90,7 @@ export default function Home() {
             <div className="my-8">
               <TrustBar />
             </div>
-            <UpcomingCourses />
+            <UpcomingCourses courses={upcomingCourses} />
           </motion.div>
         </div>
       </section>

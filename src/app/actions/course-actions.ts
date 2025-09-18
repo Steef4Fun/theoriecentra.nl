@@ -18,6 +18,7 @@ export async function createCourse(values: z.infer<typeof courseSchema>) {
       details: { date: values.courseDate, locationId: values.locationId },
     });
     revalidatePath('/admin/cursussen');
+    revalidatePath('/');
     return { error: null };
   } catch (error) {
     console.error(error);
@@ -37,6 +38,7 @@ export async function updateCourse(id: string, values: z.infer<typeof courseSche
       entityId: id,
     });
     revalidatePath('/admin/cursussen');
+    revalidatePath('/');
     return { error: null };
   } catch (error) {
     console.error(error);
@@ -55,6 +57,7 @@ export async function deleteCourse(id: string) {
       entityId: id,
     });
     revalidatePath('/admin/cursussen');
+    revalidatePath('/');
     return { error: null };
   } catch (error) {
     console.error(error);
