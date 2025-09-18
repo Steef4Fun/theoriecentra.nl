@@ -18,7 +18,6 @@ import { UpcomingCourses } from "@/components/upcoming-courses";
 import { TheOffer } from "@/components/the-offer";
 import { KeyQuestions } from "@/components/key-questions";
 import { InstructorShowcase } from "@/components/instructor-showcase";
-import { WallOfSuccess } from "@/components/wall-of-success";
 
 export default function Home() {
   return (
@@ -142,21 +141,6 @@ export default function Home() {
               <Reviews />
             </AnimatedSection>
           </div>
-        </section>
-
-        {/* Wall of Success Section */}
-        <section className="container">
-          <AnimatedSection>
-            <div className="text-center mb-12">
-              <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl">
-                Zij Gingen Je Voor
-              </h2>
-              <p className="max-w-2xl mx-auto mt-4 text-muted-foreground">
-                Een greep uit de duizenden leerlingen die met onze hulp hun theoriecertificaat hebben behaald.
-              </p>
-            </div>
-            <WallOfSuccess />
-          </AnimatedSection>
         </section>
 
         {/* Key Questions Section */}
