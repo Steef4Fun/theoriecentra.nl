@@ -57,7 +57,7 @@ export function UpcomingCourses() {
               <p className="text-lg font-bold">€{course.basePrice.toFixed(2)}</p>
               <p className="text-xs text-white/70 -mt-1">+ €{course.examFee.toFixed(2)} examenkosten</p>
             </div>
-            <Button asChild className="bg-success hover:bg-success/90 text-success-foreground w-full sm:w-auto justify-self-stretch sm:justify-self-end">
+            <Button asChild className="w-full sm:w-auto justify-self-stretch sm:justify-self-end">
               <Link href={`/inschrijven/${course.id}`}>
                 Boek Nu <ArrowRight className="ml-2 h-4 w-4" />
               </Link>

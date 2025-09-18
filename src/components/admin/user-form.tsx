@@ -78,7 +78,7 @@ export function UserForm({ isOpen, setIsOpen, profile }: UserFormProps) {
             <FormField control={form.control} name="role" render={({ field }) => (<FormItem><FormLabel>Rol</FormLabel><Select onValueChange={field.onChange} defaultValue={field.value}><FormControl><SelectTrigger><SelectValue placeholder="Selecteer een rol" /></SelectTrigger></FormControl><SelectContent><SelectItem value="admin">Admin</SelectItem><SelectItem value="instructor">Cursusleider</SelectItem></SelectContent></Select><FormMessage /></FormItem>)} />
             <div className="flex justify-end gap-2 pt-4">
                 <Button type="button" variant="outline" onClick={() => setIsOpen(false)}>Annuleren</Button>
-                <Button type="submit" disabled={form.formState.isSubmitting}>
+                <Button type="submit" variant="primary" disabled={form.formState.isSubmitting}>
                     {form.formState.isSubmitting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
                     {profile ? "Wijzigingen Opslaan" : "Gebruiker Aanmaken"}
                 </Button>

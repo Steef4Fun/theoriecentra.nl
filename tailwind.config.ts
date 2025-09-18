@@ -11,8 +11,8 @@ export default {
     container: {
       center: true,
       padding: {
-        DEFAULT: '1rem', // 16px for mobile
-        sm: '2rem',      // 32px for sm and up
+        DEFAULT: '1rem', // 16px
+        sm: '2rem',      // 32px
       },
       screens: {
         "2xl": "1200px",

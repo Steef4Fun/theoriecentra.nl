@@ -120,7 +120,7 @@ export function UsersTable({ profiles }: { profiles: Profile[] }) {
           <h1 className="text-3xl font-bold tracking-tight">Gebruikers</h1>
           <p className="text-muted-foreground">Beheer hier de accounts van cursusleiders en beheerders.</p>
         </div>
-        <Button onClick={() => { setSelectedProfile(null); setIsFormOpen(true); }}>
+        <Button variant="primary" onClick={() => { setSelectedProfile(null); setIsFormOpen(true); }}>
           <PlusCircle className="mr-2 h-4 w-4" /> Gebruiker Toevoegen
         </Button>
       </div>

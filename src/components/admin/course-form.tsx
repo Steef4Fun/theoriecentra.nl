@@ -117,7 +117,7 @@ export function CourseForm({ isOpen, setIsOpen, course, locations, categories, i
             </div>
             <div className="flex justify-end gap-2 pt-4">
                 <Button type="button" variant="outline" onClick={() => setIsOpen(false)}>Annuleren</Button>
-                <Button type="submit" disabled={form.formState.isSubmitting}>
+                <Button type="submit" variant="primary" disabled={form.formState.isSubmitting}>
                     {form.formState.isSubmitting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
                     {course ? "Wijzigingen Opslaan" : "Cursus Aanmaken"}
                 </Button>

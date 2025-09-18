@@ -155,7 +155,7 @@ export function CoursesTable({ courses, locations, categories, instructors }: { 
           <h1 className="text-3xl font-bold tracking-tight">Cursussen</h1>
           <p className="text-muted-foreground">Beheer hier alle geplande cursussen.</p>
         </div>
-        <Button onClick={() => { setSelectedCourse(null); setIsFormOpen(true); }}>
+        <Button variant="primary" onClick={() => { setSelectedCourse(null); setIsFormOpen(true); }}>
           <PlusCircle className="mr-2 h-4 w-4" /> Cursus Toevoegen
         </Button>
       </div>

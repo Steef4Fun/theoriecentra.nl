@@ -65,7 +65,7 @@ export function SettingsCrud({ title, description, tableName, items }: SettingsC
           {tableName === 'category' && (
             <Input name="icon" placeholder="Icoon (bv. Car)" />
           )}
-          <Button type="submit" disabled={isSubmitting} className="w-full sm:w-auto">
+          <Button type="submit" variant="primary" disabled={isSubmitting} className="w-full sm:w-auto">
             {isSubmitting ? <Loader2 className="h-4 w-4 animate-spin" /> : "Toevoegen"}
           </Button>
         </form>
