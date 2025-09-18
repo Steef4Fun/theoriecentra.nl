@@ -1,6 +1,6 @@
 "use client";
 
-import { Star, Quote } from "lucide-react";
+import { Star } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import {
@@ -51,18 +51,17 @@ export function Reviews() {
         {reviews.map((review, index) => (
           <CarouselItem key={index} className="md:basis-1/2 lg:basis-1/3">
             <div className="p-1 h-full">
-              <Card className="flex flex-col relative overflow-hidden h-full">
-                <CardContent className="p-8 flex-grow flex flex-col">
-                  <Quote className="absolute top-4 left-4 h-12 w-12 text-primary/10" />
+              <Card className="flex flex-col h-full bg-secondary/50">
+                <CardContent className="p-6 flex-grow flex flex-col">
                   <div className="flex items-center gap-1 text-primary mb-4">
                     {[...Array(review.rating)].map((_, i) => (
                       <Star key={i} className="h-5 w-5 fill-current" />
                     ))}
                   </div>
-                  <p className="text-muted-foreground mb-6 flex-grow">
+                  <p className="text-foreground mb-6 flex-grow">
                     "{review.text}"
                   </p>
-                  <div className="flex items-center gap-4 mt-auto pt-6 border-t">
+                  <div className="flex items-center gap-4 mt-auto pt-4 border-t">
                     <Avatar>
                       <AvatarFallback>{review.avatar}</AvatarFallback>
                     </Avatar>
@@ -74,8 +73,8 @@ export function Reviews() {
           </CarouselItem>
         ))}
       </CarouselContent>
-      <CarouselPrevious className="border-primary text-primary hover:bg-primary hover:text-primary-foreground" />
-      <CarouselNext className="border-primary text-primary hover:bg-primary hover:text-primary-foreground" />
+      <CarouselPrevious />
+      <CarouselNext />
     </Carousel>
   );
 }
