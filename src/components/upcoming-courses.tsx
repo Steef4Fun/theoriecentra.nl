@@ -3,10 +3,12 @@
 import { useEffect, useState } from "react";
 import { Course } from "@/lib/types";
 import { Card } from "@/components/ui/card";
-import { Loader2, MapPin, Calendar, ArrowRight, Users } from "lucide-react";
+import { Loader2, MapPin, Calendar, Users } from "lucide-react";
 import Link from "next/link";
 import { format } from "date-fns";
 import { nl } from "date-fns/locale";
+import { Button } from "./ui/button";
+import { Badge } from "./ui/badge";
 
 export function UpcomingCourses() {
   const [courses, setCourses] = useState<Course[]>([]);
@@ -41,10 +43,12 @@ export function UpcomingCourses() {
 
   return (
     <div className="space-y-3">
-      {courses.map((course) => (
-        <Link href={`/inschrijven/${course.id}`} key={course.id} className="block group">
-          <Card className="bg-white/10 border-white/20 text-white p-4 transition-all duration-300 group-hover:bg-white/20 group-hover:border-white/40 group-hover:scale-[1.02]">
-            <div className="grid grid-cols-1 sm:grid-cols-[1fr,1fr,auto] items-center gap-4 text-left">
+      {courses.map((course) => {
+        const isLowSpots = course.spotsAvailable < 5;
+        return (
+          <Card key={course.id} className="bg-white/10 border-white/20 text-white p-4">
+            <div className="grid grid-cols-1 md:grid-cols-3 items-center gap-4 text-left">
+              {/* Column 1: Location & Category */}
               <div className="flex items-center gap-3">
                 <MapPin className="h-5 w-5 text-white/70 flex-shrink-0" />
                 <div>
@@ -52,24 +56,40 @@ export function UpcomingCourses() {
                   <p className="text-xs text-white/70">{course.category?.name}</p>
                 </div>
               </div>
+
+              {/* Column 2: Date & Scarcity */}
               <div className="flex items-center gap-3">
                 <Calendar className="h-5 w-5 text-white/70 flex-shrink-0" />
                 <div>
                   <p className="font-semibold">{format(new Date(course.courseDate), "eeee d MMMM", { locale: nl })}</p>
-                  <p className="text-xs text-white/70 flex items-center"><Users className="h-3 w-3 mr-1.5" />{course.spotsAvailable} plekken vrij</p>
+                  <div className="flex items-center gap-2 mt-1">
+                    <span className="text-sm font-bold text-white flex items-center">
+                      <Users className="h-4 w-4 mr-1.5" />
+                      {course.spotsAvailable} plekken
+                    </span>
+                    {isLowSpots && (
+                      <Badge className="bg-accent hover:bg-accent/90 text-accent-foreground px-2 py-0.5 text-xs border-0">
+                        Bijna vol!
+                      </Badge>
+                    )}
+                  </div>
                 </div>
               </div>
-              <div className="flex items-center justify-start sm:justify-end gap-4">
+
+              {/* Column 3: Price & CTA */}
+              <div className="flex flex-col items-start gap-2 sm:flex-row sm:items-center sm:justify-end sm:gap-4">
                 <div className="text-left sm:text-right">
-                  <p className="text-lg font-bold">€{course.basePrice.toFixed(2)}</p>
-                  <p className="text-xs text-white/70 -mt-1">+ €{course.examFee.toFixed(2)} examenkosten</p>
+                  <p className="text-xl font-bold">€{course.basePrice.toFixed(2)}</p>
+                  <p className="text-xs text-white/70 -mt-1">+ €{course.examFee.toFixed(2)}</p>
                 </div>
-                <ArrowRight className="h-6 w-6 text-white/70 transition-transform duration-300 group-hover:translate-x-1" />
+                <Button asChild size="sm" className="w-full sm:w-auto flex-shrink-0">
+                  <Link href={`/inschrijven/${course.id}`}>Boek Nu</Link>
+                </Button>
               </div>
             </div>
           </Card>
-        </Link>
-      ))}
+        );
+      })}
     </div>
   );
 }
