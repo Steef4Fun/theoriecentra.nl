@@ -65,7 +65,6 @@ export function Reviews() {
       <Carousel
         opts={{
           align: "start",
-          loop: true,
         }}
         className="w-full"
       >
@@ -102,8 +101,8 @@ export function Reviews() {
             </CarouselItem>
           ))}
         </CarouselContent>
-        <CarouselPrevious className="hidden md:inline-flex" />
-        <CarouselNext className="hidden md:inline-flex" />
+        <CarouselPrevious className="hidden md:inline-flex h-10 w-10 bg-primary/80 hover:bg-primary text-primary-foreground" />
+        <CarouselNext className="hidden md:inline-flex h-10 w-10 bg-primary/80 hover:bg-primary text-primary-foreground" />
       </Carousel>
       <div className="mt-8 text-center">
         <Button asChild variant="outline">

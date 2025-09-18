@@ -37,7 +37,7 @@ export function Header() {
   }, [hasHero, pathname]); // Rerun effect when path or hero status changes
 
   const navLinks = [
-    { href: "/cursussen", label: "Cursussen" },
+    { href: "/#boeken", label: "Cursussen" },
     { href: "/over-ons", label: "Over Ons" },
     { href: "/contact", label: "Contact" },
   ];
@@ -71,7 +71,7 @@ export function Header() {
             ))}
           </nav>
           <Button asChild size="sm" className="rounded-full">
-            <Link href="/cursussen">Direct Inschrijven</Link>
+            <Link href="/#boeken">Direct Inschrijven</Link>
           </Button>
         </div>
 
@@ -95,7 +95,7 @@ export function Header() {
                 ))}
               </nav>
               <Button asChild size="lg" className="w-full absolute bottom-8 left-0 rounded-none">
-                <Link href="/cursussen">Direct Inschrijven</Link>
+                <Link href="/#boeken">Direct Inschrijven</Link>
               </Button>
             </SheetContent>
           </Sheet>
