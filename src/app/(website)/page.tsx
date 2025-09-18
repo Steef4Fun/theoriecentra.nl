@@ -18,6 +18,7 @@ import { UpcomingCourses } from "@/components/upcoming-courses";
 import { TheOffer } from "@/components/the-offer";
 import { KeyQuestions } from "@/components/key-questions";
 import { InstructorShowcase } from "@/components/instructor-showcase";
+import { SuccessSpotlight } from "@/components/success-spotlight";
 
 export default function Home() {
   return (
@@ -141,6 +142,13 @@ export default function Home() {
               <Reviews />
             </AnimatedSection>
           </div>
+        </section>
+
+        {/* Success Spotlight Section */}
+        <section className="container">
+          <AnimatedSection>
+            <SuccessSpotlight />
+          </AnimatedSection>
         </section>
 
         {/* Key Questions Section */}
