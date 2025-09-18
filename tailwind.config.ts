@@ -12,7 +12,7 @@ export default {
       center: true,
       padding: "2rem",
       screens: {
-        "2xl": "1400px",
+        "2xl": "1200px",
       },
     },
   	extend: {
@@ -75,20 +75,10 @@ export default {
         '2xl': '2.3125rem',  // 37px
         '3xl': '2.875rem',   // 46px
         '4xl': '3.5rem',     // 56px
-        '5xl': '4.5rem',     // 72px
       },
       lineHeight: {
         'tight': '1.2',
-        'snug': '1.4',
         'normal': '1.5',
-      },
-      letterSpacing: {
-        'tight': '-0.02em',
-        'normal': '0em',
-        'wide': '0.05em',
-      },
-      boxShadow: {
-        'soft': '0 4px 20px -2px hsl(var(--primary) / 0.1)',
       },
   		keyframes: {
   			'accordion-down': {

@@ -47,7 +47,7 @@ export default function Home() {
             variants={heroVariants}
             className="max-w-3xl mx-auto"
           >
-            <h1 className="text-4xl font-extrabold tracking-tighter sm:text-5xl md:text-6xl text-shadow">
+            <h1 className="text-4xl font-extrabold tracking-tighter sm:text-5xl md:text-6xl lg:text-7xl text-shadow">
               Haal je theorie. In één dag.
             </h1>
             <p className="mt-6 text-lg text-white/80 md:text-xl text-shadow-sm max-w-2xl mx-auto">
