@@ -184,7 +184,7 @@ export default function Home() {
                 className="w-full max-w-3xl mx-auto"
               >
                 <AccordionItem value="item-1">
-                  <AccordionTrigger>
+                  <AccordionTrigger className="text-lg font-medium [&_svg]:h-6 [&_svg]:w-6">
                     Hoe kan ik me inschrijven?
                   </AccordionTrigger>
                   <AccordionContent>
@@ -194,7 +194,7 @@ export default function Home() {
                   </AccordionContent>
                 </AccordionItem>
                 <AccordionItem value="item-2">
-                  <AccordionTrigger>
+                  <AccordionTrigger className="text-lg font-medium [&_svg]:h-6 [&_svg]:w-6">
                     Wat moet ik meenemen naar de cursus?
                   </AccordionTrigger>
                   <AccordionContent>

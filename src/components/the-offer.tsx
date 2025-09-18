@@ -14,9 +14,9 @@ export function TheOffer() {
   return (
     <Card className="bg-muted/50">
       <CardHeader className="text-center">
-        <CardTitle className="text-3xl">Slaag voor €99,-</CardTitle>
+        <CardTitle className="text-3xl">Alles-in-1 Pakket: €147,75</CardTitle>
         <CardDescription className="text-lg">
-          + €48,75 voor het officiële CBR examen. Geen verrassingen.
+          Inclusief dagcursus (€99) en officieel CBR examen (€48,75). Geen verrassingen.
         </CardDescription>
       </CardHeader>
       <CardContent>
