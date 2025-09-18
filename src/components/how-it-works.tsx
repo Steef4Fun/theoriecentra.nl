@@ -21,10 +21,10 @@ const steps = [
 export function HowItWorks() {
   return (
     <div className="relative">
-      <div className="absolute left-1/2 top-10 hidden h-1 w-2/3 -translate-x-1/2 border-t-2 border-dashed border-primary/50 md:block" aria-hidden="true"></div>
+      <div className="absolute left-1/2 top-12 hidden h-1 w-2/3 -translate-x-1/2 border-t-2 border-dashed border-primary/50 md:block" aria-hidden="true"></div>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-12 relative">
         {steps.map((step) => (
-          <Card key={step.step} className="text-center bg-secondary/30">
+          <Card key={step.step} className="text-center bg-card z-10">
             <CardHeader>
               <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-primary text-primary-foreground font-bold text-xl">
                 {step.step}

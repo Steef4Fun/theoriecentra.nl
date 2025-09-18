@@ -14,9 +14,9 @@ export function TheOffer() {
   return (
     <Card className="bg-muted/50">
       <CardHeader className="text-center">
-        <CardTitle className="text-3xl">All-in Prijs, Geen Verrassingen</CardTitle>
+        <CardTitle className="text-3xl">Slaag voor €99,-</CardTitle>
         <CardDescription className="text-lg">
-          Voor <strong>€147,75</strong> krijg je het complete pakket om te slagen.
+          + €48,75 voor het officiële CBR examen. Geen verrassingen.
         </CardDescription>
       </CardHeader>
       <CardContent>

@@ -17,9 +17,9 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import Image from "next/image";
 import { Loader2 } from "lucide-react";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { TextLogo } from "@/components/text-logo";
 
 const loginSchema = z.object({
   email: z.string().email("Voer een geldig e-mailadres in."),
@@ -67,14 +67,8 @@ export default function LoginForm() {
   return (
     <div className="flex min-h-screen flex-col items-center justify-center bg-muted/40 p-4">
       <div className="w-full max-w-sm">
-        <div className="mb-8 text-center">
-          <Image
-            src="/logo.png"
-            alt="Logo"
-            width={200}
-            height={40}
-            className="mx-auto"
-          />
+        <div className="mb-8 flex justify-center">
+          <TextLogo />
         </div>
         <Card>
           <CardHeader>

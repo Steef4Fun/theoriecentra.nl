@@ -2,11 +2,11 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { Sheet, SheetContent, SheetTrigger, SheetClose } from "@/components/ui/sheet";
 import { Menu } from "lucide-react";
+import { TextLogo } from "../text-logo";
 
 export function Header() {
   const [scrolled, setScrolled] = useState(false);
@@ -38,16 +38,7 @@ export function Header() {
       )}
     >
       <div className="container flex h-16 items-center justify-between md:h-20">
-        <Link href="/" className="flex items-center">
-          <Image
-            src="/logo.png"
-            alt="Theoriecentra.nl Logo"
-            width={180}
-            height={40}
-            priority
-            className="h-auto"
-          />
-        </Link>
+        <TextLogo isScrolled={scrolled} />
         
         {/* Desktop Navigation */}
         <div className="hidden md:flex items-center gap-x-6">

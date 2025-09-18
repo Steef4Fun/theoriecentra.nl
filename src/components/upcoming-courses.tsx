@@ -44,19 +44,20 @@ export function UpcomingCourses() {
     <div className="space-y-3">
       {courses.map((course) => (
         <Card key={course.id} className="bg-white/10 backdrop-blur-sm border-white/20 text-white p-4">
-          <div className="grid grid-cols-1 sm:grid-cols-4 items-center gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-[1fr,1fr,auto,auto] items-center gap-4 text-left">
             <div className="flex items-center gap-2">
-              <MapPin className="h-5 w-5 text-white/70" />
+              <MapPin className="h-5 w-5 text-white/70 flex-shrink-0" />
               <span className="font-semibold">{course.location?.name}</span>
             </div>
             <div className="flex items-center gap-2">
-              <Calendar className="h-5 w-5 text-white/70" />
+              <Calendar className="h-5 w-5 text-white/70 flex-shrink-0" />
               <span>{format(new Date(course.courseDate), "d MMMM yyyy", { locale: nl })}</span>
             </div>
-            <div className="text-lg font-bold">
-              €{(course.basePrice + course.examFee).toFixed(2)}
+            <div className="sm:text-right">
+              <p className="text-lg font-bold">€{course.basePrice.toFixed(2)}</p>
+              <p className="text-xs text-white/70 -mt-1">+ €{course.examFee.toFixed(2)} examenkosten</p>
             </div>
-            <Button asChild className="bg-success hover:bg-success/90 text-success-foreground w-full sm:w-auto justify-self-start sm:justify-self-end">
+            <Button asChild className="bg-success hover:bg-success/90 text-success-foreground w-full sm:w-auto justify-self-stretch sm:justify-self-end">
               <Link href={`/inschrijven/${course.id}`}>
                 Boek Nu <ArrowRight className="ml-2 h-4 w-4" />
               </Link>
