@@ -16,6 +16,8 @@ import { HowItWorks } from "@/components/how-it-works";
 import { FinalCta } from "@/components/final-cta";
 import { TrustBar } from "@/components/trust-bar";
 import { UpcomingCourses } from "@/components/upcoming-courses";
+import { TheOffer } from "@/components/the-offer";
+import { KeyQuestions } from "@/components/key-questions";
 
 export default function Home() {
   return (
@@ -86,6 +88,13 @@ export default function Home() {
             <HowItWorks />
           </AnimatedSection>
         </section>
+        
+        {/* The Offer Section */}
+        <section className="container">
+          <AnimatedSection>
+            <TheOffer />
+          </AnimatedSection>
+        </section>
 
         {/* Booking Wizard Section */}
         <section id="booking-wizard" className="w-full scroll-mt-20">
@@ -133,12 +142,24 @@ export default function Home() {
           </div>
         </section>
 
+        {/* Key Questions Section */}
+        <section className="container">
+          <AnimatedSection>
+            <div className="text-center mb-12">
+              <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl">
+                Direct Antwoord op je Vragen
+              </h2>
+            </div>
+            <KeyQuestions />
+          </AnimatedSection>
+        </section>
+
         {/* FAQ Section */}
         <section id="faq" className="w-full bg-muted py-16 md:py-24">
           <div className="container">
             <AnimatedSection>
               <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl text-center mb-12">
-                Veelgestelde Vragen
+                Overige Vragen
               </h2>
               <Accordion
                 type="single"
@@ -147,40 +168,20 @@ export default function Home() {
               >
                 <AccordionItem value="item-1">
                   <AccordionTrigger>
-                    Hoe werkt de 1-daagse theoriecursus?
-                  </AccordionTrigger>
-                  <AccordionContent>
-                    Op de cursusdag behandelen we 's ochtends de volledige
-                    theoriestof met handige ezelsbruggetjes. 's Middags ga je,
-                    perfect voorbereid, naar het CBR om examen te doen.
-                  </AccordionContent>
-                </AccordionItem>
-                <AccordionItem value="item-2">
-                  <AccordionTrigger>
-                    Is de prijs inclusief het CBR-examen?
-                  </AccordionTrigger>
-                  <AccordionContent>
-                    Ja, onze totaalprijs is altijd inclusief de cursusdag én de
-                    kosten voor het officiële CBR theorie-examen. Geen verrassingen
-                    achteraf.
-                  </AccordionContent>
-                </AccordionItem>
-                <AccordionItem value="item-3">
-                  <AccordionTrigger>Wat als ik zak voor het examen?</AccordionTrigger>
-                  <AccordionContent>
-                    Mocht je het onverhoopt niet halen, dan bieden we een
-                    herkansing met korting aan. We laten je niet vallen en helpen
-                    je tot je geslaagd bent!
-                  </AccordionContent>
-                </AccordionItem>
-                <AccordionItem value="item-4">
-                  <AccordionTrigger>
                     Hoe kan ik me inschrijven?
                   </AccordionTrigger>
                   <AccordionContent>
                     Volg de stappen op onze website: kies je locatie, categorie en
                     datum. Vul daarna je gegevens in, betaal veilig online en je
                     plek is gereserveerd!
+                  </AccordionContent>
+                </AccordionItem>
+                <AccordionItem value="item-2">
+                  <AccordionTrigger>
+                    Wat moet ik meenemen naar de cursus?
+                  </AccordionTrigger>
+                  <AccordionContent>
+                    Je hoeft alleen een geldig identiteitsbewijs mee te nemen. Wij zorgen voor al het lesmateriaal, en ook voor lunch en drankjes gedurende de dag.
                   </AccordionContent>
                 </AccordionItem>
               </Accordion>
