@@ -12,6 +12,9 @@ const inter = Inter({
 export const metadata: Metadata = {
   title: "Theoriecentra.nl - Haal je theorie in 1 dag!",
   description: "Dagtheoriecursussen op locatie. Meld je aan en slaag voor je theorie-examen.",
+  icons: {
+    icon: "/logo.png",
+  },
 };
 
 export default function RootLayout({

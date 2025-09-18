@@ -9,16 +9,19 @@ const teamMembers = [
     name: "Alex de Vries",
     role: "Hoofdinstructeur",
     avatar: "https://api.dicebear.com/8.x/adventurer/svg?seed=Alex",
+    bio: "Met meer dan 10 jaar ervaring weet Alex precies hoe hij de lastigste theorieonderwerpen simpel en begrijpelijk kan maken. Zijn passie is om elke leerling met zelfvertrouwen naar het examen te sturen.",
   },
   {
     name: "Samira El Amrani",
     role: "Cursus Coördinator",
     avatar: "https://api.dicebear.com/8.x/adventurer/svg?seed=Samira",
+    bio: "Samira is het organisatorische brein achter de planning. Ze zorgt ervoor dat elke cursusdag vlekkeloos verloopt en is het eerste aanspreekpunt voor al je vragen.",
   },
   {
     name: "Joris Willems",
     role: "Theorie-expert",
     avatar: "https://api.dicebear.com/8.x/adventurer/svg?seed=Joris",
+    bio: "Joris is onze wandelende theorie-encyclopedie en is altijd op de hoogte van de laatste CBR-wijzigingen. Hij is gespecialiseerd in het ontrafelen van de beruchte strikvragen.",
   },
 ];
 
@@ -124,6 +127,7 @@ export default function AboutUsPage() {
                 </Avatar>
                 <h3 className="font-semibold text-lg">{member.name}</h3>
                 <p className="text-primary">{member.role}</p>
+                <p className="text-sm text-muted-foreground mt-2 max-w-xs">{member.bio}</p>
               </div>
             ))}
           </div>
