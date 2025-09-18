@@ -63,12 +63,12 @@ export function UpcomingCourses() {
                 <div>
                   <p className="font-semibold">{format(new Date(course.courseDate), "eeee d MMMM", { locale: nl })}</p>
                   <div className="flex items-center gap-2 mt-1">
-                    <span className="text-sm font-bold text-white flex items-center">
+                    <span className="text-base font-bold text-white flex items-center">
                       <Users className="h-4 w-4 mr-1.5" />
                       {course.spotsAvailable} plekken
                     </span>
                     {isLowSpots && (
-                      <Badge className="bg-accent hover:bg-accent/90 text-accent-foreground px-2 py-0.5 text-xs border-0">
+                      <Badge className="bg-accent hover:bg-accent/90 text-accent-foreground px-2.5 py-1 text-xs border-0 animate-pulse-subtle">
                         Bijna vol!
                       </Badge>
                     )}

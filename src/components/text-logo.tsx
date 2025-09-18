@@ -10,7 +10,7 @@ export function TextLogo({ className, isScrolled }: { className?: string, isScro
         className
       )}>
         Theorie
-        <span className="text-success">centra</span>
+        <span className="text-primary">centra</span>
       </span>
     </Link>
   );
