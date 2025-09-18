@@ -56,7 +56,7 @@ export function Header() {
               </Link>
             ))}
           </nav>
-          <Button asChild size="sm" className="rounded-full bg-success hover:bg-success/90 text-success-foreground">
+          <Button asChild size="sm" className="rounded-full">
             <Link href="/#booking-wizard">Direct Inschrijven</Link>
           </Button>
         </div>
@@ -80,7 +80,7 @@ export function Header() {
                   </SheetClose>
                 ))}
               </nav>
-              <Button asChild size="lg" className="w-full absolute bottom-8 left-0 rounded-none bg-success hover:bg-success/90 text-success-foreground">
+              <Button asChild size="lg" className="w-full absolute bottom-8 left-0 rounded-none">
                 <Link href="/#booking-wizard">Direct Inschrijven</Link>
               </Button>
             </SheetContent>
