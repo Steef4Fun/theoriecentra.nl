@@ -12,14 +12,15 @@ import { usePathname } from "next/navigation";
 export function Header() {
   const [scrolled, setScrolled] = useState(false);
   const pathname = usePathname();
-  const isHomePage = pathname === '/';
+  const pagesWithHero = ['/', '/over-ons', '/contact'];
+  const hasHero = pagesWithHero.includes(pathname);
 
-  // Header is solid if not on homepage, or if scrolled on homepage
-  const isSolid = !isHomePage || scrolled;
+  // Header is solid if it doesn't have a hero, or if it has a hero AND is scrolled.
+  const isSolid = !hasHero || scrolled;
 
   useEffect(() => {
-    if (!isHomePage) {
-      setScrolled(true); // Force solid header on non-home pages
+    if (!hasHero) {
+      setScrolled(true); // Force solid header on non-hero pages
       return;
     }
 
@@ -27,13 +28,13 @@ export function Header() {
       setScrolled(window.scrollY > 10);
     };
     
-    setScrolled(window.scrollY > 10); // Check initial scroll position
+    setScrolled(window.scrollY > 10); // Check initial scroll position for hero pages
 
     window.addEventListener("scroll", handleScroll);
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
-  }, [isHomePage, pathname]); // Rerun effect when path changes
+  }, [hasHero, pathname]); // Rerun effect when path or hero status changes
 
   const navLinks = [
     { href: "/cursussen", label: "Cursussen" },

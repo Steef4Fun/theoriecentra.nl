@@ -12,12 +12,13 @@ export default function WebsiteLayout({
   children: React.ReactNode;
 }>) {
   const pathname = usePathname();
-  const isHomePage = pathname === '/';
+  const pagesWithHero = ['/', '/over-ons', '/contact'];
+  const hasHero = pagesWithHero.includes(pathname);
 
   return (
     <>
       <Header />
-      <main className={cn(isHomePage ? "-mt-20" : "pt-16 md:pt-20")}>{children}</main>
+      <main className={cn(hasHero ? "-mt-20" : "pt-16 md:pt-20")}>{children}</main>
       <Footer />
       <CookieBanner />
     </>
