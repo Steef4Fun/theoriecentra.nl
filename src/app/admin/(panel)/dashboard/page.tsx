@@ -32,7 +32,7 @@ async function getPopularCourses() {
   const popularCourseIds = await prisma.registration.groupBy({
     by: ['courseId'],
     _count: {
-      _all: true,
+      courseId: true,
     },
     where: {
       courseId: {
@@ -41,7 +41,7 @@ async function getPopularCourses() {
     },
     orderBy: {
       _count: {
-        _all: 'desc',
+        courseId: 'desc',
       },
     },
     take: 5,
