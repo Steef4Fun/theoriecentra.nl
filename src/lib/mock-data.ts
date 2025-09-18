@@ -13,7 +13,7 @@ export const mockCategories: Category[] = [
 ];
 
 export const mockInstructors: User[] = [
-    { id: 'clxnf0t3m000008l5c3j4k2l1', email: 'instructor1@test.com', password: '', role: 'instructor', name: null, emailVerified: null },
+    { id: 'clxnf0t3m000008l5c3j4k2l1', email: 'instructor1@test.com', password: 'Hoi123', role: 'instructor', name: null, emailVerified: null },
     { id: 'clxnf0t3n000108l5d4k5l3m2', email: 'instructor2@test.com', password: '', role: 'instructor', name: null, emailVerified: null },
 ];
 
