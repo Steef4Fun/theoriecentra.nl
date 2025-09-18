@@ -51,8 +51,8 @@ export function Reviews() {
         {reviews.map((review, index) => (
           <CarouselItem key={index} className="md:basis-1/2 lg:basis-1/3">
             <div className="p-1 h-full">
-              <Card className="flex flex-col h-full bg-secondary/50">
-                <CardContent className="p-6 flex-grow flex flex-col">
+              <Card className="flex flex-col h-full bg-secondary/50 text-left">
+                <CardContent className="p-8 flex-grow flex flex-col">
                   <div className="flex items-center gap-1 text-primary mb-4">
                     {[...Array(review.rating)].map((_, i) => (
                       <Star key={i} className="h-5 w-5 fill-current" />

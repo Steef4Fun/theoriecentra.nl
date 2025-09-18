@@ -1,56 +1,113 @@
 import Link from "next/link";
-import { Button } from "../ui/button";
+import Image from "next/image";
+import { Mail, MapPin } from "lucide-react";
 
 export function Footer() {
   return (
     <footer className="bg-gray-900 text-gray-300">
-      <div className="container">
-        <div className="grid grid-cols-3 border-b border-gray-700 text-center text-xs uppercase tracking-widest">
-          <div className="py-3 border-r border-gray-700">Snel</div>
-          <div className="py-3 border-r border-gray-700 text-primary font-semibold">Makkelijk</div>
-          <div className="py-3">Geslaagd</div>
-        </div>
-        <div className="py-12 grid grid-cols-1 md:grid-cols-3 gap-8">
-          {/* Column 1: Navigation */}
+      <div className="container py-16">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12">
+          {/* Col 1: About */}
           <div className="space-y-4">
-            <h3 className="font-semibold text-lg text-white">Navigatie</h3>
-            <ul className="space-y-3">
-              <li><Link href="/cursussen" className="text-muted-foreground hover:text-primary transition-colors">Cursussen</Link></li>
-              <li><Link href="/over-ons" className="text-muted-foreground hover:text-primary transition-colors">Over Ons</Link></li>
-              <li><Link href="/contact" className="text-muted-foreground hover:text-primary transition-colors">Contact</Link></li>
-              <li><Link href="/#faq" className="text-muted-foreground hover:text-primary transition-colors">Veelgestelde Vragen</Link></li>
+            <Link href="/" className="flex items-center">
+              <Image
+                src="/logo.png"
+                alt="Theoriecentra.nl Logo"
+                width={180}
+                height={40}
+              />
+            </Link>
+            <p className="text-sm text-gray-400">
+              De snelste en makkelijkste manier om je theorie-examen te halen.
+              In één dag.
+            </p>
+          </div>
+
+          {/* Col 2: Navigatie */}
+          <div>
+            <h3 className="font-semibold text-white tracking-wider uppercase">
+              Navigatie
+            </h3>
+            <ul className="mt-4 space-y-3">
+              <li>
+                <Link
+                  href="/#booking-wizard"
+                  className="text-gray-400 hover:text-white transition-colors"
+                >
+                  Cursussen
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/over-ons"
+                  className="text-gray-400 hover:text-white transition-colors"
+                >
+                  Over Ons
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/contact"
+                  className="text-gray-400 hover:text-white transition-colors"
+                >
+                  Contact
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/#faq"
+                  className="text-gray-400 hover:text-white transition-colors"
+                >
+                  Veelgestelde Vragen
+                </Link>
+              </li>
             </ul>
-            <div className="pt-4 text-xs text-gray-500 space-y-1">
-                <p><Link href="/privacybeleid" className="hover:text-primary transition-colors">Privacybeleid</Link></p>
-                <p>Copyright © {new Date().getFullYear()}</p>
-            </div>
           </div>
 
-          {/* Column 2: CTA */}
-          <div className="bg-gray-800 p-8 rounded-lg flex flex-col items-center justify-center text-center">
-            <h3 className="font-semibold text-lg text-white mb-4">Klaar om te slagen?</h3>
-            <p className="text-muted-foreground mb-6">Vind een cursus die bij jou past en reserveer direct je plek.</p>
-            <Button
-              asChild
-              className="rounded-full border-2 border-primary bg-primary px-8 text-base font-semibold text-primary-foreground transition-all duration-300 hover:bg-primary/90"
-            >
-                <Link href="/#booking-wizard">Vind je Cursus</Link>
-            </Button>
+          {/* Col 3: Contact */}
+          <div>
+            <h3 className="font-semibold text-white tracking-wider uppercase">
+              Contact
+            </h3>
+            <ul className="mt-4 space-y-3 text-gray-400">
+              <li className="flex items-start">
+                <MapPin className="h-5 w-5 mr-3 mt-1 flex-shrink-0" />
+                <span>Jan Romeinstraat 4, 5624JJ Eindhoven</span>
+              </li>
+              <li className="flex items-center">
+                <Mail className="h-5 w-5 mr-3" />
+                <a
+                  href="mailto:info@theoriecentra.nl"
+                  className="hover:text-white transition-colors"
+                >
+                  info@theoriecentra.nl
+                </a>
+              </li>
+            </ul>
           </div>
 
-          {/* Column 3: Contact */}
-          <div className="space-y-4">
-            <h3 className="font-semibold text-lg text-white">Contact</h3>
-            <div className="text-muted-foreground space-y-3">
-                <p>
-                    <a href="mailto:info@theoriecentra.nl" className="hover:text-primary transition-colors">info@theoriecentra.nl</a>
-                </p>
-                <p>
-                    Jan Romeinstraat 4, 5624JJ Eindhoven
-                </p>
-                <p>KVK: 59739584</p>
-            </div>
+          {/* Col 4: Wettelijk */}
+          <div>
+            <h3 className="font-semibold text-white tracking-wider uppercase">
+              Wettelijk
+            </h3>
+            <ul className="mt-4 space-y-3">
+              <li>
+                <Link
+                  href="/privacybeleid"
+                  className="text-gray-400 hover:text-white transition-colors"
+                >
+                  Privacybeleid
+                </Link>
+              </li>
+            </ul>
           </div>
+        </div>
+        <div className="mt-16 border-t border-gray-700 pt-8 text-center text-sm text-gray-400">
+          <p>
+            &copy; {new Date().getFullYear()} Theoriecentra.nl. Alle rechten
+            voorbehouden.
+          </p>
         </div>
       </div>
     </footer>

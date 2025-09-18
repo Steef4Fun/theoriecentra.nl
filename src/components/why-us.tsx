@@ -23,12 +23,12 @@ export function WhyUs() {
   return (
     <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
       {features.map((feature) => (
-        <Card key={feature.title} className="border-2 border-transparent hover:border-primary hover:shadow-lg transition-all duration-300">
+        <Card key={feature.title} className="flex flex-col h-full text-left border-2 border-transparent hover:border-primary hover:shadow-lg transition-all duration-300">
           <CardHeader className="flex flex-row items-center gap-4">
             {feature.icon}
             <CardTitle>{feature.title}</CardTitle>
           </CardHeader>
-          <CardContent>
+          <CardContent className="flex-grow">
             <p className="text-muted-foreground">{feature.description}</p>
           </CardContent>
         </Card>

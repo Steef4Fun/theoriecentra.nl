@@ -130,9 +130,14 @@ export default function Home() {
         <section id="wall-of-fame" className="w-full">
           <div className="container">
             <AnimatedSection>
-              <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl text-center mb-12">
-                Onze Toppers
-              </h2>
+              <div className="text-center mb-12">
+                <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl">
+                  Zij zijn je voorgegaan
+                </h2>
+                <p className="max-w-2xl mx-auto mt-4 text-muted-foreground">
+                  Een greep uit de duizenden leerlingen die dankzij onze methode in één keer zijn geslaagd.
+                </p>
+              </div>
               <WallOfFame />
             </AnimatedSection>
           </div>
