@@ -25,7 +25,7 @@ export function SuccessSpotlight() {
             </Link>
           </Button>
         </div>
-        <div className="bg-card p-8 h-full">
+        <div className="p-8 h-full md:border-l">
           <div className="flex items-center gap-4 mb-4">
             <Avatar>
               <AvatarImage src={`https://api.dicebear.com/8.x/adventurer/svg?seed=${featuredReview.avatarSeed}`} alt={featuredReview.name} />
