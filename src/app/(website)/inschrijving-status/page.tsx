@@ -104,10 +104,15 @@ function StatusDisplay() {
           <>
             <CheckCircle className="h-12 w-12 text-green-500" />
             <CardTitle className="mt-4">Inschrijving geslaagd!</CardTitle>
-            <p className="text-muted-foreground mt-2">Je betaling is succesvol verwerkt. Je ontvangt spoedig een bevestiging per e-mail.</p>
-            <Button asChild className="mt-6">
-              <Link href="/cursussen">Bekijk meer cursussen</Link>
-            </Button>
+            <p className="text-muted-foreground mt-2">Je betaling is succesvol verwerkt. Je ontvangt spoedig een bevestiging per e-mail met alle details.</p>
+            <div className="flex flex-col sm:flex-row gap-2 mt-6">
+              <Button asChild>
+                <Link href="/volgende-stappen">Wat zijn de volgende stappen?</Link>
+              </Button>
+              <Button asChild variant="outline">
+                <Link href="/#faq">Lees de FAQ</Link>
+              </Button>
+            </div>
           </>
         );
       case "pending":

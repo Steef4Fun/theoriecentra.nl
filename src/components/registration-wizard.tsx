@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -117,7 +118,7 @@ export function RegistrationWizard({ course }: RegistrationWizardProps) {
           <div className="flex justify-between mb-2">
             {steps.map((step, index) => (
               <div key={step.id} className="text-center">
-                <span className={`text-xs font-semibold ${currentStep >= index ? 'text-primary' : 'text-muted-foreground'}`}>
+                <span className={`text-xs font-semibold ${currentStep >= index ? 'text-primary' : 'text-foreground/60'}`}>
                   {step.id}
                 </span>
               </div>
@@ -155,8 +156,8 @@ export function RegistrationWizard({ course }: RegistrationWizardProps) {
                     <FormField control={form.control} name="firstName" render={({ field }) => (<FormItem><FormLabel>Voornaam</FormLabel><FormControl><Input placeholder="Jan" {...field} /></FormControl><FormMessage /></FormItem>)} />
                     <FormField control={form.control} name="lastName" render={({ field }) => (<FormItem><FormLabel>Achternaam</FormLabel><FormControl><Input placeholder="Jansen" {...field} /></FormControl><FormMessage /></FormItem>)} />
                     <FormField control={form.control} name="email" render={({ field }) => (<FormItem><FormLabel>E-mailadres</FormLabel><FormControl><Input type="email" placeholder="voorbeeld@email.com" {...field} /></FormControl><FormMessage /></FormItem>)} />
-                    <FormField control={form.control} name="phoneNumber" render={({ field }) => (<FormItem><FormLabel>Telefoonnummer</FormLabel><FormControl><Input type="tel" placeholder="0612345678" {...field} /></FormControl><FormMessage /></FormItem>)} />
-                    <FormField control={form.control} name="dateOfBirth" render={({ field }) => (<FormItem className="flex flex-col"><FormLabel>Geboortedatum</FormLabel><Popover><PopoverTrigger asChild><FormControl><Button variant={"outline"} className={cn("w-full pl-3 text-left font-normal",!field.value && "text-muted-foreground")}>{field.value ? (format(field.value, "PPP", { locale: nl })) : (<span>Kies een datum</span>)}<CalendarIcon className="ml-auto h-4 w-4 opacity-50" /></Button></FormControl></PopoverTrigger><PopoverContent className="w-auto p-0" align="start"><Calendar mode="single" selected={field.value} onSelect={field.onChange} disabled={(date) => date > maxBirthDate || date < new Date("1900-01-01")} initialFocus locale={nl} captionLayout="dropdown" fromYear={currentYear - 100} toYear={currentYear - 16} /></PopoverContent></Popover><FormMessage /></FormItem>)} />
+                    <FormField control={form.control} name="phoneNumber" render={({ field }) => (<FormItem><FormLabel>Telefoonnummer</FormLabel><FormControl><Input type="tel" placeholder="0612345678" /></FormControl><FormMessage /></FormItem>)} />
+                    <FormField control={form.control} name="dateOfBirth" render={({ field }) => (<FormItem className="flex flex-col"><FormLabel>Geboortedatum</FormLabel><Popover><PopoverTrigger asChild><FormControl><Button variant={"outline"} className={cn("w-full pl-3 text-left font-normal",!field.value && "text-muted-foreground")}>{field.value ? (format(field.value, "PPP", { locale: nl })) : (<span>Kies een datum</span>)}<CalendarIcon className="ml-auto h-4 w-4 opacity-50" /></Button></FormControl></PopoverTrigger><PopoverContent className="w-auto p-0" align="start"><Calendar mode="single" selected={field.value} onSelect={field.onChange} disabled={(date) => date > maxBirthDate || date < new Date("1900-01-01")} initialFocus locale={nl} captionLayout="dropdown" fromYear={currentYear - 100} toYear={currentYear - 16} /></PopoverContent></Popover><FormDescription>Nodig voor de officiële CBR-aanmelding.</FormDescription><FormMessage /></FormItem>)} />
                  </div>
               </motion.div>
             )}

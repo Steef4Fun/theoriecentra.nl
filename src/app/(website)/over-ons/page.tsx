@@ -50,15 +50,13 @@ export default function AboutUsPage() {
       </section>
 
       <div className="container py-16 md:py-24 space-y-16 md:space-y-24">
-        {/* Our Story Section */}
+        {/* Our Story Section 1 */}
         <AnimatedSection>
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div>
               <h2 className="text-3xl font-bold mb-4">Gedreven door Passie voor Slagen</h2>
               <p className="text-muted-foreground text-lg leading-relaxed">
                 Theoriecentra.nl is ontstaan uit een simpele frustratie: het leren van theorie duurde te lang, was saai en vaak niet effectief. Wij vonden dat het anders moest. Sneller, leuker en met een laserfocus op wat écht belangrijk is om te slagen voor het CBR-examen.
-                <br /><br />
-                Onze missie is om elke leerling het zelfvertrouwen en de kennis te geven om in één keer te slagen. Geen wekenlange studie, maar één intensieve, resultaatgerichte dag die het verschil maakt.
               </p>
             </div>
             <div className="rounded-xl overflow-hidden shadow-soft">
@@ -69,6 +67,26 @@ export default function AboutUsPage() {
                     height={600}
                     className="object-cover"
                 />
+            </div>
+          </div>
+        </AnimatedSection>
+
+        {/* Our Story Section 2 */}
+        <AnimatedSection>
+          <div className="grid md:grid-cols-2 gap-12 items-center">
+            <div className="rounded-xl overflow-hidden shadow-soft md:order-2">
+                <Image 
+                    src="https://images.unsplash.com/photo-1557804506-669a67965ba0?q=80&w=2070&auto=format&fit=crop"
+                    alt="Instructeur geeft les"
+                    width={800}
+                    height={600}
+                    className="object-cover"
+                />
+            </div>
+            <div className="md:order-1">
+              <p className="text-muted-foreground text-lg leading-relaxed">
+                Onze missie is om elke leerling het zelfvertrouwen en de kennis te geven om in één keer te slagen. Geen wekenlange studie, maar één intensieve, resultaatgerichte dag die het verschil maakt.
+              </p>
             </div>
           </div>
         </AnimatedSection>

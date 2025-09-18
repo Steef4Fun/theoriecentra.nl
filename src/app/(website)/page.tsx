@@ -1,4 +1,3 @@
-import { BookingWizard } from "@/components/booking-wizard";
 import {
   Accordion,
   AccordionContent,
@@ -15,7 +14,6 @@ import { UpcomingCourses } from "@/components/upcoming-courses";
 import { TheOffer } from "@/components/the-offer";
 import { KeyQuestions } from "@/components/key-questions";
 import { InstructorShowcase } from "@/components/instructor-showcase";
-import { SuccessSpotlight } from "@/components/success-spotlight";
 import prisma from "@/lib/prisma";
 import { Course } from "@/lib/types";
 
@@ -145,23 +143,6 @@ export default async function Home() {
           </AnimatedSection>
         </section>
 
-        {/* Booking Wizard Section */}
-        <section id="booking-wizard" className="w-full scroll-mt-20">
-          <div className="container">
-            <AnimatedSection>
-              <div className="flex flex-col items-center justify-center space-y-4 text-center mb-12">
-                <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl">
-                  Plan je Cursus
-                </h2>
-                <p className="max-w-2xl mx-auto text-muted-foreground">
-                  Kies je locatie, categorie en een datum die jou uitkomt. Binnen enkele minuten is je plek gereserveerd.
-                </p>
-              </div>
-              <BookingWizard />
-            </AnimatedSection>
-          </div>
-        </section>
-
         {/* Social Proof: Reviews Section */}
         <section id="reviews" className="w-full bg-muted py-16 md:py-24">
           <div className="container">
@@ -172,13 +153,6 @@ export default async function Home() {
               <Reviews />
             </AnimatedSection>
           </div>
-        </section>
-
-        {/* Success Spotlight Section */}
-        <section className="container">
-          <AnimatedSection>
-            <SuccessSpotlight />
-          </AnimatedSection>
         </section>
 
         {/* Key Questions Section */}

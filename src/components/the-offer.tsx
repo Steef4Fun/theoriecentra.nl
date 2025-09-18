@@ -15,9 +15,9 @@ export function TheOffer() {
     <div className="p-1 bg-gradient-to-br from-primary/50 via-primary/20 to-muted rounded-xl">
       <Card className="bg-card">
         <CardHeader className="text-center">
-          <CardTitle className="text-3xl">Alles-in-1 Pakket</CardTitle>
-          <p className="text-6xl font-extrabold text-primary tracking-tighter my-4">€147,75</p>
-          <CardDescription className="text-lg -mt-2">
+          <h3 className="text-3xl font-bold">Alles-in-1 Pakket</h3>
+          <p className="text-5xl font-extrabold text-primary tracking-tighter mt-2">€147,75</p>
+          <CardDescription className="text-lg">
             Inclusief dagcursus (€99) en officieel CBR examen (€48,75). Geen verrassingen.
           </CardDescription>
         </CardHeader>

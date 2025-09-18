@@ -10,8 +10,8 @@ export default function ContactPage() {
       {/* Hero Section */}
       <section className="relative bg-gray-900 py-24 md:py-32 text-white">
         <Image
-          src="https://images.unsplash.com/photo-1586769852836-bc069f19e1b6?q=80&w=2070&auto=format&fit=crop"
-          alt="Contact"
+          src="https://images.unsplash.com/photo-1556740738-b6a63e27c4df?q=80&w=2070&auto=format&fit=crop"
+          alt="Klantenservice medewerker"
           layout="fill"
           objectFit="cover"
           className="absolute inset-0 z-0 opacity-30"
