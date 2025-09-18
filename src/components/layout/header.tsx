@@ -12,7 +12,7 @@ import { usePathname } from "next/navigation";
 export function Header() {
   const [scrolled, setScrolled] = useState(false);
   const pathname = usePathname();
-  const pagesWithHero = ['/', '/over-ons', '/contact'];
+  const pagesWithHero = ['/', '/over-ons', '/contact', '/privacybeleid'];
   const hasHero = pagesWithHero.includes(pathname);
 
   // Header is solid if it doesn't have a hero, or if it has a hero AND is scrolled.
