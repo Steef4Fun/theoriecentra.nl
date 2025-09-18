@@ -7,26 +7,21 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { Button } from "@/components/ui/button";
 import { Reviews } from "@/components/reviews";
 import { WallOfFame } from "@/components/wall-of-fame";
 import { AnimatedSection } from "@/components/animated-section";
-import Link from "next/link";
 import { motion } from "framer-motion";
 import { WhyUs } from "@/components/why-us";
 import { HowItWorks } from "@/components/how-it-works";
 import { FinalCta } from "@/components/final-cta";
+import { TrustBar } from "@/components/trust-bar";
+import { UpcomingCourses } from "@/components/upcoming-courses";
 
 export default function Home() {
-  const heroVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.6, delay: 0.4 } },
-  };
-
   return (
     <>
       {/* Hero Section */}
-      <section className="relative w-full h-screen min-h-[700px] flex items-center text-center overflow-hidden">
+      <section className="relative w-full min-h-screen flex items-center py-24">
         <div className="absolute inset-0 z-[-1]">
           <video
             src="/hero-video.mp4"
@@ -42,26 +37,21 @@ export default function Home() {
         </div>
         <div className="container text-white">
           <motion.div
-            initial="hidden"
-            animate="visible"
-            variants={heroVariants}
-            className="max-w-3xl mx-auto"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            className="max-w-4xl mx-auto text-center"
           >
-            <h1 className="text-4xl font-extrabold tracking-tighter sm:text-5xl md:text-6xl lg:text-7xl text-shadow">
+            <h1 className="text-4xl font-extrabold tracking-tighter sm:text-5xl md:text-6xl text-shadow">
               Haal je theorie. In één dag.
             </h1>
-            <p className="mt-6 text-lg text-white/80 md:text-xl text-shadow-sm max-w-2xl mx-auto">
-              Met onze unieke dagcursus stomen we je klaar voor het CBR-examen. Duidelijk, snel en met de hoogste slagingskans.
+            <p className="mt-4 text-lg text-white/80 md:text-xl text-shadow-sm max-w-2xl mx-auto">
+              Vind hieronder direct de eerstvolgende cursusdata en reserveer je plek. Snel, simpel en met de hoogste slagingskans.
             </p>
-            <div className="mt-8">
-              <Button
-                size="lg"
-                asChild
-                className="rounded-full bg-primary px-8 text-base font-semibold text-primary-foreground transition-all duration-300 hover:bg-primary/90"
-              >
-                <Link href="#booking-wizard">Vind je Cursus</Link>
-              </Button>
+            <div className="my-8">
+              <TrustBar />
             </div>
+            <UpcomingCourses />
           </motion.div>
         </div>
       </section>
