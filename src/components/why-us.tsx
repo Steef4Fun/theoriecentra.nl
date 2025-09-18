@@ -4,8 +4,8 @@ import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
 const features = [
   {
     icon: <Award className="h-8 w-8 text-primary" />,
-    title: "Hoogste Slagingskans",
-    description: "Onze unieke, op het CBR-examen gerichte lesmethode zit vol met handige ezelsbruggetjes en herhaling.",
+    title: "92% Slagingskans",
+    description: "Onze unieke, op het CBR-examen gerichte lesmethode heeft een bewezen eerste-keer-slagingskans van 92%.",
   },
   {
     icon: <BookOpenCheck className="h-8 w-8 text-primary" />,

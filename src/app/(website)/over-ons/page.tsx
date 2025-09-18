@@ -43,7 +43,7 @@ export default function AboutUsPage() {
               Onze Missie: Jouw Snelste Route naar Geslaagd
             </h1>
             <p className="mt-6 max-w-3xl mx-auto text-lg text-white/80 md:text-xl text-shadow-sm">
-              Leer ons kennen. Ontdek waarom duizenden leerlingen voor onze unieke dagcursus kiezen om in één keer hun theorie-examen te halen.
+              Leer ons kennen. Ontdek waarom meer dan 10.000 leerlingen voor onze unieke dagcursus kiezen om in één keer hun theorie-examen te halen.
             </p>
           </AnimatedSection>
         </div>

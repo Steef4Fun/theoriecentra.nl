@@ -8,7 +8,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { Reviews } from "@/components/reviews";
-import { WallOfFame } from "@/components/wall-of-fame";
+import { WallOfSuccess } from "@/components/wall-of-success";
 import { AnimatedSection } from "@/components/animated-section";
 import { motion } from "framer-motion";
 import { WhyUs } from "@/components/why-us";
@@ -116,7 +116,7 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Social Proof: Wall of Fame Section */}
+        {/* Social Proof: Wall of Success Section */}
         <section id="wall-of-fame" className="w-full">
           <div className="container">
             <AnimatedSection>
@@ -125,10 +125,10 @@ export default function Home() {
                   Zij zijn je voorgegaan
                 </h2>
                 <p className="max-w-2xl mx-auto mt-4 text-muted-foreground">
-                  Een greep uit de duizenden leerlingen die dankzij onze methode in één keer zijn geslaagd.
+                  Sluit je aan bij de 10.000+ leerlingen die dankzij onze methode in één keer zijn geslaagd.
                 </p>
               </div>
-              <WallOfFame />
+              <WallOfSuccess />
             </AnimatedSection>
           </div>
         </section>
