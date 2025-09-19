@@ -35,8 +35,8 @@ async function getPopularCourses() {
       courseId: true,
     },
     where: {
-      NOT: {
-        courseId: null,
+      courseId: {
+        not: null,
       },
     },
     orderBy: {

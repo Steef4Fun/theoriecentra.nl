@@ -18,6 +18,7 @@ export function UpcomingCourses({ courses }: { courses: Course[] }) {
   }
 
   const coursesToShow = isMobile ? courses.slice(0, 3) : courses;
+  const showMoreButton = (isMobile && courses.length > 3) || (!isMobile && courses.length === 5);
 
   return (
     <>
@@ -70,7 +71,7 @@ export function UpcomingCourses({ courses }: { courses: Course[] }) {
           );
         })}
       </div>
-      {isMobile && courses.length > 3 && (
+      {showMoreButton && (
         <div className="mt-6 text-center">
           <Button asChild variant="outline" className="bg-transparent text-white border-white/50 hover:bg-white/10 hover:text-white">
             <Link href="/cursussen">
