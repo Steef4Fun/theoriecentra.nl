@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { Sheet, SheetContent, SheetTrigger, SheetClose } from "@/components/ui/sheet";
 import { Menu } from "lucide-react";
-import { TextLogo } from "../text-logo";
+import { Logo } from "../logo";
 import { usePathname } from "next/navigation";
 
 export function Header() {
@@ -52,7 +52,7 @@ export function Header() {
       )}
     >
       <div className="container flex h-16 items-center justify-between md:h-20">
-        <TextLogo isScrolled={isSolid} />
+        <Logo />
         
         {/* Desktop Navigation */}
         <div className="hidden md:flex items-center gap-x-6">

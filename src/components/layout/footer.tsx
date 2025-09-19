@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { Mail, MapPin } from "lucide-react";
-import { TextLogo } from "../text-logo";
+import { Logo } from "../logo";
 
 export function Footer() {
   return (
@@ -9,7 +9,7 @@ export function Footer() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12">
           {/* Col 1: About */}
           <div className="space-y-4">
-            <TextLogo className="text-white" />
+            <Logo />
             <p className="text-sm text-gray-400">
               De snelste en makkelijkste manier om je theorie-examen te halen.
               In één dag.

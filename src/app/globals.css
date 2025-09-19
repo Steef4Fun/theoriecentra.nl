@@ -11,8 +11,8 @@
     --popover: 0 0% 100%;
     --popover-foreground: 240 10% 3.9%;
     
-    --primary: 142 71% 45%; /* Green */
-    --primary-foreground: 210 40% 98%;
+    --primary: 336 100% 50%; /* Pink from logo */
+    --primary-foreground: 0 0% 100%;
 
     --secondary: 240 4.8% 95.9%;
     --secondary-foreground: 240 5.9% 10%;
@@ -20,18 +20,18 @@
     --muted: 240 4.8% 95.9%;
     --muted-foreground: 240 3.8% 46.1%;
 
-    --accent: 24.6 95% 53.1%; /* Orange */
+    --accent: 195 100% 50%; /* Blue from logo */
     --accent-foreground: 210 40% 98%;
 
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
 
-    --success: 221 83% 53%; /* Blue (old primary) */
+    --success: 120 61% 50%; /* Green from logo */
     --success-foreground: 210 40% 98%;
 
     --border: 240 5.9% 90%;
     --input: 240 5.9% 90%;
-    --ring: 24.6 95% 53.1%;
+    --ring: 195 100% 50%; /* Blue from logo */
     --radius: 0.5rem; /* 8px */
 
     --dark-background: 240 6% 10%;

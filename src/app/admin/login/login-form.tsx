@@ -19,7 +19,7 @@ import {
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Loader2 } from "lucide-react";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { TextLogo } from "@/components/text-logo";
+import { Logo } from "@/components/logo";
 
 const loginSchema = z.object({
   email: z.string().email("Voer een geldig e-mailadres in."),
@@ -68,7 +68,7 @@ export default function LoginForm() {
     <div className="flex min-h-screen flex-col items-center justify-center bg-muted/40 p-4">
       <div className="w-full max-w-sm">
         <div className="mb-8 flex justify-center">
-          <TextLogo />
+          <Logo />
         </div>
         <Card>
           <CardHeader>
