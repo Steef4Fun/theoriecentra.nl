@@ -4,7 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { Button } from "@/components/ui/button";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { userSchema } from "@/lib/validators";
@@ -73,7 +73,7 @@ export function UserForm({ isOpen, setIsOpen, profile }: UserFormProps) {
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
             <FormField control={form.control} name="email" render={({ field }) => (<FormItem><FormLabel>E-mailadres</FormLabel><FormControl><Input type="email" {...field} disabled={!!profile} /></FormControl><FormMessage /></FormItem>)} />
             {!profile && (
-              <FormField control={form.control} name="password" render={({ field }) => (<FormItem><FormLabel>Wachtwoord</FormLabel><FormControl><Input type="password" {...field} /></FormControl><FormMessage /></FormItem>)} />
+              <FormField control={form.control} name="password" render={({ field }) => (<FormItem><FormLabel>Wachtwoord</FormLabel><FormControl><Input type="password" {...field} /></FormControl><FormDescription>Laat leeg om een uitnodigingsmail te sturen.</FormDescription><FormMessage /></FormItem>)} />
             )}
             <FormField control={form.control} name="role" render={({ field }) => (<FormItem><FormLabel>Rol</FormLabel><Select onValueChange={field.onChange} defaultValue={field.value}><FormControl><SelectTrigger><SelectValue placeholder="Selecteer een rol" /></SelectTrigger></FormControl><SelectContent><SelectItem value="admin">Admin</SelectItem><SelectItem value="instructor">Cursusleider</SelectItem></SelectContent></Select><FormMessage /></FormItem>)} />
             <div className="flex justify-end gap-2 pt-4">

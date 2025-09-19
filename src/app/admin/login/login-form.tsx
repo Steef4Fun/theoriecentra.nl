@@ -20,6 +20,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Loader2 } from "lucide-react";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Logo } from "@/components/logo";
+import Link from "next/link";
 
 const loginSchema = z.object({
   email: z.string().email("Voer een geldig e-mailadres in."),
@@ -105,7 +106,12 @@ export default function LoginForm() {
                   name="password"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Wachtwoord</FormLabel>
+                      <div className="flex items-center justify-between">
+                        <FormLabel>Wachtwoord</FormLabel>
+                        <Link href="/admin/forgot-password" className="text-sm font-medium text-primary hover:underline">
+                          Vergeten?
+                        </Link>
+                      </div>
                       <FormControl>
                         <Input type="password" placeholder="••••••••" {...field} />
                       </FormControl>

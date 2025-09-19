@@ -4,8 +4,10 @@ import { z } from 'zod';
 import { userSchema } from '@/lib/validators';
 import prisma from '@/lib/prisma';
 import bcrypt from 'bcrypt';
+import crypto from 'crypto';
 import { createAuditLog } from '@/lib/audit-log';
 import { revalidatePath } from 'next/cache';
+import { sendPasswordSetupEmail } from '@/lib/mail';
 
 export async function createUser(values: z.infer<typeof userSchema>) {
   try {
@@ -17,30 +19,51 @@ export async function createUser(values: z.infer<typeof userSchema>) {
       return { error: "Een gebruiker met dit e-mailadres bestaat al." };
     }
 
-    if (!values.password) {
-        return { error: "Wachtwoord is verplicht bij het aanmaken van een gebruiker." };
-    }
-
-    const hashedPassword = await bcrypt.hash(values.password, 10);
-
-    const user = await prisma.user.create({
-      data: {
-        email: values.email,
-        password: hashedPassword,
-        role: values.role,
-      },
-    });
-
-    await createAuditLog({
-        action: 'CREATE_USER',
+    if (values.password) {
+      // Maak gebruiker met wachtwoord
+      const hashedPassword = await bcrypt.hash(values.password, 10);
+      const user = await prisma.user.create({
+        data: {
+          email: values.email,
+          password: hashedPassword,
+          role: values.role,
+        },
+      });
+      await createAuditLog({
+        action: 'CREATE_USER_WITH_PASSWORD',
         entityType: 'User',
         entityId: user.id,
         details: { email: values.email, role: values.role },
-    });
+      });
+    } else {
+      // Maak gebruiker zonder wachtwoord en stuur uitnodiging
+      const setupToken = crypto.randomBytes(32).toString('hex');
+      const passwordResetToken = crypto.createHash('sha256').update(setupToken).digest('hex');
+      const passwordResetExpires = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000); // 7 dagen geldig
+
+      const user = await prisma.user.create({
+        data: {
+          email: values.email,
+          role: values.role,
+          passwordResetToken,
+          passwordResetExpires,
+        },
+      });
+
+      await sendPasswordSetupEmail(user, setupToken);
+
+      await createAuditLog({
+        action: 'CREATE_USER_INVITATION',
+        entityType: 'User',
+        entityId: user.id,
+        details: { email: values.email, role: values.role },
+      });
+    }
     
     revalidatePath('/admin/gebruikers');
     return { error: null };
   } catch (error) {
+    console.error(error);
     return { error: "Er is een fout opgetreden bij het aanmaken van de gebruiker." };
   }
 }

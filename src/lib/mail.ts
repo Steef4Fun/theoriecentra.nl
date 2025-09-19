@@ -8,6 +8,7 @@ import prisma from './prisma';
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 const fromEmail = 'Theoriecentra.nl <info@theoriecentra.chargehosting.com>';
+const appUrl = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000';
 
 type FullRegistration = Registration & {
   course: (Course & {
@@ -133,4 +134,16 @@ export const sendRescheduleEmail = async (registration: FullRegistration, oldCou
         location: registration.course.location?.name || 'N/A',
     };
     await sendTemplatedEmail('reschedule-confirmation', registration.email, data);
+};
+
+export const sendPasswordSetupEmail = async (user: User, token: string) => {
+  if (!user.email) return;
+  const setupLink = `${appUrl}/auth/set-password?token=${token}`;
+  await sendTemplatedEmail('password-setup-invitation', user.email, { setupLink });
+};
+
+export const sendPasswordResetEmail = async (user: User, token: string) => {
+  if (!user.email) return;
+  const resetLink = `${appUrl}/auth/set-password?token=${token}`;
+  await sendTemplatedEmail('password-reset-request', user.email, { resetLink });
 };

@@ -1,3 +1,6 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
 generator client {
   provider = "prisma-client-js"
 }
@@ -5,6 +8,23 @@ generator client {
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
+}
+
+model User {
+  id                    String    @id @default(cuid())
+  name                  String?
+  email                 String?   @unique
+  emailVerified         DateTime?
+  image                 String?
+  password              String?
+  role                  String    @default("user")
+  accounts              Account[]
+  sessions              Session[]
+  coursesAsInstructor   Course[]
+  auditLogs             AuditLog[]
+
+  passwordResetToken  String?   @unique
+  passwordResetExpires DateTime?
 }
 
 model Account {
@@ -42,20 +62,6 @@ model VerificationToken {
   @@unique([identifier, token])
 }
 
-model User {
-  id            String     @id @default(cuid())
-  name          String?
-  email         String     @unique
-  emailVerified DateTime?
-  image         String?
-  password      String?
-  role          String     @default("user") // 'user', 'admin', 'instructor'
-  accounts      Account[]
-  sessions      Session[]
-  courses       Course[]
-  auditLogs     AuditLog[]
-}
-
 model Location {
   id      String   @id @default(cuid())
   name    String   @unique
@@ -70,7 +76,7 @@ model Category {
 }
 
 model Course {
-  id               String         @id @default(cuid())
+  id               String   @id @default(cuid())
   courseDate       DateTime
   startTime        String
   endTime          String
@@ -78,31 +84,33 @@ model Course {
   examFee          Float
   spotsAvailable   Int
   instructorNumber String
-  createdAt        DateTime       @default(now())
-  updatedAt        DateTime       @updatedAt
-  locationId       String
-  location         Location       @relation(fields: [locationId], references: [id])
-  categoryId       String
-  category         Category       @relation(fields: [categoryId], references: [id])
-  instructorId     String?
-  instructor       User?          @relation(fields: [instructorId], references: [id])
-  registrations    Registration[]
+
+  locationId String
+  location   Location @relation(fields: [locationId], references: [id])
+
+  categoryId String
+  category   Category @relation(fields: [categoryId], references: [id])
+
+  instructorId String?
+  instructor   User?   @relation(fields: [instructorId], references: [id])
+
+  registrations Registration[]
 }
 
 model Registration {
   id              String   @id @default(cuid())
+  createdAt       DateTime @default(now())
   firstName       String
   lastName        String
   email           String
   phoneNumber     String
   dateOfBirth     DateTime
-  paymentOption   String // 'full' or 'deposit'
-  paymentStatus   String   @default("pending") // 'pending', 'paid', 'failed', 'expired', 'canceled'
+  paymentOption   String // "full" or "deposit"
+  paymentStatus   String   @default("pending") // e.g., pending, paid, failed, expired, canceled
   molliePaymentId String?  @unique
-  createdAt       DateTime @default(now())
-  updatedAt       DateTime @updatedAt
-  courseId        String
-  course          Course   @relation(fields: [courseId], references: [id])
+
+  courseId String?
+  course   Course? @relation(fields: [courseId], references: [id])
 }
 
 model MailTemplate {
@@ -115,29 +123,26 @@ model MailTemplate {
 
 model MailLog {
   id        String   @id @default(cuid())
+  sentAt    DateTime @default(now())
   recipient String
   subject   String
-  htmlBody  String   @db.Text @default("")
-  status    String // 'sent' or 'failed'
+  htmlBody  String   @db.Text
+  status    String // "sent" or "failed"
   error     String?
-  sentAt    DateTime @default(now())
 }
 
 model AuditLog {
   id         String   @id @default(cuid())
+  createdAt  DateTime @default(now())
   actorId    String
   actor      User     @relation(fields: [actorId], references: [id])
   action     String
   entityType String
   entityId   String
   details    Json?
-  createdAt  DateTime @default(now())
 }
 
 model Setting {
-  id        String   @id @default(cuid())
-  key       String   @unique
-  value     String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  key   String @id
+  value String
 }

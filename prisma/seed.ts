@@ -6,6 +6,8 @@ import AuthorizationRequestEmail from '../src/emails/authorization-request';
 import NewRegistrationNotificationEmail from '../src/emails/new-registration-notification';
 import CancellationConfirmationEmail from '../src/emails/cancellation-confirmation';
 import RescheduleConfirmationEmail from '../src/emails/reschedule-confirmation';
+import { PasswordSetupInvitationEmail } from '@/emails/password-setup-invitation';
+import { PasswordResetRequestEmail } from '@/emails/password-reset-request';
 
 const prisma = new PrismaClient();
 
@@ -88,6 +90,22 @@ async function main() {
         newCourseDate: '{{newCourseDate}}',
         newCourseTime: '{{newCourseTime}}',
         location: '{{location}}',
+      }),
+    },
+    {
+      name: 'password-setup-invitation',
+      description: 'Wordt verstuurd als een admin een gebruiker aanmaakt zonder wachtwoord.',
+      subject: 'Stel je wachtwoord in voor Theoriecentra.nl',
+      component: PasswordSetupInvitationEmail({
+        setupLink: '{{setupLink}}',
+      }),
+    },
+    {
+      name: 'password-reset-request',
+      description: 'Wordt verstuurd na een "wachtwoord vergeten" verzoek.',
+      subject: 'Reset je wachtwoord voor Theoriecentra.nl',
+      component: PasswordResetRequestEmail({
+        resetLink: '{{resetLink}}',
       }),
     },
   ];
