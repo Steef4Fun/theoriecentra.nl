@@ -6,8 +6,8 @@ import AuthorizationRequestEmail from '../src/emails/authorization-request';
 import NewRegistrationNotificationEmail from '../src/emails/new-registration-notification';
 import CancellationConfirmationEmail from '../src/emails/cancellation-confirmation';
 import RescheduleConfirmationEmail from '../src/emails/reschedule-confirmation';
-import { PasswordSetupInvitationEmail } from '@/emails/password-setup-invitation';
-import { PasswordResetRequestEmail } from '@/emails/password-reset-request';
+import { PasswordSetupInvitationEmail } from '../src/emails/password-setup-invitation';
+import { PasswordResetRequestEmail } from '../src/emails/password-reset-request';
 
 const prisma = new PrismaClient();
 
