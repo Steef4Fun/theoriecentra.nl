@@ -34,11 +34,6 @@ async function getPopularCourses() {
     _count: {
       courseId: true,
     },
-    where: {
-      NOT: {
-        courseId: null,
-      },
-    },
     orderBy: {
       _count: {
         courseId: 'desc',
