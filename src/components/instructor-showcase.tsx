@@ -3,21 +3,21 @@ import { Card } from "./ui/card";
 
 const instructors = [
   {
-    name: "Instructeur 1",
+    name: "Alex de Vries",
     title: "Hoofdinstructeur & CBR-expert",
     passRate: "94%",
     bio: "Alex ontrafelt de meest complexe verkeersregels en maakt ze simpel. Met zijn befaamde ezelsbruggetjes wordt de theorie een logisch verhaal dat je nooit meer vergeet.",
     icon: <ShieldCheck className="h-8 w-8 text-primary" />,
   },
   {
-    name: "Instructeur 2",
+    name: "Samira El Idrissi",
     title: "Specialist Gevaarherkenning",
     passRate: "91%",
     bio: "Samira is de koningin van het onderdeel 'Gevaarherkenning'. Ze leert je niet alleen de regels, maar ook de mindset om situaties correct in te schatten onder de tijdsdruk van het CBR-examen.",
     icon: <AlertTriangle className="h-8 w-8 text-primary" />,
   },
   {
-    name: "Instructeur 3",
+    name: "Joris Willems",
     title: "Strikvraag-ontmantelaar",
     passRate: "92%",
     bio: "De beruchte strikvragen van het CBR hebben geen geheimen voor Joris. Hij leert je de patronen herkennen en de valkuilen te vermijden, zodat je met 100% vertrouwen je examen maakt.",

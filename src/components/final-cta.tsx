@@ -23,12 +23,12 @@ export function FinalCta() {
       <div className="container py-16 md:py-24">
         <div className="grid md:grid-cols-2 gap-12 items-center">
           <div className="text-center md:text-left">
-            <h2 className="text-3xl md:text-4xl font-bold">Jouw Succesverhaal Tussen Onze Winnaars?</h2>
+            <h2 className="text-3xl md:text-4xl font-bold">Klaar voor Jouw Eigen Succesverhaal?</h2>
             <p className="mt-4 max-w-2xl mx-auto md:mx-0 text-primary-foreground/80">
               Wacht niet langer. Vind de perfecte cursusdatum, reserveer je plek en zet vandaag nog de eerste stap naar je rijbewijs.
             </p>
             <Button asChild size="lg" variant="secondary" className="mt-8 rounded-full px-8">
-              <Link href="/#boeken">Vind je Cursus</Link>
+              <Link href="/#boeken">Start Jouw Succesverhaal</Link>
             </Button>
           </div>
           <div className="space-y-4">

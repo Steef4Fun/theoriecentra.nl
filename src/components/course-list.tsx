@@ -3,13 +3,14 @@
 import { useState, useMemo } from "react";
 import { Course, Location, Category } from "@/lib/types";
 import { Card } from "@/components/ui/card";
-import { MapPin, Calendar, Users, ArrowRight, BookOpen } from "lucide-react";
+import { MapPin, Calendar, Users, BookOpen } from "lucide-react";
 import Link from "next/link";
 import { format } from "date-fns";
 import { nl } from "date-fns/locale";
 import { Button } from "./ui/button";
 import { Badge } from "./ui/badge";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { CourseListEmptyState } from "./course-list-empty-state";
 
 interface CourseListProps {
   courses: Course[];
@@ -28,6 +29,11 @@ export function CourseList({ courses, locations, categories }: CourseListProps) 
       return locationMatch && categoryMatch;
     });
   }, [courses, locationFilter, categoryFilter]);
+
+  const resetFilters = () => {
+    setLocationFilter("all");
+    setCategoryFilter("all");
+  };
 
   return (
     <div>
@@ -90,7 +96,7 @@ export function CourseList({ courses, locations, categories }: CourseListProps) 
                           {course.spotsAvailable} plekken
                         </span>
                         {isLowSpots && (
-                          <Badge variant="destructive" className="px-2 py-0.5 text-xs">Bijna vol!</Badge>
+                          <Badge className="bg-accent text-accent-foreground px-2 py-0.5 text-xs border-0">Bijna vol!</Badge>
                         )}
                       </div>
                     </div>
@@ -110,9 +116,7 @@ export function CourseList({ courses, locations, categories }: CourseListProps) 
           })}
         </div>
       ) : (
-        <Card className="text-center p-12">
-          <p className="text-muted-foreground">Geen cursussen gevonden die aan je criteria voldoen. Probeer een ander filter.</p>
-        </Card>
+        <CourseListEmptyState resetFilters={resetFilters} />
       )}
     </div>
   );

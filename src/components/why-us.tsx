@@ -26,7 +26,7 @@ export function WhyUs() {
   return (
     <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
       {stats.map((stat) => (
-        <Card key={stat.title} className="text-center p-6 transition-all duration-300 hover:-translate-y-2 hover:shadow-xl hover:border-primary border">
+        <Card key={stat.title} className="text-center p-6 transition-all duration-300 hover:-translate-y-2 hover:shadow-xl hover:border-primary border flex flex-col justify-center min-h-[380px]">
           <CardHeader className="p-0 items-center">
             {stat.icon}
             <p className="text-6xl font-extrabold text-primary tracking-tighter my-4">{stat.value}</p>

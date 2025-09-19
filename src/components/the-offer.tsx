@@ -18,7 +18,7 @@ export function TheOffer() {
           <h3 className="text-3xl font-bold">Alles-in-1 Pakket</h3>
           <p className="text-5xl font-extrabold text-primary tracking-tighter mt-2">€147,75</p>
           <CardDescription className="text-lg">
-            Inclusief dagcursus (€99) en officieel CBR examen (€48,75). Geen verrassingen.
+            Inclusief dagcursus (€99) en officieel CBR examen (€48,75). Geen verrassingen. Je kunt ook kiezen voor een aanbetaling.
           </CardDescription>
         </CardHeader>
         <CardContent>
