@@ -13,9 +13,9 @@ export const mockCategories: Category[] = [
 ];
 
 export const mockUsers: User[] = [
-    { id: 'user-admin', email: 'admin@test.com', password: 'hashedpassword', role: 'admin', name: 'Admin User', emailVerified: null, image: null },
-    { id: 'user-instructor-1', email: 'instructor1@test.com', password: 'hashedpassword', role: 'instructor', name: 'Instructor One', emailVerified: null, image: null },
-    { id: 'user-instructor-2', email: 'instructor2@test.com', password: 'hashedpassword', role: 'instructor', name: 'Instructor Two', emailVerified: null, image: null },
+    { id: 'user-admin', email: 'admin@test.com', password: 'hashedpassword', role: 'admin', name: 'Admin User', emailVerified: null, image: null, passwordResetToken: null, passwordResetExpires: null },
+    { id: 'user-instructor-1', email: 'instructor1@test.com', password: 'hashedpassword', role: 'instructor', name: 'Instructor One', emailVerified: null, image: null, passwordResetToken: null, passwordResetExpires: null },
+    { id: 'user-instructor-2', email: 'instructor2@test.com', password: 'hashedpassword', role: 'instructor', name: 'Instructor Two', emailVerified: null, image: null, passwordResetToken: null, passwordResetExpires: null },
 ];
 
 export const mockCourses: Course[] = [
