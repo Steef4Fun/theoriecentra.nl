@@ -12,6 +12,7 @@ async function getData() {
     include: {
       location: true,
       category: true,
+      instructor: true,
     },
     orderBy: { courseDate: 'asc' },
   });
