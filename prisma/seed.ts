@@ -1,4 +1,4 @@
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient, Prisma } from '@prisma/client';
 import bcrypt from 'bcrypt';
 import { render } from '@react-email/render';
 import RegistrationConfirmationEmail from '../src/emails/registration-confirmation';
@@ -27,12 +27,13 @@ async function main() {
 
   if (!adminUser) {
     const hashedPassword = await bcrypt.hash(adminPassword, 10);
+    const userData: Prisma.UserCreateInput = {
+      email: adminEmail,
+      password: hashedPassword,
+      role: 'admin',
+    };
     await prisma.user.create({
-      data: {
-        email: adminEmail,
-        password: hashedPassword,
-        role: 'admin',
-      },
+      data: userData,
     });
     console.log(`Admin user ${adminEmail} created successfully.`);
   } else {
@@ -122,19 +123,24 @@ async function main() {
       where: { name: t.name },
     });
 
-    const templateData = {
-      name: t.name,
-      description: t.description,
-      subject: t.subject,
-      htmlBody: htmlBody,
-    };
-
     if (existingTemplate) {
+      const templateData: Prisma.MailTemplateUpdateInput = {
+        name: t.name,
+        description: t.description,
+        subject: t.subject,
+        htmlBody: htmlBody,
+      };
       await prisma.mailTemplate.update({
         where: { name: t.name },
         data: templateData,
       });
     } else {
+      const templateData: Prisma.MailTemplateCreateInput = {
+        name: t.name,
+        description: t.description,
+        subject: t.subject,
+        htmlBody: htmlBody,
+      };
       await prisma.mailTemplate.create({
         data: templateData,
       });
