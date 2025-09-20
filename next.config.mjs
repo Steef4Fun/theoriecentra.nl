@@ -17,11 +17,19 @@ const nextConfig = {
       // Voeg je eigen domein toe voor productie
       {
         protocol: "https",
-        hostname: "jouwdomein.nl", // VERVANG DIT DOOR JE ECHTE DOMEINNAAM
+        hostname: "theoriecentra.chargehosting.com", 
       },
       {
         protocol: "https",
-        hostname: "www.jouwdomein.nl", // VERVANG DIT DOOR JE ECHTE DOMEINNAAM
+        hostname: "www.theoriecentra.chargehosting.com", 
+      },
+      {
+        protocol: "https",
+        hostname: "theoriecentra.nl", 
+      },
+      {
+        protocol: "https",
+        hostname: "www.theoriecentra.nl",
       },
       // Voeg localhost toe voor lokale ontwikkeling
       {
