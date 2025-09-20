@@ -23,12 +23,12 @@ export function KeyQuestions() {
   return (
     <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
       {keyQuestions.map((item) => (
-        <Card key={item.question} className="bg-secondary/30 text-center">
+        <Card key={item.question} className="bg-secondary/30 text-center flex flex-col h-full transition-all duration-300 hover:scale-[1.02] hover:shadow-lg">
           <CardHeader className="items-center">
             {item.icon}
             <CardTitle className="mt-4">{item.question}</CardTitle>
           </CardHeader>
-          <CardContent>
+          <CardContent className="flex-grow">
             <p className="text-muted-foreground">{item.answer}</p>
           </CardContent>
         </Card>

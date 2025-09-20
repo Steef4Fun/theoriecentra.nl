@@ -48,7 +48,7 @@ export function UpcomingCourses({ courses }: { courses: Course[] }) {
                         {course.spotsAvailable} plekken
                       </span>
                       {isLowSpots && (
-                        <Badge className="bg-accent hover:bg-accent/90 text-accent-foreground px-2.5 py-1 text-xs border-0 animate-pulse-subtle">
+                        <Badge variant="accent" className="px-2.5 py-1 text-xs border-0 animate-pulse-subtle">
                           Bijna vol!
                         </Badge>
                       )}

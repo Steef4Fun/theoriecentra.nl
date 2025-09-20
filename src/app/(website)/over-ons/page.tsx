@@ -59,7 +59,7 @@ export default function AboutUsPage() {
                 Theoriecentra.nl is ontstaan uit een simpele frustratie: het leren van theorie duurde te lang, was saai en vaak niet effectief. Wij vonden dat het anders moest. Sneller, leuker en met een laserfocus op wat écht belangrijk is om te slagen voor het CBR-examen.
               </p>
             </div>
-            <div className="rounded-xl overflow-hidden shadow-soft">
+            <div className="rounded-xl overflow-hidden shadow-lg">
                 <Image 
                     src="https://images.unsplash.com/photo-1516321497487-e288fb19713f?q=80&w=2070&auto=format&fit=crop"
                     alt="Samenwerkend team"
@@ -71,10 +71,10 @@ export default function AboutUsPage() {
           </div>
         </AnimatedSection>
 
-        {/* Our Story Section 2 */}
+        {/* Our Story Section 2 (Zig-Zag) */}
         <AnimatedSection>
           <div className="grid md:grid-cols-2 gap-12 items-center">
-            <div className="rounded-xl overflow-hidden shadow-soft md:order-2">
+            <div className="rounded-xl overflow-hidden shadow-lg md:order-2">
                 <Image 
                     src="https://images.unsplash.com/photo-1557804506-669a67965ba0?q=80&w=2070&auto=format&fit=crop"
                     alt="Instructeur geeft les"
@@ -84,6 +84,7 @@ export default function AboutUsPage() {
                 />
             </div>
             <div className="md:order-1">
+              <h2 className="text-3xl font-bold mb-4">Jouw Succes is Onze Missie</h2>
               <p className="text-muted-foreground text-lg leading-relaxed">
                 Onze missie is om elke leerling het zelfvertrouwen en de kennis te geven om in één keer te slagen. Geen wekenlange studie, maar één intensieve, resultaatgerichte dag die het verschil maakt.
               </p>

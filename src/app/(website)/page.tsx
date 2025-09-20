@@ -179,21 +179,21 @@ export default async function Home() {
                 collapsible
                 className="w-full max-w-3xl mx-auto"
               >
-                <AccordionItem value="item-1">
-                  <AccordionTrigger className="text-lg font-medium [&_svg]:h-6 [&_svg]:w-6">
+                <AccordionItem value="item-1" className="rounded-md transition-colors hover:bg-background/50">
+                  <AccordionTrigger className="text-lg font-medium text-left px-6 py-4 w-full">
                     Hoe kan ik me inschrijven?
                   </AccordionTrigger>
-                  <AccordionContent>
+                  <AccordionContent className="px-6 pb-4">
                     Volg de stappen op onze website: kies je locatie, categorie en
                     datum. Vul daarna je gegevens in, betaal veilig online en je
                     plek is gereserveerd!
                   </AccordionContent>
                 </AccordionItem>
-                <AccordionItem value="item-2">
-                  <AccordionTrigger className="text-lg font-medium [&_svg]:h-6 [&_svg]:w-6">
+                <AccordionItem value="item-2" className="rounded-md transition-colors hover:bg-background/50">
+                  <AccordionTrigger className="text-lg font-medium text-left px-6 py-4 w-full">
                     Wat moet ik meenemen naar de cursus?
                   </AccordionTrigger>
-                  <AccordionContent>
+                  <AccordionContent className="px-6 pb-4">
                     Je hoeft alleen een geldig identiteitsbewijs mee te nemen. Wij zorgen voor al het lesmateriaal, en ook voor lunch en drankjes gedurende de dag.
                   </AccordionContent>
                 </AccordionItem>

@@ -27,8 +27,8 @@ export function FinalCta() {
             <p className="mt-4 max-w-2xl mx-auto md:mx-0 text-primary-foreground/80">
               Wacht niet langer. Vind de perfecte cursusdatum, reserveer je plek en zet vandaag nog de eerste stap naar je rijbewijs.
             </p>
-            <Button asChild size="lg" variant="secondary" className="mt-8 rounded-full px-8">
-              <Link href="/#boeken">Start Jouw Succesverhaal</Link>
+            <Button asChild size="lg" variant="secondary" className="mt-8 rounded-full px-8 font-bold">
+              <Link href="/#boeken">Start Mijn Succesverhaal</Link>
             </Button>
           </div>
           <div className="space-y-4">
