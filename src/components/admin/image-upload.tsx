@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { toast } from "sonner";
-import { UploadCloud, X, Loader2, Image as ImageIcon } from "lucide-react";
+import { UploadCloud, X, Loader2 } from "lucide-react";
 import Image from "next/image";
 import { Button } from "../ui/button";
 
@@ -27,10 +27,25 @@ export function ImageUpload({ value, onChange }: ImageUploadProps) {
         body: formData,
       });
 
-      const data = await response.json();
-
       if (!response.ok) {
-        throw new Error(data.error || "Upload mislukt");
+        const errorText = await response.text();
+        if (response.status === 413) {
+          throw new Error("Bestand is te groot (max 4MB).");
+        }
+        if (errorText.trim().startsWith("<html>")) {
+          throw new Error(`Serverfout (${response.status}). Probeer opnieuw in te loggen.`);
+        }
+        try {
+          const errorJson = JSON.parse(errorText);
+          throw new Error(errorJson.error || `HTTP error! status: ${response.status}`);
+        } catch (e) {
+          throw new Error(errorText || `HTTP error! status: ${response.status}`);
+        }
+      }
+
+      const data = await response.json();
+      if (!data.url) {
+        throw new Error("Geen URL ontvangen van de server.");
       }
 
       onChange(data.url);

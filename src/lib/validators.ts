@@ -39,10 +39,6 @@ export const userSchema = z.object({
   password: z.string().min(8, { message: "Wachtwoord moet minimaal 8 karakters lang zijn." }).optional().or(z.literal('')),
   role: z.enum(["admin", "instructor"], { required_error: "Rol is verplicht." }),
   name: z.string().optional(),
-  title: z.string().optional(),
-  bio: z.string().optional(),
-  passRate: z.string().optional(),
-  imageUrl: z.string().url({ message: "Voer een geldige URL in." }).optional().or(z.literal('')),
 });
 
 export const settingSchema = z.object({

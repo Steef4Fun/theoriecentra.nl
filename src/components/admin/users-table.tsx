@@ -53,14 +53,12 @@ export function UsersTable({ profiles }: { profiles: Profile[] }) {
 
   const columns: ColumnDef<Profile>[] = [
     {
-      accessorKey: "user.name",
+      accessorKey: "name",
       header: "Naam",
-      cell: ({ row }) => row.original.user?.name || "N/A",
     },
     {
-      accessorKey: "user.email",
+      accessorKey: "email",
       header: "Email",
-      cell: ({ row }) => row.original.user?.email || "N/A",
     },
     {
       accessorKey: "role",
@@ -140,27 +138,26 @@ export function UsersTable({ profiles }: { profiles: Profile[] }) {
                   </TableHead>
                 ))}
               </TableRow>
-            ))}
-          </TableHeader>
-          <TableBody>
-            {table.getRowModel().rows?.length ? (
-              table.getRowModel().rows.map((row) => (
-                <TableRow key={row.id}>
-                  {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id}>
-                      {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                    </TableCell>
-                  ))}
+            </TableHeader>
+            <TableBody>
+              {table.getRowModel().rows?.length ? (
+                table.getRowModel().rows.map((row) => (
+                  <TableRow key={row.id}>
+                    {row.getVisibleCells().map((cell) => (
+                      <TableCell key={cell.id}>
+                        {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                      </TableCell>
+                    ))}
+                  </TableRow>
+                ))
+              ) : (
+                <TableRow>
+                  <TableCell colSpan={columns.length} className="h-24 text-center">
+                    Geen gebruikers gevonden.
+                  </TableCell>
                 </TableRow>
-              ))
-            ) : (
-              <TableRow>
-                <TableCell colSpan={columns.length} className="h-24 text-center">
-                  Geen gebruikers gevonden.
-                </TableCell>
-              </TableRow>
-            )}
-          </TableBody>
+              )}
+            </TableBody>
         </Table>
       </div>
       <UserForm

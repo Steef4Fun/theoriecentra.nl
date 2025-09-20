@@ -9,18 +9,12 @@ export default async function GebruikersPage() {
     },
   });
 
-  // Map to match the expected Profile type structure for the table
+  // Map to a simpler structure for the table
   const profiles = users.map((user: User) => ({
     id: user.id,
+    name: user.name,
+    email: user.email,
     role: user.role,
-    title: user.title,
-    bio: user.bio,
-    passRate: user.passRate,
-    imageUrl: user.imageUrl,
-    user: {
-      email: user.email,
-      name: user.name,
-    }
   }));
 
   return (

@@ -23,10 +23,6 @@ export async function createUser(values: z.infer<typeof userSchema>) {
       email: values.email,
       role: values.role,
       name: values.name,
-      title: values.title,
-      bio: values.bio,
-      passRate: values.passRate,
-      imageUrl: values.imageUrl,
     };
 
     if (values.password) {
@@ -82,10 +78,6 @@ export async function updateUser(userId: string, values: z.infer<typeof userSche
       data: {
         role: values.role,
         name: values.name,
-        title: values.title,
-        bio: values.bio,
-        passRate: values.passRate,
-        imageUrl: values.imageUrl,
       },
     });
     await createAuditLog({

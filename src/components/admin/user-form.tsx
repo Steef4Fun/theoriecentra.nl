@@ -15,7 +15,6 @@ import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { createUser, updateUser } from "@/app/actions/user-actions";
 import { Loader2 } from "lucide-react";
-import { Textarea } from "../ui/textarea";
 
 interface UserFormProps {
   isOpen: boolean;
@@ -32,13 +31,9 @@ export function UserForm({ isOpen, setIsOpen, profile }: UserFormProps) {
   useEffect(() => {
     if (profile) {
       form.reset({
-        email: profile.user?.email ?? undefined,
+        email: profile.email ?? undefined,
         role: profile.role as "admin" | "instructor",
-        name: profile.user?.name || "",
-        title: profile.title || "",
-        bio: profile.bio || "",
-        passRate: profile.passRate || "",
-        imageUrl: profile.imageUrl || "",
+        name: profile.name || "",
       });
     } else {
       form.reset({
@@ -46,15 +41,9 @@ export function UserForm({ isOpen, setIsOpen, profile }: UserFormProps) {
         password: "",
         role: "instructor",
         name: "",
-        title: "",
-        bio: "",
-        passRate: "",
-        imageUrl: "",
       });
     }
   }, [profile, form, isOpen]);
-
-  const isInstructor = form.watch("role") === "instructor";
 
   const onSubmit = async (values: z.infer<typeof userSchema>) => {
     let result;
@@ -75,7 +64,7 @@ export function UserForm({ isOpen, setIsOpen, profile }: UserFormProps) {
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
-      <DialogContent className="sm:max-w-2xl max-h-[90vh] overflow-y-auto">
+      <DialogContent className="sm:max-w-lg">
         <DialogHeader>
           <DialogTitle>{profile ? "Gebruiker Bewerken" : "Nieuwe Gebruiker"}</DialogTitle>
           <DialogDescription>
@@ -93,17 +82,6 @@ export function UserForm({ isOpen, setIsOpen, profile }: UserFormProps) {
             )}
             <FormField control={form.control} name="role" render={({ field }) => (<FormItem><FormLabel>Rol</FormLabel><Select onValueChange={field.onChange} defaultValue={field.value}><FormControl><SelectTrigger><SelectValue placeholder="Selecteer een rol" /></SelectTrigger></FormControl><SelectContent><SelectItem value="admin">Admin</SelectItem><SelectItem value="instructor">Cursusleider</SelectItem></SelectContent></Select><FormMessage /></FormItem>)} />
             
-            {isInstructor && (
-              <div className="space-y-4 pt-4 border-t">
-                <h3 className="text-lg font-medium">Instructeursprofiel</h3>
-                <p className="text-sm text-muted-foreground">Deze informatie wordt getoond op de website.</p>
-                <FormField control={form.control} name="title" render={({ field }) => (<FormItem><FormLabel>Titel</FormLabel><FormControl><Input placeholder="bv. Hoofdinstructeur & CBR-expert" {...field} /></FormControl><FormMessage /></FormItem>)} />
-                <FormField control={form.control} name="passRate" render={({ field }) => (<FormItem><FormLabel>Slagingskans</FormLabel><FormControl><Input placeholder="bv. 94%" {...field} /></FormControl><FormMessage /></FormItem>)} />
-                <FormField control={form.control} name="bio" render={({ field }) => (<FormItem><FormLabel>Bio</FormLabel><FormControl><Textarea placeholder="Korte biografie..." {...field} /></FormControl><FormMessage /></FormItem>)} />
-                <FormField control={form.control} name="imageUrl" render={({ field }) => (<FormItem><FormLabel>Afbeelding URL</FormLabel><FormControl><Input placeholder="https://..." {...field} /></FormControl><FormDescription>Plak een link naar een profielfoto.</FormDescription><FormMessage /></FormItem>)} />
-              </div>
-            )}
-
             <div className="flex justify-end gap-2 pt-4">
                 <Button type="button" variant="outline" onClick={() => setIsOpen(false)}>Annuleren</Button>
                 <Button type="submit" variant="primary" disabled={form.formState.isSubmitting}>
