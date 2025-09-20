@@ -84,9 +84,9 @@ const mockPrisma = {
   $queryRaw: async (query: Prisma.Sql) => {
     // Mock for dashboard weekly registrations
     return [
-      { week: new Date(Date.now() - 14 * 24 * 60 * 60 * 1000), count: 5n },
-      { week: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000), count: 12n },
-      { week: new Date(), count: 8n },
+      { week: new Date(Date.now() - 14 * 24 * 60 * 60 * 1000), count: BigInt(5) },
+      { week: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000), count: BigInt(12) },
+      { week: new Date(), count: BigInt(8) },
     ];
   },
   $transaction: async (callback: any) => {
