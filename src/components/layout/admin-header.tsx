@@ -21,9 +21,9 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import Image from "next/image";
 import { Avatar, AvatarFallback } from "../ui/avatar";
 import { signOut } from "next-auth/react";
+import { Logo } from "../logo";
 
 export function AdminHeader() {
   const handleLogout = async () => {
@@ -45,7 +45,7 @@ export function AdminHeader() {
               href="/"
               className="flex items-center gap-2 text-lg font-semibold mb-4"
             >
-              <Image src="/logo.png" alt="Logo" width={150} height={30} />
+              <Logo />
             </Link>
             <Link
               href="/admin/dashboard"

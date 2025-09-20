@@ -31,8 +31,8 @@ export const AuthorizationRequestEmail = ({
     <Body style={main}>
       <Container style={container}>
         <Img
-          src={`${baseUrl}/logo.png`}
-          width="180"
+          src={`${baseUrl}/logo-straight.png`}
+          width="200"
           height="40"
           alt="Theoriecentra.nl"
           style={logo}

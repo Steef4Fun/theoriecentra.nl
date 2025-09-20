@@ -6,12 +6,12 @@ export function Logo({ className, imageClassName }: { className?: string, imageC
   return (
     <Link href="/" className={cn("flex items-center", className)}>
       <Image
-        src="/logo.png"
+        src="/logo-straight.png"
         alt="Theoriecentra.nl Logo"
-        width={180}
-        height={40}
+        width={250}
+        height={50}
         priority
-        className={cn("h-12 md:h-14 w-auto", imageClassName)}
+        className={cn("h-10 w-auto", imageClassName)}
       />
     </Link>
   );
