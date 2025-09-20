@@ -1,11 +1,11 @@
 import { PrismaClient } from '@prisma/client';
 import bcrypt from 'bcrypt';
 import { render } from '@react-email/render';
-import { RegistrationConfirmationEmail } from '../src/emails/registration-confirmation';
-import { AuthorizationRequestEmail } from '../src/emails/authorization-request';
-import { NewRegistrationNotificationEmail } from '../src/emails/new-registration-notification';
-import { CancellationConfirmationEmail } from '../src/emails/cancellation-confirmation';
-import { RescheduleConfirmationEmail } from '../src/emails/reschedule-confirmation';
+import RegistrationConfirmationEmail from '../src/emails/registration-confirmation';
+import AuthorizationRequestEmail from '../src/emails/authorization-request';
+import NewRegistrationNotificationEmail from '../src/emails/new-registration-notification';
+import CancellationConfirmationEmail from '../src/emails/cancellation-confirmation';
+import RescheduleConfirmationEmail from '../src/emails/reschedule-confirmation';
 import { PasswordSetupInvitationEmail } from '../src/emails/password-setup-invitation';
 import { PasswordResetRequestEmail } from '../src/emails/password-reset-request';
 
@@ -20,24 +20,18 @@ async function main() {
     throw new Error('ADMIN_EMAIL and ADMIN_PASSWORD must be set in your .env file');
   }
 
-  console.log(`Checking for admin user: ${adminEmail}`);
-  const adminUser = await prisma.user.findUnique({
+  console.log(`Seeding database with admin user: ${adminEmail}`);
+  const hashedPassword = await bcrypt.hash(adminPassword, 10);
+  await prisma.user.upsert({
     where: { email: adminEmail },
+    update: {},
+    create: {
+      email: adminEmail,
+      password: hashedPassword,
+      role: 'admin',
+    },
   });
-
-  if (!adminUser) {
-    const hashedPassword = await bcrypt.hash(adminPassword, 10);
-    await prisma.user.create({
-      data: {
-        email: adminEmail,
-        password: hashedPassword,
-        role: 'admin',
-      } as any, // Bypassing the faulty type check
-    });
-    console.log(`Admin user ${adminEmail} created successfully.`);
-  } else {
-    console.log(`Admin user ${adminEmail} already exists.`);
-  }
+  console.log(`Admin user ${adminEmail} created/updated successfully.`);
 
   // Seed mail templates
   console.log('Seeding mail templates...');
@@ -117,29 +111,20 @@ async function main() {
   ];
 
   for (const t of templates) {
-    const htmlBody = render(t.component);
-    
-    const existingTemplate = await prisma.mailTemplate.findUnique({
+    const htmlBody = await render(t.component);
+    await prisma.mailTemplate.upsert({
       where: { name: t.name },
+      update: {
+        subject: t.subject,
+        htmlBody: htmlBody,
+      },
+      create: {
+        name: t.name,
+        description: t.description,
+        subject: t.subject,
+        htmlBody: htmlBody,
+      },
     });
-
-    const templateData = {
-      name: t.name,
-      description: t.description,
-      subject: t.subject,
-      htmlBody: htmlBody,
-    };
-
-    if (existingTemplate) {
-      await prisma.mailTemplate.update({
-        where: { name: t.name },
-        data: templateData as any, // Bypassing the faulty type check
-      });
-    } else {
-      await prisma.mailTemplate.create({
-        data: templateData as any, // Bypassing the faulty type check
-      });
-    }
   }
   console.log(`${templates.length} mail templates seeded successfully.`);
 }
