@@ -32,7 +32,7 @@ export function UserForm({ isOpen, setIsOpen, profile }: UserFormProps) {
   useEffect(() => {
     if (profile) {
       form.reset({
-        email: profile.user?.email,
+        email: profile.user?.email ?? undefined,
         role: profile.role as "admin" | "instructor",
         name: profile.user?.name || "",
         title: profile.title || "",

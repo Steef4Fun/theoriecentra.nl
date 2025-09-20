@@ -8,14 +8,14 @@ export const mockLocations: Location[] = [
 ];
 
 export const mockCategories: Category[] = [
-  { id: 'clxne6a8k000308l5d0f3g7h2', name: 'Auto' },
-  { id: 'clxne6a8l000408l5h2j4k1l3', name: 'Motor' },
+  { id: 'clxne6a8k000308l5d0f3g7h2', name: 'Auto', icon: 'Car' },
+  { id: 'clxne6a8l000408l5h2j4k1l3', name: 'Motor', icon: 'Motorcycle' },
 ];
 
 export const mockUsers: User[] = [
-    { id: 'user-admin', email: 'admin@test.com', password: 'hashedpassword', role: 'admin', name: 'Admin User', emailVerified: null, image: null, passwordResetToken: null, passwordResetExpires: null },
-    { id: 'user-instructor-1', email: 'instructor1@test.com', password: 'hashedpassword', role: 'instructor', name: 'Instructor One', emailVerified: null, image: null, passwordResetToken: null, passwordResetExpires: null },
-    { id: 'user-instructor-2', email: 'instructor2@test.com', password: 'hashedpassword', role: 'instructor', name: 'Instructor Two', emailVerified: null, image: null, passwordResetToken: null, passwordResetExpires: null },
+    { id: 'user-admin', email: 'admin@test.com', password: 'hashedpassword', role: 'admin', name: 'Admin User', emailVerified: null, image: null, passwordResetToken: null, passwordResetExpires: null, title: null, bio: null, passRate: null, imageUrl: null },
+    { id: 'user-instructor-1', email: 'instructor1@test.com', password: 'hashedpassword', role: 'instructor', name: 'Instructor One', emailVerified: null, image: null, passwordResetToken: null, passwordResetExpires: null, title: 'Hoofdinstructeur', bio: 'Bio voor instructeur 1', passRate: '95%', imageUrl: '' },
+    { id: 'user-instructor-2', email: 'instructor2@test.com', password: 'hashedpassword', role: 'instructor', name: 'Instructor Two', emailVerified: null, image: null, passwordResetToken: null, passwordResetExpires: null, title: 'Theorie-expert', bio: 'Bio voor instructeur 2', passRate: '92%', imageUrl: '' },
 ];
 
 export const mockCourses: Course[] = [
@@ -33,7 +33,7 @@ export const mockCourses: Course[] = [
     categoryId: mockCategories[0].id,
     category: mockCategories[0],
     instructorId: mockUsers[1].id,
-    instructor: { email: mockUsers[1].email! },
+    instructor: { email: mockUsers[1].email!, name: mockUsers[1].name },
   },
   {
     id: 'course2',
@@ -49,7 +49,7 @@ export const mockCourses: Course[] = [
     categoryId: mockCategories[0].id,
     category: mockCategories[0],
     instructorId: mockUsers[1].id,
-    instructor: { email: mockUsers[1].email! },
+    instructor: { email: mockUsers[1].email!, name: mockUsers[1].name },
   },
   {
     id: 'course3',
@@ -65,7 +65,7 @@ export const mockCourses: Course[] = [
     categoryId: mockCategories[1].id,
     category: mockCategories[1],
     instructorId: mockUsers[2].id,
-    instructor: { email: mockUsers[2].email! },
+    instructor: { email: mockUsers[2].email!, name: mockUsers[2].name },
   },
 ];
 
@@ -78,6 +78,11 @@ export const mockRegistrations: (Registration & { course: Course })[] = [
         email: 'piet@test.com',
         paymentStatus: 'paid',
         course: mockCourses[0],
+        phoneNumber: '0612345678',
+        dateOfBirth: new Date('1999-01-01').toISOString(),
+        paymentOption: 'full',
+        molliePaymentId: 'tr_12345',
+        courseId: mockCourses[0].id,
     },
     {
         id: 'reg2',
@@ -87,11 +92,23 @@ export const mockRegistrations: (Registration & { course: Course })[] = [
         email: 'eva@test.com',
         paymentStatus: 'pending',
         course: mockCourses[1],
+        phoneNumber: '0687654321',
+        dateOfBirth: new Date('2001-05-10').toISOString(),
+        paymentOption: 'deposit',
+        molliePaymentId: 'tr_67890',
+        courseId: mockCourses[1].id,
     }
 ];
 
 export const mockProfiles: Profile[] = mockUsers.map(u => ({
     id: u.id,
     role: u.role,
-    user: { email: u.email! }
+    title: u.title,
+    bio: u.bio,
+    passRate: u.passRate,
+    imageUrl: u.imageUrl,
+    user: { 
+        email: u.email!,
+        name: u.name
+    }
 }));

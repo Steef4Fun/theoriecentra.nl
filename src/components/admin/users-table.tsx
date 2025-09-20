@@ -140,7 +140,8 @@ export function UsersTable({ profiles }: { profiles: Profile[] }) {
                   </TableHead>
                 ))}
               </TableRow>
-            </TableHeader>
+            ))}
+          </TableHeader>
           <TableBody>
             {table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map((row) => (
