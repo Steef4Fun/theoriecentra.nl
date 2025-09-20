@@ -52,7 +52,7 @@ export function Header() {
       )}
     >
       <div className="container flex h-16 items-center justify-between md:h-20">
-        <Logo />
+        <Logo imageClassName="h-14 md:h-16 w-auto" />
         
         {/* Desktop Navigation */}
         <div className="hidden md:flex items-center gap-x-6">

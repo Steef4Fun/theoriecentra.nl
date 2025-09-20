@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 
-export function Logo({ className }: { className?: string }) {
+export function Logo({ className, imageClassName }: { className?: string, imageClassName?: string }) {
   return (
     <Link href="/" className={cn("flex items-center", className)}>
       <Image
@@ -11,7 +11,7 @@ export function Logo({ className }: { className?: string }) {
         width={180}
         height={40}
         priority
-        className="h-12 md:h-14 w-auto"
+        className={cn("h-12 md:h-14 w-auto", imageClassName)}
       />
     </Link>
   );
