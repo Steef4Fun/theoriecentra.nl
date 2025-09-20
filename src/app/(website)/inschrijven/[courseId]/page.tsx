@@ -28,10 +28,10 @@ export default async function RegistrationPage({
     notFound();
   }
   
-  // Convert Date object to string to avoid serialization issues
+  // Ensure courseDate is a string to avoid serialization issues
   const course: Course = {
     ...courseData,
-    courseDate: courseData.courseDate.toISOString(),
+    courseDate: courseData.courseDate instanceof Date ? courseData.courseDate.toISOString() : courseData.courseDate,
   } as Course;
 
   if (course.spotsAvailable < 1) {

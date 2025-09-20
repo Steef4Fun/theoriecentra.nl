@@ -34,7 +34,7 @@ async function getPageData() {
 
   const upcomingCourses = courses.map(course => ({
     ...course,
-    courseDate: course.courseDate.toISOString(),
+    courseDate: course.courseDate instanceof Date ? course.courseDate.toISOString() : course.courseDate,
   })) as Course[];
 
   const imageSettings = settings.reduce((acc, setting) => {

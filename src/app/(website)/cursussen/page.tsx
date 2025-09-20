@@ -20,10 +20,10 @@ async function getData() {
   const locations = await prisma.location.findMany({ orderBy: { name: 'asc' } });
   const categories = await prisma.category.findMany({ orderBy: { name: 'asc' } });
 
-  // Serialize date objects
+  // Ensure courseDate is a string
   const courses = coursesData.map(course => ({
     ...course,
-    courseDate: course.courseDate.toISOString(),
+    courseDate: course.courseDate instanceof Date ? course.courseDate.toISOString() : course.courseDate,
   })) as Course[];
 
   return { courses, locations, categories };
