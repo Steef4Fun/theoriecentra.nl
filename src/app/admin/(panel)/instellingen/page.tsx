@@ -3,6 +3,7 @@ import prisma from "@/lib/prisma";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ImageSettingsForm } from "@/components/admin/image-settings-form";
 import { InstructorProfileCrud } from "@/components/admin/instructor-profile-crud";
+import { ReviewCrud } from "@/components/admin/review-crud";
 
 export default async function InstellingenPage() {
   const locations = await prisma.location.findMany({ orderBy: { name: 'asc' } });
@@ -13,15 +14,19 @@ export default async function InstellingenPage() {
   const instructorProfiles = await prisma.instructorProfile.findMany({
     orderBy: { order: 'asc' },
   });
+  const reviews = await prisma.review.findMany({
+    orderBy: { order: 'asc' },
+  });
 
   return (
     <div>
       <h1 className="text-3xl font-bold tracking-tight mb-6">Instellingen</h1>
       <Tabs defaultValue="algemeen">
-        <TabsList className="grid w-full grid-cols-3 mb-6">
+        <TabsList className="grid w-full grid-cols-4 mb-6">
           <TabsTrigger value="algemeen">Algemeen</TabsTrigger>
           <TabsTrigger value="afbeeldingen">Afbeeldingen</TabsTrigger>
           <TabsTrigger value="instructeurs">Instructeurs</TabsTrigger>
+          <TabsTrigger value="reviews">Reviews</TabsTrigger>
         </TabsList>
         <TabsContent value="algemeen">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -44,6 +49,9 @@ export default async function InstellingenPage() {
         </TabsContent>
         <TabsContent value="instructeurs">
           <InstructorProfileCrud profiles={instructorProfiles} />
+        </TabsContent>
+        <TabsContent value="reviews">
+          <ReviewCrud reviews={reviews} />
         </TabsContent>
       </Tabs>
     </div>

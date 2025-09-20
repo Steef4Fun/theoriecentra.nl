@@ -44,3 +44,13 @@ export const userSchema = z.object({
 export const settingSchema = z.object({
   name: z.string().min(2, { message: "Naam is verplicht." }),
 });
+
+export const reviewSchema = z.object({
+  name: z.string().min(1, "Naam is verplicht."),
+  text: z.string().min(1, "Reviewtekst is verplicht."),
+  rating: z.coerce.number().int().min(1).max(5),
+  source: z.string().min(1, "Bron is verplicht."),
+  isActive: z.boolean(),
+  isFeatured: z.boolean(),
+  order: z.coerce.number().int(),
+});

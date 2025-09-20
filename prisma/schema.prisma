@@ -1,3 +1,6 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
 generator client {
   provider = "prisma-client-js"
 }
@@ -20,9 +23,11 @@ model Account {
   scope             String?
   id_token          String? @db.Text
   session_state     String?
-  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([provider, providerAccountId])
+  @@map("accounts")
 }
 
 model Session {
@@ -31,6 +36,28 @@ model Session {
   userId       String
   expires      DateTime
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("sessions")
+}
+
+model User {
+  id            String    @id @default(cuid())
+  name          String?
+  email         String?   @unique
+  emailVerified DateTime?
+  image         String?
+  password      String?
+  role          String    @default("instructor") // "admin", "instructor"
+  accounts      Account[]
+  sessions      Session[]
+  courses       Course[]
+
+  passwordResetToken   String?   @unique
+  passwordResetExpires DateTime?
+
+  auditLogs AuditLog[]
+
+  @@map("users")
 }
 
 model VerificationToken {
@@ -39,28 +66,15 @@ model VerificationToken {
   expires    DateTime
 
   @@unique([identifier, token])
-}
-
-model User {
-  id                   String    @id @default(cuid())
-  name                 String?
-  email                String?   @unique
-  emailVerified        DateTime?
-  image                String?
-  password             String?
-  role                 String    @default("instructor") // Roles: admin, instructor
-  passwordResetToken   String?   @unique
-  passwordResetExpires DateTime?
-  accounts             Account[]
-  sessions             Session[]
-  auditLogs            AuditLog[]
-  courses              Course[]  @relation("InstructorCourses")
+  @@map("verification_tokens")
 }
 
 model Location {
   id      String   @id @default(cuid())
   name    String   @unique
   courses Course[]
+
+  @@map("locations")
 }
 
 model Category {
@@ -68,6 +82,8 @@ model Category {
   name    String   @unique
   icon    String?
   courses Course[]
+
+  @@map("categories")
 }
 
 model Course {
@@ -84,8 +100,10 @@ model Course {
   categoryId       String
   category         Category       @relation(fields: [categoryId], references: [id])
   instructorId     String?
-  instructor       User?          @relation("InstructorCourses", fields: [instructorId], references: [id])
+  instructor       User?          @relation(fields: [instructorId], references: [id])
   registrations    Registration[]
+
+  @@map("courses")
 }
 
 model Registration {
@@ -97,10 +115,24 @@ model Registration {
   phoneNumber     String
   dateOfBirth     DateTime
   paymentOption   String // "full" or "deposit"
-  paymentStatus   String   @default("pending") // pending, paid, failed, expired, canceled
+  paymentStatus   String   @default("pending") // "pending", "paid", "failed", "expired", "canceled"
   molliePaymentId String?  @unique
   courseId        String?
   course          Course?  @relation(fields: [courseId], references: [id])
+
+  @@map("registrations")
+}
+
+model MailLog {
+  id        String   @id @default(cuid())
+  sentAt    DateTime @default(now())
+  recipient String
+  subject   String
+  htmlBody  String
+  status    String // "sent" or "failed"
+  error     String?
+
+  @@map("mail_logs")
 }
 
 model AuditLog {
@@ -112,16 +144,8 @@ model AuditLog {
   entityType String
   entityId   String
   details    Json?
-}
 
-model MailLog {
-  id        String   @id @default(cuid())
-  sentAt    DateTime @default(now())
-  recipient String
-  subject   String
-  htmlBody  String
-  status    String // "sent" or "failed"
-  error     String?
+  @@map("audit_logs")
 }
 
 model MailTemplate {
@@ -130,11 +154,15 @@ model MailTemplate {
   description String
   subject     String
   htmlBody    String
+
+  @@map("mail_templates")
 }
 
 model Setting {
   key   String @id
   value String
+
+  @@map("settings")
 }
 
 model InstructorProfile {
@@ -146,4 +174,19 @@ model InstructorProfile {
   imageUrl  String
   isActive  Boolean @default(true)
   order     Int     @default(0)
+
+  @@map("instructor_profiles")
+}
+
+model Review {
+  id          String  @id @default(cuid())
+  name        String
+  text        String
+  rating      Int     @default(5)
+  source      String  // e.g., "Google Review", "Facebook Review"
+  isActive    Boolean @default(true)
+  isFeatured  Boolean @default(false) // For the final CTA box
+  order       Int     @default(0)
+
+  @@map("reviews")
 }
