@@ -20,18 +20,24 @@ async function main() {
     throw new Error('ADMIN_EMAIL and ADMIN_PASSWORD must be set in your .env file');
   }
 
-  console.log(`Seeding database with admin user: ${adminEmail}`);
-  const hashedPassword = await bcrypt.hash(adminPassword, 10);
-  await prisma.user.upsert({
+  console.log(`Checking for admin user: ${adminEmail}`);
+  const adminUser = await prisma.user.findUnique({
     where: { email: adminEmail },
-    update: {},
-    create: {
-      email: adminEmail,
-      password: hashedPassword,
-      role: 'admin',
-    },
   });
-  console.log(`Admin user ${adminEmail} created/updated successfully.`);
+
+  if (!adminUser) {
+    const hashedPassword = await bcrypt.hash(adminPassword, 10);
+    await prisma.user.create({
+      data: {
+        email: adminEmail,
+        password: hashedPassword,
+        role: 'admin',
+      },
+    });
+    console.log(`Admin user ${adminEmail} created successfully.`);
+  } else {
+    console.log(`Admin user ${adminEmail} already exists.`);
+  }
 
   // Seed mail templates
   console.log('Seeding mail templates...');
@@ -111,20 +117,28 @@ async function main() {
   ];
 
   for (const t of templates) {
-    const htmlBody = await render(t.component);
-    await prisma.mailTemplate.upsert({
+    const htmlBody = render(t.component);
+    const existingTemplate = await prisma.mailTemplate.findUnique({
       where: { name: t.name },
-      update: {
-        subject: t.subject,
-        htmlBody: htmlBody,
-      },
-      create: {
-        name: t.name,
-        description: t.description,
-        subject: t.subject,
-        htmlBody: htmlBody,
-      },
     });
+
+    const templateData = {
+      name: t.name,
+      description: t.description,
+      subject: t.subject,
+      htmlBody: htmlBody,
+    };
+
+    if (existingTemplate) {
+      await prisma.mailTemplate.update({
+        where: { name: t.name },
+        data: templateData,
+      });
+    } else {
+      await prisma.mailTemplate.create({
+        data: templateData,
+      });
+    }
   }
   console.log(`${templates.length} mail templates seeded successfully.`);
 }
