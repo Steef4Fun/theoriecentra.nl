@@ -1,4 +1,4 @@
-import { PrismaClient, Prisma } from '@prisma/client';
+import { PrismaClient } from '@prisma/client';
 import bcrypt from 'bcrypt';
 import { render } from '@react-email/render';
 import RegistrationConfirmationEmail from '../src/emails/registration-confirmation';
@@ -27,14 +27,12 @@ async function main() {
 
   if (!adminUser) {
     const hashedPassword = await bcrypt.hash(adminPassword, 10);
-    // Use the Unchecked type which doesn't require relational fields or auto-generated IDs
-    const userData: Prisma.UserUncheckedCreateInput = {
-      email: adminEmail,
-      password: hashedPassword,
-      role: 'admin',
-    };
     await prisma.user.create({
-      data: userData,
+      data: {
+        email: adminEmail,
+        password: hashedPassword,
+        role: 'admin',
+      },
     });
     console.log(`Admin user ${adminEmail} created successfully.`);
   } else {
@@ -119,30 +117,27 @@ async function main() {
   ];
 
   for (const t of templates) {
-    // The render function is synchronous and returns a string.
-    const htmlBody: string = render(t.component);
+    const htmlBody = render(t.component);
     
     const existingTemplate = await prisma.mailTemplate.findUnique({
       where: { name: t.name },
     });
 
+    const templateData = {
+      name: t.name,
+      description: t.description,
+      subject: t.subject,
+      htmlBody: htmlBody,
+    };
+
     if (existingTemplate) {
       await prisma.mailTemplate.update({
         where: { name: t.name },
-        data: {
-          description: t.description,
-          subject: t.subject,
-          htmlBody: htmlBody,
-        },
+        data: templateData,
       });
     } else {
       await prisma.mailTemplate.create({
-        data: {
-          name: t.name,
-          description: t.description,
-          subject: t.subject,
-          htmlBody: htmlBody,
-        },
+        data: templateData,
       });
     }
   }
