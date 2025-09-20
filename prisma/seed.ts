@@ -1,11 +1,11 @@
 import { PrismaClient } from '@prisma/client';
 import bcrypt from 'bcrypt';
 import { render } from '@react-email/render';
-import RegistrationConfirmationEmail from '../src/emails/registration-confirmation';
-import AuthorizationRequestEmail from '../src/emails/authorization-request';
-import NewRegistrationNotificationEmail from '../src/emails/new-registration-notification';
-import CancellationConfirmationEmail from '../src/emails/cancellation-confirmation';
-import RescheduleConfirmationEmail from '../src/emails/reschedule-confirmation';
+import { RegistrationConfirmationEmail } from '../src/emails/registration-confirmation';
+import { AuthorizationRequestEmail } from '../src/emails/authorization-request';
+import { NewRegistrationNotificationEmail } from '../src/emails/new-registration-notification';
+import { CancellationConfirmationEmail } from '../src/emails/cancellation-confirmation';
+import { RescheduleConfirmationEmail } from '../src/emails/reschedule-confirmation';
 import { PasswordSetupInvitationEmail } from '../src/emails/password-setup-invitation';
 import { PasswordResetRequestEmail } from '../src/emails/password-reset-request';
 
