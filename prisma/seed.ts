@@ -27,7 +27,8 @@ async function main() {
 
   if (!adminUser) {
     const hashedPassword = await bcrypt.hash(adminPassword, 10);
-    const userData: Prisma.UserCreateInput = {
+    // Use the Unchecked type which doesn't require relational fields or auto-generated IDs
+    const userData: Prisma.UserUncheckedCreateInput = {
       email: adminEmail,
       password: hashedPassword,
       role: 'admin',
@@ -118,31 +119,30 @@ async function main() {
   ];
 
   for (const t of templates) {
-    const htmlBody = render(t.component);
+    // The render function is synchronous and returns a string.
+    const htmlBody: string = render(t.component);
+    
     const existingTemplate = await prisma.mailTemplate.findUnique({
       where: { name: t.name },
     });
 
     if (existingTemplate) {
-      const templateData: Prisma.MailTemplateUpdateInput = {
-        name: t.name,
-        description: t.description,
-        subject: t.subject,
-        htmlBody: htmlBody,
-      };
       await prisma.mailTemplate.update({
         where: { name: t.name },
-        data: templateData,
+        data: {
+          description: t.description,
+          subject: t.subject,
+          htmlBody: htmlBody,
+        },
       });
     } else {
-      const templateData: Prisma.MailTemplateCreateInput = {
-        name: t.name,
-        description: t.description,
-        subject: t.subject,
-        htmlBody: htmlBody,
-      };
       await prisma.mailTemplate.create({
-        data: templateData,
+        data: {
+          name: t.name,
+          description: t.description,
+          subject: t.subject,
+          htmlBody: htmlBody,
+        },
       });
     }
   }
