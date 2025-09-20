@@ -18,7 +18,7 @@ export default function WebsiteLayout({
   return (
     <>
       <Header />
-      <main className={cn(hasHero ? "-mt-20" : "pt-16 md:pt-20")}>{children}</main>
+      <main className={cn(hasHero ? "-mt-24 md:-mt-28" : "pt-24 md:pt-28")}>{children}</main>
       <Footer />
       <CookieBanner />
     </>

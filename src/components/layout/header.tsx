@@ -51,8 +51,8 @@ export function Header() {
           : "bg-transparent"
       )}
     >
-      <div className="container flex h-20 items-center justify-between md:h-24">
-        <Logo imageClassName="h-16 md:h-20 w-auto" />
+      <div className="container flex h-24 items-center justify-between md:h-28">
+        <Logo imageClassName="h-20 md:h-24 w-auto" />
         
         {/* Desktop Navigation */}
         <div className="hidden md:flex items-center gap-x-6">
