@@ -1,3 +1,5 @@
+"use client";
+
 import { Star, ArrowRight } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
@@ -11,22 +13,53 @@ import {
 import Image from "next/image";
 import { Button } from "./ui/button";
 import Link from "next/link";
-import prisma from "@/lib/prisma";
 
-export async function Reviews() {
-  const reviews = await prisma.review.findMany({
-    where: { isActive: true },
-    orderBy: { order: 'asc' },
-  });
+const reviews = [
+  {
+    name: "Sarah Vermeer",
+    avatarSeed: "Sarah",
+    rating: 5,
+    text: "Geweldige cursus! De stof werd super duidelijk uitgelegd met handige ezelsbruggetjes. Binnen een paar uur was ik klaargestoomd en ben ik in één keer geslaagd. Echt een aanrader!",
+    source: "Google Review",
+  },
+  {
+    name: "Mike de Leeuw",
+    avatarSeed: "Mike",
+    rating: 5,
+    text: "Ik had al twee keer zelf geprobeerd te leren, zonder succes. Deze dagcursus was de perfecte oplossing. Duidelijk, to-the-point en de begeleiding was top. Had ik veel eerder moeten doen.",
+    source: "Google Review",
+  },
+  {
+    name: "Fatima El Idrissi",
+    avatarSeed: "Fatima",
+    rating: 5,
+    text: "Super blij mee! Ik was best zenuwachtig voor het examen, maar door de goede voorbereiding tijdens de cursus ging ik met veel zelfvertrouwen naar het CBR. En geslaagd!",
+    source: "Facebook Review",
+  },
+  {
+    name: "Jeroen de Wit",
+    avatarSeed: "Jeroen",
+    rating: 5,
+    text: "Top service en een hele duidelijke uitleg. De sfeer was ontspannen en de docent nam echt de tijd voor vragen. Zeker het geld waard!",
+    source: "Google Review",
+  },
+  {
+    name: "Linda Nguyen",
+    avatarSeed: "Linda",
+    rating: 5,
+    text: "De beste investering in mijn rijbewijs. De instructeur was geduldig en wist precies waar het CBR op let. Ik voelde me echt voorbereid.",
+    source: "Google Review",
+  },
+  {
+    name: "Kevin Janssen",
+    avatarSeed: "Kevin",
+    rating: 5,
+    text: "Ongelooflijk hoe ze zoveel stof in één dag zo duidelijk kunnen overbrengen. De oefenvragen waren perfect en leken precies op het echte examen.",
+    source: "Facebook Review",
+  },
+];
 
-  if (!reviews || reviews.length === 0) {
-    return (
-      <div className="text-center text-muted-foreground">
-        Geen reviews beschikbaar om te tonen.
-      </div>
-    );
-  }
-
+export function Reviews() {
   return (
     <div className="w-full max-w-5xl mx-auto">
       <Carousel
@@ -44,7 +77,7 @@ export async function Reviews() {
                     <div className="flex items-center justify-between mb-4">
                       <div className="flex items-center gap-4">
                         <Avatar>
-                          <AvatarImage src={`https://api.dicebear.com/8.x/adventurer/svg?seed=${review.name}`} alt={review.name} />
+                          <AvatarImage src={`https://api.dicebear.com/8.x/adventurer/svg?seed=${review.avatarSeed}`} alt={review.name} />
                           <AvatarFallback>{review.name.split(' ').map(n => n[0]).join('')}</AvatarFallback>
                         </Avatar>
                         <div>
