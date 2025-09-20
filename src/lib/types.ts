@@ -61,3 +61,19 @@ export type Profile = {
     name: string | null;
   } | null;
 };
+
+export type Setting = {
+  key: string;
+  value: string;
+};
+
+export type InstructorProfile = {
+  id: string;
+  name: string;
+  title: string;
+  bio: string;
+  passRate: string;
+  imageUrl: string;
+  isActive: boolean;
+  order: number;
+};

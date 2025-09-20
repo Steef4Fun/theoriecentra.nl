@@ -1,4 +1,4 @@
-import { mockCourses, mockLocations, mockCategories, mockRegistrations, mockUsers } from './mock-data';
+import { mockCourses, mockLocations, mockCategories, mockRegistrations, mockUsers, mockSettings, mockInstructorProfiles } from './mock-data';
 import { Course, Location, Category, Registration } from './types';
 import { User } from '@prisma/client';
 
@@ -104,7 +104,47 @@ const mockPrisma = {
     findMany: async () => [],
   },
   setting: {
-    findUnique: async () => null,
+    findUnique: async (query: any) => mockSettings.find((s) => s.key === query.where.key) || null,
+    findMany: async (query?: any) => {
+        if (query?.where?.key?.startsWith) {
+            return mockSettings.filter(s => s.key.startsWith(query.where.key.startsWith));
+        }
+        return mockSettings;
+    },
+    upsert: async (data: any) => {
+        const index = mockSettings.findIndex(s => s.key === data.where.key);
+        if (index > -1) {
+            mockSettings[index].value = data.update.value;
+            return mockSettings[index];
+        } else {
+            const newSetting = { key: data.create.key, value: data.create.value };
+            mockSettings.push(newSetting);
+            return newSetting;
+        }
+    }
+  },
+  instructorProfile: {
+      findMany: async (query?: any) => {
+          if (query?.where?.isActive) {
+              return mockInstructorProfiles.filter(p => p.isActive === query.where.isActive);
+          }
+          return mockInstructorProfiles;
+      },
+      create: async (data: any) => {
+          const newProfile = { id: `new_ip_${Math.random()}`, ...data.data };
+          mockInstructorProfiles.push(newProfile);
+          return newProfile;
+      },
+      update: async (data: any) => {
+          const index = mockInstructorProfiles.findIndex(p => p.id === data.where.id);
+          if (index > -1) Object.assign(mockInstructorProfiles[index], data.data);
+          return mockInstructorProfiles[index];
+      },
+      delete: async (data: any) => {
+          const index = mockInstructorProfiles.findIndex(p => p.id === data.where.id);
+          if (index > -1) mockInstructorProfiles.splice(index, 1);
+          return { id: data.where.id };
+      }
   }
 };
 

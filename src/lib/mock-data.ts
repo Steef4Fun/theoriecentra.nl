@@ -1,4 +1,4 @@
-import { Course, Location, Category, Registration, Profile } from '@/lib/types';
+import { Course, Location, Category, Registration, Profile, Setting, InstructorProfile } from '@/lib/types';
 import { User } from '@prisma/client';
 
 export const mockLocations: Location[] = [
@@ -112,3 +112,33 @@ export const mockProfiles: Profile[] = mockUsers.map(u => ({
         name: u.name
     }
 }));
+
+export const mockSettings: Setting[] = [
+    { key: 'imageUrlHero', value: '/hero-image.jpg' },
+    { key: 'imageUrlHowItWorks1', value: 'https://images.unsplash.com/photo-1516321497487-e288fb19713f?q=80&w=800&auto=format&fit=crop' },
+    { key: 'imageUrlHowItWorks2', value: 'https://images.unsplash.com/photo-1556761175-5973dc0f32e7?q=80&w=800&auto=format&fit=crop' },
+    { key: 'imageUrlHowItWorks3', value: 'https://images.unsplash.com/photo-1579636597202-3317e7b3c5f4?q=80&w=800&auto=format&fit=crop' },
+];
+
+export const mockInstructorProfiles: InstructorProfile[] = [
+    {
+        id: 'ip1',
+        name: 'Jan de Vries',
+        title: 'Hoofdinstructeur',
+        bio: 'Jan heeft 15 jaar ervaring en helpt je met plezier slagen.',
+        passRate: '94%',
+        imageUrl: 'https://api.dicebear.com/8.x/adventurer/svg?seed=Jan',
+        isActive: true,
+        order: 1,
+    },
+    {
+        id: 'ip2',
+        name: 'Fatima El Idrissi',
+        title: 'Theorie-expert',
+        bio: 'Fatima kent alle ins en outs van het CBR-examen en deelt haar kennis graag.',
+        passRate: '96%',
+        imageUrl: 'https://api.dicebear.com/8.x/adventurer/svg?seed=Fatima',
+        isActive: true,
+        order: 2,
+    }
+];
