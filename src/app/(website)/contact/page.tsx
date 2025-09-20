@@ -3,14 +3,26 @@ import { ContactForm } from "@/components/contact-form";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Mail, MapPin, Briefcase } from "lucide-react";
 import Image from "next/image";
+import prisma from "@/lib/prisma";
 
-export default function ContactPage() {
+async function getPageData() {
+  const setting = await prisma.setting.findUnique({
+    where: { key: 'imageUrlContactHero' }
+  });
+  return {
+    heroUrl: setting?.value || "https://images.unsplash.com/photo-1556740738-b6a63e27c4df?q=80&w=2070&auto=format&fit=crop"
+  };
+}
+
+export default async function ContactPage() {
+  const { heroUrl } = await getPageData();
+
   return (
     <>
       {/* Hero Section */}
       <section className="relative bg-gray-900 py-24 md:py-32 text-white">
         <Image
-          src="https://images.unsplash.com/photo-1556740738-b6a63e27c4df?q=80&w=2070&auto=format&fit=crop"
+          src={heroUrl}
           alt="Klantenservice medewerker"
           layout="fill"
           objectFit="cover"

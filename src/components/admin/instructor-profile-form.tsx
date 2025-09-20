@@ -14,6 +14,7 @@ import { Textarea } from "../ui/textarea";
 import { InstructorProfile } from "@prisma/client";
 import { createInstructorProfile, updateInstructorProfile } from "@/app/actions/instructor-profile-actions";
 import { Switch } from "../ui/switch";
+import { ImageUpload } from "./image-upload";
 
 interface InstructorProfileFormProps {
   isOpen: boolean;
@@ -26,7 +27,7 @@ const instructorProfileSchema = z.object({
   title: z.string().min(1, "Titel is verplicht."),
   bio: z.string().min(1, "Bio is verplicht."),
   passRate: z.string().min(1, "Slagingskans is verplicht."),
-  imageUrl: z.string().url("Voer een geldige URL in."),
+  imageUrl: z.string().min(1, "Afbeelding is verplicht."),
   isActive: z.boolean(),
   order: z.coerce.number().int(),
 });
@@ -74,10 +75,10 @@ export function InstructorProfileForm({ isOpen, setIsOpen, profile }: Instructor
         </DialogHeader>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+            <FormField control={form.control} name="imageUrl" render={({ field }) => (<FormItem><FormLabel>Profielfoto</FormLabel><FormControl><ImageUpload value={field.value} onChange={field.onChange} /></FormControl><FormMessage /></FormItem>)} />
             <FormField control={form.control} name="name" render={({ field }) => (<FormItem><FormLabel>Naam</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>)} />
             <FormField control={form.control} name="title" render={({ field }) => (<FormItem><FormLabel>Titel</FormLabel><FormControl><Input placeholder="bv. Hoofdinstructeur" {...field} /></FormControl><FormMessage /></FormItem>)} />
             <FormField control={form.control} name="passRate" render={({ field }) => (<FormItem><FormLabel>Slagingskans</FormLabel><FormControl><Input placeholder="bv. 94%" {...field} /></FormControl><FormMessage /></FormItem>)} />
-            <FormField control={form.control} name="imageUrl" render={({ field }) => (<FormItem><FormLabel>Afbeelding URL</FormLabel><FormControl><Input placeholder="https://..." {...field} /></FormControl><FormMessage /></FormItem>)} />
             <FormField control={form.control} name="bio" render={({ field }) => (<FormItem><FormLabel>Bio</FormLabel><FormControl><Textarea {...field} /></FormControl><FormMessage /></FormItem>)} />
             <div className="flex justify-between">
               <FormField control={form.control} name="order" render={({ field }) => (<FormItem><FormLabel>Volgorde</FormLabel><FormControl><Input type="number" className="w-24" {...field} /></FormControl><FormMessage /></FormItem>)} />

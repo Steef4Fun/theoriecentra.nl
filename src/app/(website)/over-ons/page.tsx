@@ -3,35 +3,34 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Users, Target, BookOpenCheck } from "lucide-react";
 import Image from "next/image";
+import prisma from "@/lib/prisma";
 
-const teamMembers = [
-  {
-    name: "Alex de Vries",
-    role: "Hoofdinstructeur",
-    avatar: "https://api.dicebear.com/8.x/adventurer/svg?seed=Alex",
-    bio: "Met meer dan 10 jaar ervaring weet Alex precies hoe hij de lastigste theorieonderwerpen simpel en begrijpelijk kan maken. Zijn passie is om elke leerling met zelfvertrouwen naar het examen te sturen.",
-  },
-  {
-    name: "Samira El Amrani",
-    role: "Cursus Coördinator",
-    avatar: "https://api.dicebear.com/8.x/adventurer/svg?seed=Samira",
-    bio: "Samira is het organisatorische brein achter de planning. Ze zorgt ervoor dat elke cursusdag vlekkeloos verloopt en is het eerste aanspreekpunt voor al je vragen.",
-  },
-  {
-    name: "Joris Willems",
-    role: "Theorie-expert",
-    avatar: "https://api.dicebear.com/8.x/adventurer/svg?seed=Joris",
-    bio: "Joris is onze wandelende theorie-encyclopedie en is altijd op de hoogte van de laatste CBR-wijzigingen. Hij is gespecialiseerd in het ontrafelen van de beruchte strikvragen.",
-  },
-];
+async function getPageData() {
+  const settings = await prisma.setting.findMany({
+    where: {
+      key: {
+        in: ['imageUrlAboutHero', 'imageUrlAboutStory1', 'imageUrlAboutStory2']
+      }
+    }
+  });
+  return settings.reduce((acc, setting) => {
+    acc[setting.key] = setting.value;
+    return acc;
+  }, {} as Record<string, string>);
+}
 
-export default function AboutUsPage() {
+export default async function AboutUsPage() {
+  const imageSettings = await getPageData();
+  const heroUrl = imageSettings.imageUrlAboutHero || "https://images.unsplash.com/photo-1552664730-d307ca884978?q=80&w=2070&auto=format&fit=crop";
+  const story1Url = imageSettings.imageUrlAboutStory1 || "https://images.unsplash.com/photo-1516321497487-e288fb19713f?q=80&w=2070&auto=format&fit=crop";
+  const story2Url = imageSettings.imageUrlAboutStory2 || "https://images.unsplash.com/photo-1557804506-669a67965ba0?q=80&w=2070&auto=format&fit=crop";
+
   return (
     <>
       {/* Hero Section */}
       <section className="relative bg-gray-900 py-24 md:py-32 text-white">
         <Image
-          src="https://images.unsplash.com/photo-1552664730-d307ca884978?q=80&w=2070&auto=format&fit=crop"
+          src={heroUrl}
           alt="Team in overleg"
           layout="fill"
           objectFit="cover"
@@ -61,7 +60,7 @@ export default function AboutUsPage() {
             </div>
             <div className="rounded-xl overflow-hidden shadow-lg">
                 <Image 
-                    src="https://images.unsplash.com/photo-1516321497487-e288fb19713f?q=80&w=2070&auto=format&fit=crop"
+                    src={story1Url}
                     alt="Samenwerkend team"
                     width={800}
                     height={600}
@@ -76,7 +75,7 @@ export default function AboutUsPage() {
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div className="rounded-xl overflow-hidden shadow-lg md:order-2">
                 <Image 
-                    src="https://images.unsplash.com/photo-1557804506-669a67965ba0?q=80&w=2070&auto=format&fit=crop"
+                    src={story2Url}
                     alt="Instructeur geeft les"
                     width={800}
                     height={600}
@@ -127,29 +126,6 @@ export default function AboutUsPage() {
                     </CardContent>
                 </Card>
             </div>
-        </AnimatedSection>
-
-        {/* Team Section */}
-        <AnimatedSection>
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold">Ontmoet (een deel van) ons Team</h2>
-            <p className="text-muted-foreground mt-2 max-w-2xl mx-auto">
-              De experts die elke dag klaarstaan om jou te helpen slagen.
-            </p>
-          </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 max-w-4xl mx-auto">
-            {teamMembers.map((member) => (
-              <div key={member.name} className="flex flex-col items-center text-center">
-                <Avatar className="w-24 h-24 mb-4">
-                  <AvatarImage src={member.avatar} alt={member.name} />
-                  <AvatarFallback>{member.name.charAt(0)}</AvatarFallback>
-                </Avatar>
-                <h3 className="font-semibold text-lg">{member.name}</h3>
-                <p className="text-primary">{member.role}</p>
-                <p className="text-sm text-muted-foreground mt-2 max-w-xs">{member.bio}</p>
-              </div>
-            ))}
-          </div>
         </AnimatedSection>
       </div>
     </>
