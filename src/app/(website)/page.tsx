@@ -16,6 +16,7 @@ import { KeyQuestions } from "@/components/key-questions";
 import { InstructorShowcase } from "@/components/instructor-showcase";
 import prisma from "@/lib/prisma";
 import { Course } from "@/lib/types";
+import Image from "next/image";
 
 async function getUpcomingCourses() {
   try {
@@ -56,17 +57,15 @@ export default async function Home() {
     <>
       {/* Hero Section & Booking */}
       <section id="boeken" className="relative w-full min-h-screen flex items-center justify-center py-24">
-        <div className="absolute inset-0 z-[-1]">
-          <video
-            src="/hero-video.mp4"
-            autoPlay
-            loop
-            muted
-            playsInline
-            className="w-full h-full object-cover"
-          >
-            Your browser does not support the video tag.
-          </video>
+        <div className="absolute inset-0 z-[-1] overflow-hidden">
+          <Image
+            src="https://images.unsplash.com/photo-1566633806327-68e152aaf26d?q=80&w=2070&auto=format&fit=crop"
+            alt="Blije persoon die net het rijbewijs heeft gehaald"
+            layout="fill"
+            objectFit="cover"
+            priority
+            className="hero-background-image"
+          />
           <div className="absolute inset-0 bg-black/60"></div>
         </div>
         <div className="container">
