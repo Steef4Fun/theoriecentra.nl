@@ -1,13 +1,13 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "./ui/card";
-import { Check } from "lucide-react";
+import { Zap, FileCheck, Coffee, BookOpenCheck, Award, CalendarCheck } from "lucide-react";
 
 const inclusions = [
-  { text: "Intensieve Dagcursus" },
-  { text: "Officieel CBR Theorie-examen" },
-  { text: "Lunch & Drankjes" },
-  { text: "Bewezen Lesmethode" },
-  { text: "92% Slagingskans" },
-  { text: "Direct een Examenplek" },
+  { text: "Intensieve Dagcursus", icon: <Zap className="h-5 w-5 text-primary flex-shrink-0" /> },
+  { text: "Officieel CBR Theorie-examen", icon: <FileCheck className="h-5 w-5 text-primary flex-shrink-0" /> },
+  { text: "Lunch & Drankjes", icon: <Coffee className="h-5 w-5 text-primary flex-shrink-0" /> },
+  { text: "Bewezen Lesmethode", icon: <BookOpenCheck className="h-5 w-5 text-primary flex-shrink-0" /> },
+  { text: "92% Slagingskans", icon: <Award className="h-5 w-5 text-primary flex-shrink-0" /> },
+  { text: "Direct een Examenplek", icon: <CalendarCheck className="h-5 w-5 text-primary flex-shrink-0" /> },
 ];
 
 export function TheOffer() {
@@ -25,7 +25,7 @@ export function TheOffer() {
           <div className="grid grid-cols-2 md:grid-cols-3 gap-x-6 gap-y-4 max-w-3xl mx-auto">
             {inclusions.map((item) => (
               <div key={item.text} className="flex items-center justify-center md:justify-start gap-2">
-                <Check className="h-5 w-5 text-primary flex-shrink-0" />
+                {item.icon}
                 <span className="font-medium text-center md:text-left">{item.text}</span>
               </div>
             ))}
