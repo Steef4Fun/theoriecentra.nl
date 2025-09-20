@@ -13,9 +13,9 @@ export const mockCategories: Category[] = [
 ];
 
 export const mockUsers: User[] = [
-    { id: 'user-admin', email: 'admin@test.com', password: 'hashedpassword', role: 'admin', name: 'Admin User', emailVerified: null, image: null, passwordResetToken: null, passwordResetExpires: null, title: null, bio: null, passRate: null, imageUrl: null },
-    { id: 'user-instructor-1', email: 'instructor1@test.com', password: 'hashedpassword', role: 'instructor', name: 'Instructor One', emailVerified: null, image: null, passwordResetToken: null, passwordResetExpires: null, title: 'Hoofdinstructeur', bio: 'Bio voor instructeur 1', passRate: '95%', imageUrl: '' },
-    { id: 'user-instructor-2', email: 'instructor2@test.com', password: 'hashedpassword', role: 'instructor', name: 'Instructor Two', emailVerified: null, image: null, passwordResetToken: null, passwordResetExpires: null, title: 'Theorie-expert', bio: 'Bio voor instructeur 2', passRate: '92%', imageUrl: '' },
+    { id: 'user-admin', email: 'admin@test.com', password: 'hashedpassword', role: 'admin', name: 'Admin User', emailVerified: null, image: null, passwordResetToken: null, passwordResetExpires: null },
+    { id: 'user-instructor-1', email: 'instructor1@test.com', password: 'hashedpassword', role: 'instructor', name: 'Instructor One', emailVerified: null, image: null, passwordResetToken: null, passwordResetExpires: null },
+    { id: 'user-instructor-2', email: 'instructor2@test.com', password: 'hashedpassword', role: 'instructor', name: 'Instructor Two', emailVerified: null, image: null, passwordResetToken: null, passwordResetExpires: null },
 ];
 
 export const mockCourses: Course[] = [
@@ -102,15 +102,9 @@ export const mockRegistrations: (Registration & { course: Course })[] = [
 
 export const mockProfiles: Profile[] = mockUsers.map(u => ({
     id: u.id,
+    name: u.name,
+    email: u.email,
     role: u.role,
-    title: u.title,
-    bio: u.bio,
-    passRate: u.passRate,
-    imageUrl: u.imageUrl,
-    user: { 
-        email: u.email!,
-        name: u.name
-    }
 }));
 
 export const mockSettings: Setting[] = [
