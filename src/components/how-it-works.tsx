@@ -1,28 +1,36 @@
+"use client";
+
 import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
 import Image from "next/image";
 
-const steps = [
+const stepsContent = [
   {
     step: 1,
     title: "Kies je Cursus",
     description: "Selecteer een locatie en datum die jou het beste uitkomt via onze simpele planner.",
-    imageUrl: "https://images.unsplash.com/photo-1516321497487-e288fb19713f?q=80&w=800&auto=format&fit=crop",
   },
   {
     step: 2,
     title: "Volg de Lesdag",
     description: "Onze topdocenten stomen je in één dag klaar met alle CBR-theorie en de beste ezelsbruggetjes.",
-    imageUrl: "https://images.unsplash.com/photo-1556761175-5973dc0f32e7?q=80&w=800&auto=format&fit=crop",
   },
   {
     step: 3,
     title: "Slaag voor je Examen",
     description: "Direct na de cursus ga je naar het CBR om examen te doen. Perfect voorbereid en vol zelfvertrouwen.",
-    imageUrl: "https://images.unsplash.com/photo-1579636597202-3317e7b3c5f4?q=80&w=800&auto=format&fit=crop",
   },
 ];
 
-export function HowItWorks() {
+interface HowItWorksProps {
+  imageUrls: string[];
+}
+
+export function HowItWorks({ imageUrls }: HowItWorksProps) {
+  const steps = stepsContent.map((step, index) => ({
+    ...step,
+    imageUrl: imageUrls[index],
+  }));
+
   return (
     <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
       {steps.map((step) => (

@@ -18,40 +18,42 @@ import prisma from "@/lib/prisma";
 import { Course } from "@/lib/types";
 import Image from "next/image";
 
-async function getUpcomingCourses() {
-  try {
-    const courses = await prisma.course.findMany({
-      where: {
-        courseDate: {
-          gte: new Date(),
-        },
-        spotsAvailable: {
-          gt: 0,
-        },
-      },
-      include: {
-        location: true,
-        category: true,
-        instructor: true,
-      },
-      orderBy: {
-        courseDate: 'asc',
-      },
-      take: 5,
-    });
-    // Serialize date objects to strings
-    return courses.map(course => ({
-      ...course,
-      courseDate: course.courseDate.toISOString(),
-    })) as Course[];
-  } catch (error) {
-    console.error("Failed to fetch upcoming courses:", error);
-    return [];
-  }
+async function getPageData() {
+  const upcomingCoursesData = prisma.course.findMany({
+    where: { courseDate: { gte: new Date() }, spotsAvailable: { gt: 0 } },
+    include: { location: true, category: true, instructor: true },
+    orderBy: { courseDate: 'asc' },
+    take: 5,
+  });
+
+  const settingsData = prisma.setting.findMany({
+    where: { key: { startsWith: 'imageUrl' } },
+  });
+
+  const [courses, settings] = await Promise.all([upcomingCoursesData, settingsData]);
+
+  const upcomingCourses = courses.map(course => ({
+    ...course,
+    courseDate: course.courseDate.toISOString(),
+  })) as Course[];
+
+  const imageSettings = settings.reduce((acc, setting) => {
+    acc[setting.key] = setting.value;
+    return acc;
+  }, {} as Record<string, string>);
+
+  return { upcomingCourses, imageSettings };
 }
 
 export default async function Home() {
-  const upcomingCourses = await getUpcomingCourses();
+  const { upcomingCourses, imageSettings } = await getPageData();
+
+  const heroImageUrl = imageSettings.imageUrlHero || "/hero-image.jpg";
+  const howItWorksImageUrls = [
+    imageSettings.imageUrlHowItWorks1 || "https://images.unsplash.com/photo-1516321497487-e288fb19713f?q=80&w=800&auto=format&fit=crop",
+    imageSettings.imageUrlHowItWorks2 || "https://images.unsplash.com/photo-1556761175-5973dc0f32e7?q=80&w=800&auto=format&fit=crop",
+    imageSettings.imageUrlHowItWorks3 || "https://images.unsplash.com/photo-1579636597202-3317e7b3c5f4?q=80&w=800&auto=format&fit=crop",
+  ];
 
   return (
     <>
@@ -59,7 +61,7 @@ export default async function Home() {
       <section id="boeken" className="relative w-full min-h-screen flex items-center justify-center py-24">
         <div className="absolute inset-0 z-[-1] overflow-hidden">
           <Image
-            src="/hero-image.jpg"
+            src={heroImageUrl}
             alt="Blije persoon die net het rijbewijs heeft gehaald"
             layout="fill"
             objectFit="cover"
@@ -69,10 +71,7 @@ export default async function Home() {
           <div className="absolute inset-0 bg-black/60"></div>
         </div>
         <div className="container">
-          {/* Conversion Cockpit */}
-          <AnimatedSection
-            className="w-full max-w-4xl mx-auto bg-black/40 backdrop-blur-lg rounded-xl p-6 md:p-8 text-white border border-white/20"
-          >
+          <AnimatedSection className="w-full max-w-4xl mx-auto bg-black/40 backdrop-blur-lg rounded-xl p-6 md:p-8 text-white border border-white/20">
             <div className="text-center">
               <h1 className="text-4xl font-extrabold tracking-tighter sm:text-5xl text-shadow">
                 Haal je theorie. In één dag.
@@ -90,7 +89,6 @@ export default async function Home() {
       </section>
 
       <div className="space-y-16 md:space-y-24 py-16 md:py-24">
-        {/* Why Us Section */}
         <section className="container">
           <AnimatedSection>
             <div className="text-center mb-12">
@@ -105,7 +103,6 @@ export default async function Home() {
           </AnimatedSection>
         </section>
 
-        {/* How It Works Section */}
         <section className="container">
           <AnimatedSection>
             <div className="text-center mb-12">
@@ -116,18 +113,16 @@ export default async function Home() {
                 In 3 eenvoudige stappen naar je theoriecertificaat.
               </p>
             </div>
-            <HowItWorks />
+            <HowItWorks imageUrls={howItWorksImageUrls} />
           </AnimatedSection>
         </section>
         
-        {/* The Offer Section */}
         <section className="container">
           <AnimatedSection>
             <TheOffer />
           </AnimatedSection>
         </section>
 
-        {/* Instructor Showcase Section */}
         <section className="container">
           <AnimatedSection>
             <div className="text-center mb-12">
@@ -142,7 +137,6 @@ export default async function Home() {
           </AnimatedSection>
         </section>
 
-        {/* Social Proof: Reviews Section */}
         <section id="reviews" className="w-full bg-muted py-16 md:py-24">
           <div className="container">
             <AnimatedSection>
@@ -154,7 +148,6 @@ export default async function Home() {
           </div>
         </section>
 
-        {/* Key Questions Section */}
         <section className="container">
           <AnimatedSection>
             <div className="text-center mb-12">
@@ -166,18 +159,13 @@ export default async function Home() {
           </AnimatedSection>
         </section>
 
-        {/* FAQ Section */}
         <section id="faq" className="w-full bg-muted py-16 md:py-24">
           <div className="container">
             <AnimatedSection>
               <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl text-center mb-12">
                 Overige Vragen
               </h2>
-              <Accordion
-                type="single"
-                collapsible
-                className="w-full max-w-3xl mx-auto"
-              >
+              <Accordion type="single" collapsible className="w-full max-w-3xl mx-auto">
                 <AccordionItem value="item-1" className="rounded-md transition-colors hover:bg-background/50">
                   <AccordionTrigger className="text-lg font-medium text-left px-6 py-4 w-full">
                     Hoe kan ik me inschrijven?
@@ -201,7 +189,6 @@ export default async function Home() {
           </div>
         </section>
 
-        {/* Final CTA Section */}
         <section className="container">
           <FinalCta />
         </section>

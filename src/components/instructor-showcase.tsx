@@ -4,19 +4,14 @@ import prisma from "@/lib/prisma";
 import Image from "next/image";
 
 export async function InstructorShowcase() {
-  const instructors = await prisma.user.findMany({
+  const instructors = await prisma.instructorProfile.findMany({
     where: {
-      role: 'instructor',
-      // Filter to only show instructors with a complete profile
-      NOT: [
-        { name: null },
-        { title: null },
-        { bio: null },
-        { passRate: null },
-        { imageUrl: null },
-      ]
+      isActive: true,
     },
-    take: 3, // Show a maximum of 3 instructors
+    orderBy: {
+      order: 'asc',
+    },
+    take: 3,
   });
 
   if (!instructors || instructors.length === 0) {
@@ -32,16 +27,12 @@ export async function InstructorShowcase() {
       {instructors.map((instructor) => (
         <Card key={instructor.id} className="overflow-hidden">
           <div className="relative aspect-square w-full bg-muted/50 flex flex-col items-center justify-center p-4 text-center">
-            {instructor.imageUrl ? (
-              <Image
-                src={instructor.imageUrl}
-                alt={instructor.name || 'Instructeur'}
-                layout="fill"
-                objectFit="cover"
-              />
-            ) : (
-              <ShieldCheck className="h-12 w-12 text-muted-foreground/50" />
-            )}
+            <Image
+              src={instructor.imageUrl}
+              alt={instructor.name}
+              layout="fill"
+              objectFit="cover"
+            />
           </div>
           <div className="p-6 text-center">
             <div className="flex items-center justify-center gap-3">

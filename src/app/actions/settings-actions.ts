@@ -71,3 +71,27 @@ export async function deleteSetting(tableName: TableName, id: string) {
     return { error: "Kon item niet verwijderen. Mogelijk is het nog in gebruik door een cursus." };
   }
 }
+
+export async function updateWebsiteSettings(settings: { key: string; value: string }[]) {
+    try {
+        await prisma.$transaction(
+            settings.map(setting =>
+                prisma.setting.upsert({
+                    where: { key: setting.key },
+                    update: { value: setting.value },
+                    create: { key: setting.key, value: setting.value },
+                })
+            )
+        );
+        await createAuditLog({
+            action: 'UPDATE_WEBSITE_SETTINGS',
+            entityType: 'Setting',
+            entityId: 'WEBSITE',
+        });
+        revalidatePath('/admin/instellingen');
+        revalidatePath('/');
+        return { success: true };
+    } catch (error) {
+        return { error: "Kon de website-instellingen niet opslaan." };
+    }
+}
