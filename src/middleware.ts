@@ -10,5 +10,6 @@ export const config = {
     "/admin/mail-templates",
     "/admin/mail-logs",
     "/admin/audit-logs",
+    "/api/upload",
   ],
 };
