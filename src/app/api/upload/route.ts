@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import { writeFile } from "fs/promises";
-import { join } from "path";
+import { writeFile, mkdir } from "fs/promises";
+import { join, dirname } from "path";
 import { randomUUID } from "crypto";
 
 export async function POST(req: NextRequest) {
@@ -17,8 +17,12 @@ export async function POST(req: NextRequest) {
   const extension = file.name.split('.').pop();
   const filename = `${randomUUID()}.${extension}`;
   const path = join(process.cwd(), "public/uploads", filename);
+  const dir = dirname(path);
 
   try {
+    // Zorg ervoor dat de map bestaat voordat we schrijven
+    await mkdir(dir, { recursive: true });
+    
     await writeFile(path, buffer);
     const url = `/uploads/${filename}`;
     return NextResponse.json({ url });
