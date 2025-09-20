@@ -1,44 +1,51 @@
-import { ShieldCheck, AlertTriangle, KeyRound, Camera } from "lucide-react";
+import { ShieldCheck } from "lucide-react";
 import { Card } from "./ui/card";
+import prisma from "@/lib/prisma";
+import Image from "next/image";
 
-const instructors = [
-  {
-    name: "Alex de Vries",
-    title: "Hoofdinstructeur & CBR-expert",
-    passRate: "94%",
-    bio: "Alex ontrafelt de meest complexe verkeersregels en maakt ze simpel. Met zijn befaamde ezelsbruggetjes wordt de theorie een logisch verhaal dat je nooit meer vergeet.",
-    icon: <ShieldCheck className="h-8 w-8 text-primary" />,
-  },
-  {
-    name: "Samira El Idrissi",
-    title: "Specialist Gevaarherkenning",
-    passRate: "91%",
-    bio: "Samira is de koningin van het onderdeel 'Gevaarherkenning'. Ze leert je niet alleen de regels, maar ook de mindset om situaties correct in te schatten onder de tijdsdruk van het CBR-examen.",
-    icon: <AlertTriangle className="h-8 w-8 text-primary" />,
-  },
-  {
-    name: "Joris Willems",
-    title: "Strikvraag-ontmantelaar",
-    passRate: "92%",
-    bio: "De beruchte strikvragen van het CBR hebben geen geheimen voor Joris. Hij leert je de patronen herkennen en de valkuilen te vermijden, zodat je met 100% vertrouwen je examen maakt.",
-    icon: <KeyRound className="h-8 w-8 text-primary" />,
-  },
-];
+export async function InstructorShowcase() {
+  const instructors = await prisma.user.findMany({
+    where: {
+      role: 'instructor',
+      // Filter to only show instructors with a complete profile
+      NOT: [
+        { name: null },
+        { title: null },
+        { bio: null },
+        { passRate: null },
+        { imageUrl: null },
+      ]
+    },
+    take: 3, // Show a maximum of 3 instructors
+  });
 
-export function InstructorShowcase() {
+  if (!instructors || instructors.length === 0) {
+    return (
+      <div className="text-center text-muted-foreground">
+        Geen instructeurs beschikbaar om te tonen. Voeg ze toe in het beheerpaneel.
+      </div>
+    );
+  }
+
   return (
     <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
       {instructors.map((instructor) => (
-        <Card key={instructor.name} className="overflow-hidden">
+        <Card key={instructor.id} className="overflow-hidden">
           <div className="relative aspect-square w-full bg-muted/50 flex flex-col items-center justify-center p-4 text-center">
-            <Camera className="h-10 w-10 text-muted-foreground/50" />
-            <p className="text-xs text-muted-foreground/70 mt-2 max-w-[150px]">
-              Professionele foto verhoogt vertrouwen met 40%
-            </p>
+            {instructor.imageUrl ? (
+              <Image
+                src={instructor.imageUrl}
+                alt={instructor.name || 'Instructeur'}
+                layout="fill"
+                objectFit="cover"
+              />
+            ) : (
+              <ShieldCheck className="h-12 w-12 text-muted-foreground/50" />
+            )}
           </div>
           <div className="p-6 text-center">
             <div className="flex items-center justify-center gap-3">
-              {instructor.icon}
+              <ShieldCheck className="h-8 w-8 text-primary" />
               <div>
                 <p className="text-4xl font-extrabold text-primary tracking-tighter">{instructor.passRate}</p>
                 <p className="text-sm text-muted-foreground -mt-1.5">Slagingskans</p>

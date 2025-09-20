@@ -13,8 +13,13 @@ export default async function GebruikersPage() {
   const profiles = users.map((user: User) => ({
     id: user.id,
     role: user.role,
+    title: user.title,
+    bio: user.bio,
+    passRate: user.passRate,
+    imageUrl: user.imageUrl,
     user: {
       email: user.email,
+      name: user.name,
     }
   }));
 

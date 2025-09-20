@@ -45,7 +45,12 @@ export type Registration = {
 export type Profile = {
   id: string;
   role: string;
+  title: string | null;
+  bio: string | null;
+  passRate: string | null;
+  imageUrl: string | null;
   user: {
-    email: string;
+    email: string | null;
+    name: string | null;
   } | null;
 };

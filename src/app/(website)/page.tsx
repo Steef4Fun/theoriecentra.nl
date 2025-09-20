@@ -59,7 +59,7 @@ export default async function Home() {
       <section id="boeken" className="relative w-full min-h-screen flex items-center justify-center py-24">
         <div className="absolute inset-0 z-[-1] overflow-hidden">
           <Image
-            src="https://images.unsplash.com/photo-1566633806327-68e152aaf26d?q=80&w=2070&auto=format&fit=crop"
+            src="/hero-image.jpg"
             alt="Blije persoon die net het rijbewijs heeft gehaald"
             layout="fill"
             objectFit="cover"

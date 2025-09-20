@@ -19,14 +19,22 @@ export async function createUser(values: z.infer<typeof userSchema>) {
       return { error: "Een gebruiker met dit e-mailadres bestaat al." };
     }
 
+    const userData = {
+      email: values.email,
+      role: values.role,
+      name: values.name,
+      title: values.title,
+      bio: values.bio,
+      passRate: values.passRate,
+      imageUrl: values.imageUrl,
+    };
+
     if (values.password) {
-      // Maak gebruiker met wachtwoord
       const hashedPassword = await bcrypt.hash(values.password, 10);
       const user = await prisma.user.create({
         data: {
-          email: values.email,
+          ...userData,
           password: hashedPassword,
-          role: values.role,
         },
       });
       await createAuditLog({
@@ -36,15 +44,13 @@ export async function createUser(values: z.infer<typeof userSchema>) {
         details: { email: values.email, role: values.role },
       });
     } else {
-      // Maak gebruiker zonder wachtwoord en stuur uitnodiging
       const setupToken = crypto.randomBytes(32).toString('hex');
       const passwordResetToken = crypto.createHash('sha256').update(setupToken).digest('hex');
       const passwordResetExpires = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000); // 7 dagen geldig
 
       const user = await prisma.user.create({
         data: {
-          email: values.email,
-          role: values.role,
+          ...userData,
           passwordResetToken,
           passwordResetExpires,
         },
@@ -61,6 +67,7 @@ export async function createUser(values: z.infer<typeof userSchema>) {
     }
     
     revalidatePath('/admin/gebruikers');
+    revalidatePath('/');
     return { error: null };
   } catch (error) {
     console.error(error);
@@ -74,6 +81,11 @@ export async function updateUser(userId: string, values: z.infer<typeof userSche
       where: { id: userId },
       data: {
         role: values.role,
+        name: values.name,
+        title: values.title,
+        bio: values.bio,
+        passRate: values.passRate,
+        imageUrl: values.imageUrl,
       },
     });
     await createAuditLog({
@@ -83,6 +95,7 @@ export async function updateUser(userId: string, values: z.infer<typeof userSche
         details: { role: values.role },
     });
     revalidatePath('/admin/gebruikers');
+    revalidatePath('/');
     return { error: null };
   } catch (error) {
     return { error: "Er is een fout opgetreden bij het bijwerken van de gebruiker." };
@@ -100,6 +113,7 @@ export async function deleteUser(userId: string) {
         entityId: userId,
     });
     revalidatePath('/admin/gebruikers');
+    revalidatePath('/');
     return { error: null };
   } catch (error) {
     return { error: "Er is een fout opgetreden bij het verwijderen van de gebruiker." };

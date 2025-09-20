@@ -18,7 +18,7 @@ const steps = [
     step: 3,
     title: "Slaag voor je Examen",
     description: "Direct na de cursus ga je naar het CBR om examen te doen. Perfect voorbereid en vol zelfvertrouwen.",
-    imageUrl: "https://images.unsplash.com/photo-1600880292210-85938a039492?q=80&w=800&auto=format&fit=crop",
+    imageUrl: "https://images.unsplash.com/photo-1579636597202-3317e7b3c5f4?q=80&w=800&auto=format&fit=crop",
   },
 ];
 
@@ -26,22 +26,24 @@ export function HowItWorks() {
   return (
     <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
       {steps.map((step) => (
-        <Card key={step.step} className="text-center bg-card z-10 overflow-hidden transition-all duration-300 hover:scale-[1.02] hover:shadow-xl">
-          <div className="relative h-48 w-full">
-            <Image 
-              src={step.imageUrl}
-              alt={step.title}
-              layout="fill"
-              objectFit="cover"
-            />
-          </div>
-          <CardHeader>
-            <div className="mx-auto -mt-12 mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-primary text-primary-foreground font-bold text-2xl border-4 border-background">
+        <Card key={step.step} className="bg-card z-10 overflow-hidden transition-all duration-300 hover:scale-[1.02] hover:shadow-xl flex flex-col">
+          <div className="relative">
+            <div className="relative h-48 w-full">
+              <Image 
+                src={step.imageUrl}
+                alt={step.title}
+                layout="fill"
+                objectFit="cover"
+              />
+            </div>
+            <div className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2 flex h-16 w-16 items-center justify-center rounded-full bg-primary text-primary-foreground font-bold text-2xl border-4 border-background">
               {step.step}
             </div>
+          </div>
+          <CardHeader className="pt-12 text-center">
             <CardTitle>{step.title}</CardTitle>
           </CardHeader>
-          <CardContent className="px-6 pb-6">
+          <CardContent className="px-6 pb-6 text-center flex-grow">
             <p className="text-muted-foreground">{step.description}</p>
           </CardContent>
         </Card>

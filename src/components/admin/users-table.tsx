@@ -53,6 +53,11 @@ export function UsersTable({ profiles }: { profiles: Profile[] }) {
 
   const columns: ColumnDef<Profile>[] = [
     {
+      accessorKey: "user.name",
+      header: "Naam",
+      cell: ({ row }) => row.original.user?.name || "N/A",
+    },
+    {
       accessorKey: "user.email",
       header: "Email",
       cell: ({ row }) => row.original.user?.email || "N/A",
@@ -135,8 +140,7 @@ export function UsersTable({ profiles }: { profiles: Profile[] }) {
                   </TableHead>
                 ))}
               </TableRow>
-            ))}
-          </TableHeader>
+            </TableHeader>
           <TableBody>
             {table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map((row) => (
