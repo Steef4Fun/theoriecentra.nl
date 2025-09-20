@@ -1,4 +1,5 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "./ui/card";
+import { Check } from "lucide-react";
 
 const inclusions = [
   { text: "Intensieve Dagcursus" },
@@ -23,7 +24,8 @@ export function TheOffer() {
         <CardContent>
           <div className="grid grid-cols-2 md:grid-cols-3 gap-x-6 gap-y-4 max-w-3xl mx-auto">
             {inclusions.map((item) => (
-              <div key={item.text} className="flex items-center justify-center md:justify-start gap-3">
+              <div key={item.text} className="flex items-center justify-center md:justify-start gap-2">
+                <Check className="h-5 w-5 text-primary flex-shrink-0" />
                 <span className="font-medium text-center md:text-left">{item.text}</span>
               </div>
             ))}
