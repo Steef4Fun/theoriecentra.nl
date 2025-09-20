@@ -5,7 +5,7 @@ import { toast } from "sonner";
 import { UploadCloud, X, Loader2 } from "lucide-react";
 import Image from "next/image";
 import { Button } from "../ui/button";
-import { cn } from "@/lib/utils";
+import { cn, toAbsoluteUrl } from "@/lib/utils";
 
 interface ImageUploadProps {
   value: string;
@@ -95,7 +95,7 @@ export function ImageUpload({ value, onChange }: ImageUploadProps) {
       {value ? (
         <div className="relative group">
           <Image
-            src={value}
+            src={toAbsoluteUrl(value)}
             alt="Geüploade afbeelding"
             width={200}
             height={120}

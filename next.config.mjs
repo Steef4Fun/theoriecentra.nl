@@ -14,6 +14,20 @@ const nextConfig = {
         protocol: "https",
         hostname: "images.unsplash.com",
       },
+      // Voeg je eigen domein toe voor productie
+      {
+        protocol: "https",
+        hostname: "jouwdomein.nl", // VERVANG DIT DOOR JE ECHTE DOMEINNAAM
+      },
+      {
+        protocol: "https",
+        hostname: "www.jouwdomein.nl", // VERVANG DIT DOOR JE ECHTE DOMEINNAAM
+      },
+      // Voeg localhost toe voor lokale ontwikkeling
+      {
+        protocol: "http",
+        hostname: "localhost",
+      },
     ],
   },
   webpack: (config) => {

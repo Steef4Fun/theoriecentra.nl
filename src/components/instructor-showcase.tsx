@@ -2,6 +2,7 @@ import { ShieldCheck } from "lucide-react";
 import { Card } from "./ui/card";
 import prisma from "@/lib/prisma";
 import Image from "next/image";
+import { toAbsoluteUrl } from "@/lib/utils";
 
 export async function InstructorShowcase() {
   const instructors = await prisma.instructorProfile.findMany({
@@ -28,7 +29,7 @@ export async function InstructorShowcase() {
         <Card key={instructor.id} className="overflow-hidden">
           <div className="relative aspect-square w-full bg-muted/50 flex flex-col items-center justify-center p-4 text-center">
             <Image
-              src={instructor.imageUrl}
+              src={toAbsoluteUrl(instructor.imageUrl)}
               alt={instructor.name}
               layout="fill"
               objectFit="cover"

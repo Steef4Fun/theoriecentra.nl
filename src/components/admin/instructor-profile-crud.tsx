@@ -20,6 +20,7 @@ import {
 import { toast } from "sonner";
 import { deleteInstructorProfile } from "@/app/actions/instructor-profile-actions";
 import Image from "next/image";
+import { toAbsoluteUrl } from "@/lib/utils";
 
 export function InstructorProfileCrud({ profiles }: { profiles: InstructorProfile[] }) {
   const [isFormOpen, setIsFormOpen] = useState(false);
@@ -62,7 +63,7 @@ export function InstructorProfileCrud({ profiles }: { profiles: InstructorProfil
           {profiles.map(profile => (
             <div key={profile.id} className="flex items-center justify-between p-2 rounded-md border gap-4">
               <div className="flex items-center gap-4">
-                <Image src={profile.imageUrl} alt={profile.name} width={40} height={40} className="rounded-full object-cover" />
+                <Image src={toAbsoluteUrl(profile.imageUrl)} alt={profile.name} width={40} height={40} className="rounded-full object-cover" />
                 <div>
                   <p className="font-medium">{profile.name}</p>
                   <p className="text-sm text-muted-foreground">{profile.title}</p>

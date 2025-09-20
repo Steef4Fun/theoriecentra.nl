@@ -17,6 +17,7 @@ import { InstructorShowcase } from "@/components/instructor-showcase";
 import prisma from "@/lib/prisma";
 import { Course } from "@/lib/types";
 import Image from "next/image";
+import { toAbsoluteUrl } from "@/lib/utils";
 
 async function getPageData() {
   const upcomingCoursesData = prisma.course.findMany({
@@ -61,7 +62,7 @@ export default async function Home() {
       <section id="boeken" className="relative w-full min-h-screen flex items-center justify-center py-24">
         <div className="absolute inset-0 z-[-1] overflow-hidden">
           <Image
-            src={heroImageUrl}
+            src={toAbsoluteUrl(heroImageUrl)}
             alt="Blije persoon die net het rijbewijs heeft gehaald"
             layout="fill"
             objectFit="cover"

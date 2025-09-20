@@ -4,6 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Users, Target, BookOpenCheck } from "lucide-react";
 import Image from "next/image";
 import prisma from "@/lib/prisma";
+import { toAbsoluteUrl } from "@/lib/utils";
 
 async function getPageData() {
   const settings = await prisma.setting.findMany({
@@ -30,7 +31,7 @@ export default async function AboutUsPage() {
       {/* Hero Section */}
       <section className="relative bg-gray-900 py-24 md:py-32 text-white">
         <Image
-          src={heroUrl}
+          src={toAbsoluteUrl(heroUrl)}
           alt="Team in overleg"
           layout="fill"
           objectFit="cover"
@@ -60,7 +61,7 @@ export default async function AboutUsPage() {
             </div>
             <div className="rounded-xl overflow-hidden shadow-lg">
                 <Image 
-                    src={story1Url}
+                    src={toAbsoluteUrl(story1Url)}
                     alt="Samenwerkend team"
                     width={800}
                     height={600}
@@ -75,7 +76,7 @@ export default async function AboutUsPage() {
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div className="rounded-xl overflow-hidden shadow-lg md:order-2">
                 <Image 
-                    src={story2Url}
+                    src={toAbsoluteUrl(story2Url)}
                     alt="Instructeur geeft les"
                     width={800}
                     height={600}

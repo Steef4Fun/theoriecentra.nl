@@ -16,15 +16,19 @@ export async function POST(req: NextRequest) {
 
   const extension = file.name.split('.').pop();
   const filename = `${randomUUID()}.${extension}`;
-  const path = join(process.cwd(), "public/uploads", filename);
-  const dir = dirname(path);
+  const relativePath = join("/uploads", filename);
+  const absolutePath = join(process.cwd(), "public", relativePath);
+  const dir = dirname(absolutePath);
 
   try {
     // Zorg ervoor dat de map bestaat voordat we schrijven
     await mkdir(dir, { recursive: true });
     
-    await writeFile(path, buffer);
-    const url = `/uploads/${filename}`;
+    await writeFile(absolutePath, buffer);
+    
+    const appUrl = process.env.NEXT_PUBLIC_APP_URL || req.nextUrl.origin;
+    const url = new URL(relativePath, appUrl).toString();
+
     return NextResponse.json({ url });
   } catch (error) {
     console.error("Fout bij opslaan van bestand:", error);

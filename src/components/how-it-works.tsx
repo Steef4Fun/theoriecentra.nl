@@ -2,6 +2,7 @@
 
 import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
 import Image from "next/image";
+import { toAbsoluteUrl } from "@/lib/utils";
 
 const stepsContent = [
   {
@@ -38,7 +39,7 @@ export function HowItWorks({ imageUrls }: HowItWorksProps) {
           <div className="relative">
             <div className="relative h-48 w-full">
               <Image 
-                src={step.imageUrl}
+                src={toAbsoluteUrl(step.imageUrl)}
                 alt={step.title}
                 layout="fill"
                 objectFit="cover"

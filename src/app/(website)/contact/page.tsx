@@ -4,6 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Mail, MapPin, Briefcase } from "lucide-react";
 import Image from "next/image";
 import prisma from "@/lib/prisma";
+import { toAbsoluteUrl } from "@/lib/utils";
 
 async function getPageData() {
   const setting = await prisma.setting.findUnique({
@@ -22,7 +23,7 @@ export default async function ContactPage() {
       {/* Hero Section */}
       <section className="relative bg-gray-900 py-24 md:py-32 text-white">
         <Image
-          src={heroUrl}
+          src={toAbsoluteUrl(heroUrl)}
           alt="Klantenservice medewerker"
           layout="fill"
           objectFit="cover"
