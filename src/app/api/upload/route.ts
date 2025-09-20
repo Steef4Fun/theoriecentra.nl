@@ -3,6 +3,14 @@ import { writeFile, mkdir } from "fs/promises";
 import { join, dirname } from "path";
 import { randomUUID } from "crypto";
 
+export const config = {
+  api: {
+    bodyParser: {
+      sizeLimit: "4mb",
+    },
+  },
+};
+
 export async function POST(req: NextRequest) {
   const data = await req.formData();
   const file: File | null = data.get("file") as unknown as File;

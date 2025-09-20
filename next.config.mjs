@@ -27,9 +27,6 @@ const nextConfig = {
     }
     return config;
   },
-  serverActions: {
-    bodySizeLimit: '4mb',
-  },
 };
 
 export default nextConfig;
