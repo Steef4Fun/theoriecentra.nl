@@ -12,7 +12,7 @@ export default function WebsiteLayout({
   children: React.ReactNode;
 }>) {
   const pathname = usePathname();
-  const pagesWithHero = ['/', '/over-ons', '/contact', '/privacybeleid'];
+  const pagesWithHero = ['/', '/over-ons', '/contact'];
   const hasHero = pagesWithHero.includes(pathname);
 
   return (

@@ -55,7 +55,7 @@ export default async function Home() {
   return (
     <>
       {/* Hero Section & Booking */}
-      <section id="boeken" className="relative w-full min-h-screen flex items-center justify-center py-24">
+      <section id="boeken" className="relative w-full min-h-screen flex items-center justify-center">
         <div className="absolute inset-0 z-[-1]">
           <video
             src="/hero-video.mp4"
